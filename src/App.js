@@ -4,16 +4,26 @@ import { gsap } from "gsap";
 
 function App() {
   useEffect(() => {
-    gsap.to("#headline",{x: -200,duration: 1, repeat:-1, yoyo:true, ease:'linear'});
-    gsap.to("#headline2",{x:200, duration:1 ,delay:1, repeat:-1, yoyo:true,ease:'elastic.inOut',});
+    gsap.to('.allBalls',{y:-100, stagger:{
+      amount:0.2,
+      from:"edges"
+    }})
+    gsap.to("#headline",{x: -200, y:100, duration: 1, repeat:-1, yoyo:true, ease:'elastic.inOut'});
+    gsap.to("#headline2",{x:200,y:100, duration:1 ,delay:1, repeat:-1, yoyo:true,ease:'elastic.inOut',});
      gsap.to("#headline3",{x:200, y:100, duration:1 ,delay:2, repeat:-1, yoyo:true,ease:'elastic.inOut',});
     },[]);
     
     return (
       <Wrapper>
-        <Headline id="headline">Bouncy </Headline>
-        <Headline id="headline2">Balls</Headline>
-        <Headline id="headline3">Balls</Headline>
+        <Headline className={"allBalls"} id="headline">
+          Bouncy{" "}
+        </Headline>
+        <Headline className={"allBalls"} id="headline2">
+          Balls
+        </Headline>
+        <Headline className={"allBalls"} id="headline3">
+          Balls
+        </Headline>
       </Wrapper>
     );
 }
