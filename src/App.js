@@ -2,34 +2,48 @@ import { useEffect } from "react";
 import styled from "styled-components";
 import { gsap } from "gsap";
 
+
 function App() {
-  useEffect(() => {
-    gsap.to('.allBalls',{y:-100, stagger:{
-      amount:0.2,
-      from:"edges"
-    }})
-    gsap.to("#headline",{x: -200, y:100, duration: 1, repeat:-1, yoyo:true, ease:'elastic.inOut'});
-    gsap.to("#headline2",{x:200,y:100, duration:1 ,delay:1, repeat:-1, yoyo:true,ease:'elastic.inOut',});
-     gsap.to("#headline3",{x:200, y:100, duration:1 ,delay:2, repeat:-1, yoyo:true,ease:'elastic.inOut',});
-    },[]);
-    
+ 
+  const play = ()=>{
+    gsap.to('#headline',{duration:3, x:200, ease:"linear"})
+  }
+  const reverse = ()=>{
+    gsap.to('#headline',{duration:3, x:-200, ease:"linear" })
+  }
+  const restart = () =>{
+    gsap.to('#headline', {restart:true})
+  }
     return (
       <Wrapper>
         <Headline className={"allBalls"} id="headline">
-          Bouncy{" "}
+          Bouncy
         </Headline>
-        <Headline className={"allBalls"} id="headline2">
-          Balls
-        </Headline>
-        <Headline className={"allBalls"} id="headline3">
-          Balls
-        </Headline>
+        <ControlWrapper>
+          <Controls onClick={() => play()}>Play</Controls>
+          <Controls onClick={() => reverse()}>Reverse</Controls>
+          <Controls onClick={() => restart()}>Restart</Controls>
+        </ControlWrapper>
       </Wrapper>
     );
 }
 
 export default App;
-
+const Controls = styled.div`
+display:flex;
+width:100px;
+height: 100px;
+outline:3px solid black;
+align-items: center;
+justify-content: center;
+`
+const ControlWrapper = styled.div`
+display: flex;
+flex-direction: row;
+align-items: center;
+justify-content: center;
+gap:10px;
+`
 const Headline = styled.h2`
   color: black;
   font-family: "Archivo", sans-serif;
@@ -41,6 +55,8 @@ const Wrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
+  gap:100px;
   width: 100vw;
-  height: 500px;
+  
 `;
