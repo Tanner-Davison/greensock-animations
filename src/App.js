@@ -14,18 +14,29 @@ function App() {
     },[]);
     
     return (
-      <Wrapper>
-        <Headline className={"allBalls"} id="headline">
-          Bouncy{" "}
-        </Headline>
-        <Headline className={"allBalls"} id="headline2">
-          Balls
-        </Headline>
-        <Headline className={"allBalls"} id="headline3">
-          Balls
-        </Headline>
-      </Wrapper>
-    );
+			<Wrapper>
+				<Headline
+					className={"allBalls"}
+					id='headline'>
+					Bouncy{" "}
+				</Headline>
+				<Headline
+					className={"allBalls"}
+					id='headline2'>
+					Balls
+				</Headline>
+				<Headline
+					className={"allBalls"}
+					id='headline3'>
+					Balls
+				</Headline>
+				<Headline
+					className={"allBalls"}
+					id='headline3'>
+					Balls
+				</Headline>
+			</Wrapper>
+		);
 }
 
 export default App;
