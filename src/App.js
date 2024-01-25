@@ -35,11 +35,7 @@ function App() {
 					id='headline3'>
 					Balls
 				</Headline>
-				<Headline
-					className={"allBalls"}
-					id='headline3'>
-					Balls
-				</Headline>
+				
 			</Wrapper>
 		);
 }
