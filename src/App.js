@@ -35,7 +35,28 @@ function App() {
 					id='headline3'>
 					Balls
 				</Headline>
-				
+				<Wrapper>
+					<Headline
+						className={"allBalls"}
+						id='headline'>
+						Bouncy{" "}
+					</Headline>
+					<Headline
+						className={"allBalls"}
+						id='headline2'>
+						Balls
+					</Headline>
+					<Headline
+						className={"allBalls"}
+						id='headline3'>
+						Balls
+					</Headline>
+					<Headline
+						className={"allBalls"}
+						id='headline3'>
+						Balls
+					</Headline>
+				</Wrapper>
 			</Wrapper>
 		);
 }
