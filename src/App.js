@@ -15,17 +15,51 @@ function App() {
     gsap.to('#headline', {restart:true})
   }
     return (
-      <Wrapper>
-        <Headline className={"allBalls"} id="headline">
-          Bouncy
-        </Headline>
-        <ControlWrapper>
-          <Controls onClick={() => play()}>Play</Controls>
-          <Controls onClick={() => reverse()}>Reverse</Controls>
-          <Controls onClick={() => restart()}>Restart</Controls>
-        </ControlWrapper>
-      </Wrapper>
-    );
+			<Wrapper>
+				<Headline
+					className={"allBalls"}
+					id='headline'>
+					Bouncy{" "}
+				</Headline>
+				<Headline
+					className={"allBalls"}
+					id='headline2'>
+					Balls
+				</Headline>
+				<Headline
+					className={"allBalls"}
+					id='headline3'>
+					Balls
+				</Headline>
+				<Headline
+					className={"allBalls"}
+					id='headline3'>
+					Balls
+				</Headline>
+				<Wrapper>
+					<Headline
+						className={"allBalls"}
+						id='headline'>
+						Bouncy{" "}
+					</Headline>
+					<Headline
+						className={"allBalls"}
+						id='headline2'>
+						Balls
+					</Headline>
+					<Headline
+						className={"allBalls"}
+						id='headline3'>
+						Balls
+					</Headline>
+					<Headline
+						className={"allBalls"}
+						id='headline3'>
+						Balls
+					</Headline>
+				</Wrapper>
+			</Wrapper>
+		);
 }
 
 export default App;
