@@ -22,8 +22,9 @@ export const CarouselButtonLeft = ({ children, onClick }) => {
 
 const StyledArrow = styled.svg`
   cursor: pointer;
-  width: 6.944vw;
-  height: 6.944vw;
+  width: 5.208vw;
+  padding:5px;
+  height: auto;
   fill: ${colors.primary}; /* Change fill color */
   stroke: ${colors.primaryOrange}; /* Change stroke color */
   stroke-width: 2; /* Adjust stroke width if needed */

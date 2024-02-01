@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import styled from "styled-components";
 import { gsap } from "gsap";
 import { CarouselButtonRight, CarouselButtonLeft } from "./Buttons/Buttons";
@@ -9,8 +9,9 @@ import HeroImage from "../images/HeroImage.webp";
 import PictureLeft from "../images/PictureLeft.webp";
 import PictureRightAgain from "../images/PictureRightAgain.webp";
 import PictureLeftAgain from "../images/PictureLeftAgain.webp";
-import SaitamaPunch from '../images/SaitamaPunch.png';
-import Stars from '../images/Stars.jpg';
+import SaitamaPunch from "../images/SaitamaPunch.png";
+import Stars from "../images/Stars.jpg";
+
 const CustomCarousel = () => {
   const imgArray = [
     HeroImage,
@@ -18,9 +19,9 @@ const CustomCarousel = () => {
     PictureRightAgain,
     PictureLeftAgain,
     SaitamaPunch,
-    Stars
+    Stars,
   ];
-
+  
   let count = 0;
   const targets = useRef([]);
 
@@ -31,8 +32,10 @@ const CustomCarousel = () => {
     //button Elements
     const moveRight = document.getElementById("rightArrow");
     const moveLeft = document.getElementById("rightArrow");
+    const controls = document.getElementById("controls")
     gsap.set(moveRight, { xPercent: 0 });
     gsap.set(moveLeft, { xPercent: 0 });
+    gsap.set(controls, {xPercent:0})
   }, []);
 
   // Next button
@@ -42,7 +45,7 @@ const CustomCarousel = () => {
       xPercent: -125,
       opacity: 0,
       zIndex: -10,
-      ease:"circ.out"
+      ease: "circ.out",
     });
 
     count = count < targets.current.length - 1 ? count + 1 : 0; // Reset to 0 if at the last image
@@ -50,7 +53,7 @@ const CustomCarousel = () => {
     gsap.fromTo(
       targets.current[count],
       { xPercent: 100, opacity: 1, zIndex: -10 },
-      { duration: .8, xPercent: 0, opacity: 1, zIndex: 0, ease: "smooth" }
+      { duration: 0.8, xPercent: 0, opacity: 1, zIndex: 0, ease: "smooth" }
     );
   }
 
@@ -61,7 +64,7 @@ const CustomCarousel = () => {
       xPercent: 100,
       opacity: 0,
       zIndex: -10,
-      ease:"circ.out",
+      ease: "circ.out",
     });
 
     count = count > 0 ? count - 1 : targets.current.length - 1; // Go to the last image if at the first image
@@ -69,29 +72,35 @@ const CustomCarousel = () => {
     gsap.fromTo(
       targets.current[count],
       { xPercent: -100, opacity: 1, zIndex: -10 },
-      { duration: .8, xPercent: 0, opacity: 1, zIndex: 0, ease: "circ.Out" }
+      { duration: 0.8, xPercent: 0, opacity: 1, zIndex: 0, ease: "circ.Out" }
     );
   }
 
-  const handleClickLeft = (id) => {
+  const handleClickLeft = () => {
     const moveLeft = document.getElementById("leftArrow");
+    const controls = document.getElementById('controls');
+    gsap.fromTo(controls,{xPercent: 0},{xPercent: -15,duration:.3, onComplete: ()=>{gsap.to(controls,{xPercent: 0, duration:.3})}})
     gsap.fromTo(
       moveLeft,
       {
         xPercent: 0,
         y: 0,
         rotation: 0,
+        fill: `${colors.orange200}`,
+        strokeWidth: "2",
       },
       {
         xPercent: -35,
         ease: "power1.out",
         duration: 0.2,
+        strokeWidth: "2",
 
         onComplete: () => {
           gsap.to(moveLeft, {
             xPercent: 0,
             yPercent: 0,
             ease: "smooth",
+            fill: "transparent",
           });
         },
       }
@@ -99,8 +108,20 @@ const CustomCarousel = () => {
     slideOnePrev();
   };
 
-  const handleClickRight = async () => {
+  const handleClickRight = () => {
     const moveRight = document.getElementById("rightArrow");
+    const controls = document.getElementById("controls");
+    gsap.fromTo(
+      controls,
+      { xPercent: 0 },
+      {
+        xPercent: 15,
+        duration: 0.3,
+        onComplete: () => {
+          gsap.to(controls, { xPercent: 0, duration: 0.3 });
+        },
+      }
+    );
     gsap.fromTo(
       moveRight,
       {
@@ -110,6 +131,7 @@ const CustomCarousel = () => {
       },
       {
         xPercent: 34,
+        fill: `${colors.orange200}`,
         duration: 0.2,
         ease: "smooth",
 
@@ -117,6 +139,7 @@ const CustomCarousel = () => {
           gsap.to(moveRight, {
             xPercent: 0,
             yPercent: 0,
+            fill: "transparent",
             ease: "smooth",
           });
         },
@@ -124,20 +147,21 @@ const CustomCarousel = () => {
     );
     slideOneNext();
   };
+  const runImgs = imgArray.map((img, index) => (
+    <Box
+      key={index}
+      imgurl={img}
+      className={`box box${index < 9 ? "0" : ""}${index + 1}`}></Box>
+  ));
+
   return (
     <Wrapper>
-      <BoxContainer>
-        {imgArray.map((img, index) => (
-          <Box
-            key={index}
-            imgurl={img}
-            className={`box box${index < 9 ? "0" : ""}${index + 1}`}></Box>
-        ))}
-      </BoxContainer>
-      <Controls>
+      <BoxContainer>{runImgs}</BoxContainer>
+      <Controls id={'controls'}>
         <CarouselButtonLeft id={"arrowLeft"} onClick={() => handleClickLeft()}>
           Prev
         </CarouselButtonLeft>
+        <StyledData>{count}</StyledData>
         <CarouselButtonRight
           id={"arrowRight"}
           onClick={() => handleClickRight()}>
@@ -151,18 +175,22 @@ const CustomCarousel = () => {
 export default CustomCarousel;
 
 // ... (Styled components remain the same)
-
+const StyledData = styled.p`
+${text.bodyM};
+color:${colors.primaryPurple};
+`
 const BoxContainer = styled.div`
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  width: 60vw;
-  height: 30rem;
+  width: 45vw;
+  height: 30vw;
   position: relative;
-  margin: 24px auto;
+  margin: 1.667vw auto;
   overflow: hidden;
-  border-radius:24px;
+  border-radius: 1.667vw;
 `;
 
 const Box = styled.div`
@@ -177,15 +205,23 @@ const Box = styled.div`
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
+  border-radius: 1.667vw;
 `;
 
 const Controls = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  box-sizing: border-box;
   gap: 1.389vw;
-  background-color: ${colors.grey50};
-  border-radius: 20px;
+  background-color: ${colors.grey};
+  border-radius: 1.389vw;
+  border: 1px groove white;
+  transition: box-shadow 0.3s ease-in-out;
+  &:hover {
+    border: 1px groove whitesmoke;
+    box-shadow: 0px 4px 19px ${colors.grey200};
+  }
 `;
 
 const Wrapper = styled.div`
