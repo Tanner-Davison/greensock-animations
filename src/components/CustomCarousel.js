@@ -159,6 +159,7 @@ const BoxContainer = styled.div`
   position: relative;
   margin: 24px auto;
   overflow: hidden;
+  border-radius:24px;
 `;
 
 const Box = styled.div`
