@@ -26,19 +26,20 @@ const CustomCarousel = () => {
     gsap.set(targets.current, { xPercent: 100, opacity: 0 });
     gsap.set(targets.current[0], { xPercent: 0, opacity: 1 });
     //button Elements
-     const moveRight = document.getElementById("rightArrow");
-     const moveLeft = document.getElementById("rightArrow");
-     gsap.set(moveRight, { xPercent: 0 }); 
-     gsap.set(moveLeft, { xPercent: 0 }); 
+    const moveRight = document.getElementById("rightArrow");
+    const moveLeft = document.getElementById("rightArrow");
+    gsap.set(moveRight, { xPercent: 0 });
+    gsap.set(moveLeft, { xPercent: 0 });
   }, []);
-  
+
   // Next button
   function slideOneNext() {
     gsap.to(targets.current[count], {
-      duration: 1,
+      duration: 1.3,
       xPercent: -125,
       opacity: 0,
       zIndex: -10,
+      ease:"circ.out"
     });
 
     count = count < targets.current.length - 1 ? count + 1 : 0; // Reset to 0 if at the last image
@@ -46,86 +47,80 @@ const CustomCarousel = () => {
     gsap.fromTo(
       targets.current[count],
       { xPercent: 100, opacity: 1, zIndex: -10 },
-      { duration: 1, xPercent: 0, opacity: 1, zIndex: 0, ease:'smooth', }
+      { duration: .8, xPercent: 0, opacity: 1, zIndex: 0, ease: "smooth" }
     );
   }
 
   // Previous button
   function slideOnePrev() {
     gsap.to(targets.current[count], {
-      duration: 1,
+      duration: 1.3,
       xPercent: 100,
       opacity: 0,
       zIndex: -10,
+      ease:"circ.out",
     });
 
     count = count > 0 ? count - 1 : targets.current.length - 1; // Go to the last image if at the first image
 
     gsap.fromTo(
       targets.current[count],
-      { xPercent: -100, opacity: 0, zIndex: -10 },
-      { duration: 1, xPercent: 0, opacity: 1, zIndex: 0 }
+      { xPercent: -100, opacity: 1, zIndex: -10 },
+      { duration: .8, xPercent: 0, opacity: 1, zIndex: 0, ease: "circ.Out" }
     );
   }
-  
-const handleClickLeft = (id) => {
-  const moveLeft = document.getElementById("leftArrow");
-  gsap.fromTo(
-    moveLeft,
-    {
-      x: 0,
-      y: 0,
-      rotation: 0,
-    },
-    {
-      x: -50,
-      duration: 0.5,
-      rotation: -180,
-      ease: "power1.out",
 
-      onComplete: () => {
-        gsap.to(moveLeft, {
-          x: 0,
-          yPercent: 0,
-          rotation: -360,
-          duration: 0.5,
-          ease: "slow",
-        });
+  const handleClickLeft = (id) => {
+    const moveLeft = document.getElementById("leftArrow");
+    gsap.fromTo(
+      moveLeft,
+      {
+        xPercent: 0,
+        y: 0,
+        rotation: 0,
       },
-    }
-  );
-  slideOneNext();
-};
+      {
+        xPercent: -35,
+        ease: "power1.out",
+        duration: 0.2,
 
-const handleClickRight = async () => {
-const moveRight = document.getElementById("rightArrow");
-gsap.fromTo(
-  moveRight,
-  {
-    x: 0,
-    y: 0,
-    rotation: 0,
-    
-  },
-  {
-    x: 50,
-    duration: 0.5,
-    rotation: -180,
-    ease: "power1.out",
+        onComplete: () => {
+          gsap.to(moveLeft, {
+            xPercent: 0,
+            yPercent: 0,
+            ease: "smooth",
+          });
+        },
+      }
+    );
+    slideOnePrev();
+  };
 
-    onComplete: () => {
-      gsap.to(moveRight, {
-        x: 0,
-        yPercent: 0,
-        rotation: -360,
-        duration: 0.5,
-        ease: "slow",
-      });
-    },
-  }
-);
- slideOneNext();
-};
+  const handleClickRight = async () => {
+    const moveRight = document.getElementById("rightArrow");
+    gsap.fromTo(
+      moveRight,
+      {
+        xPercent: 0,
+        y: 0,
+        rotation: 0,
+      },
+      {
+        xPercent: 34,
+        duration: 0.2,
+        ease: "smooth",
+
+        onComplete: () => {
+          gsap.to(moveRight, {
+            xPercent: 0,
+            yPercent: 0,
+            ease: "smooth",
+          });
+        },
+      }
+    );
+    slideOneNext();
+  };
   return (
     <Wrapper>
       <BoxContainer>
@@ -137,14 +132,12 @@ gsap.fromTo(
         ))}
       </BoxContainer>
       <Controls>
-        <CarouselButtonLeft
-          id={"arrowLeft"}
-          onClick={() => handleClickLeft()}>
+        <CarouselButtonLeft id={"arrowLeft"} onClick={() => handleClickLeft()}>
           Prev
         </CarouselButtonLeft>
         <CarouselButtonRight
           id={"arrowRight"}
-          onClick={()=>handleClickRight()}>
+          onClick={() => handleClickRight()}>
           Next
         </CarouselButtonRight>
       </Controls>
@@ -187,7 +180,7 @@ const Controls = styled.div`
   align-items: center;
   justify-content: center;
   gap: 1.389vw;
-  background-color: ${colors.grey100};
+  background-color: ${colors.grey50};
   border-radius: 20px;
 `;
 
