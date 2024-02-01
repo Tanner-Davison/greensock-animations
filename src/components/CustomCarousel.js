@@ -1,16 +1,15 @@
-import React, { useRef, useEffect, useState } from "react";
-import styled from "styled-components";
 import { gsap } from "gsap";
-import { CarouselButtonRight, CarouselButtonLeft } from "./Buttons/Buttons";
-import media from "../styles/media";
-import colors from "../styles/colors";
-import text from "../styles/text";
+import React, { useEffect, useRef } from "react";
+import styled from "styled-components";
 import HeroImage from "../images/HeroImage.webp";
 import PictureLeft from "../images/PictureLeft.webp";
-import PictureRightAgain from "../images/PictureRightAgain.webp";
 import PictureLeftAgain from "../images/PictureLeftAgain.webp";
+import PictureRightAgain from "../images/PictureRightAgain.webp";
 import SaitamaPunch from "../images/SaitamaPunch.png";
 import Stars from "../images/Stars.jpg";
+import colors from "../styles/colors";
+import text from "../styles/text";
+import { CarouselButtonLeft, CarouselButtonRight } from "./Buttons/Buttons";
 
 const CustomCarousel = () => {
   const imgArray = [
