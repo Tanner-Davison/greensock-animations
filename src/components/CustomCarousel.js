@@ -9,13 +9,16 @@ import HeroImage from "../images/HeroImage.webp";
 import PictureLeft from "../images/PictureLeft.webp";
 import PictureRightAgain from "../images/PictureRightAgain.webp";
 import PictureLeftAgain from "../images/PictureLeftAgain.webp";
-
+import SaitamaPunch from '../images/SaitamaPunch.png';
+import Stars from '../images/Stars.jpg';
 const CustomCarousel = () => {
   const imgArray = [
     HeroImage,
     PictureLeft,
     PictureRightAgain,
     PictureLeftAgain,
+    SaitamaPunch,
+    Stars
   ];
 
   let count = 0;
