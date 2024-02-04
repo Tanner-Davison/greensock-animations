@@ -229,7 +229,7 @@ const Image = styled.div`
   background-repeat: no-repeat;
   background-position: center;
   width: 25.833vw;
-  height: 20.833vw;
+  height: 25.833vw;
 `
 const BoxItem = styled.div`
   position: absolute;

@@ -36,9 +36,16 @@ const LogosContainer = () => {
   }, []);
 
   const logos = logoArray.map((image) => {
+    
+    let round =
+      image.id % 55 === 1 ||
+      Number(image.id) === 10 ||
+      Number(image.id) === 7 ||
+      Number(image.id) === 4
     return (
       <ImageBox
         id={'imageBoxUnique'}
+        $round={round}
         onMouseOver={() => handleSlideUp(image.id)}
         onMouseLeave={() => handleSlideDown(image.id)}
         key={image.img}>
@@ -134,7 +141,8 @@ const ImageBox = styled.div`
   display: flex;
   align-items: end;
   overflow: hidden;
-  border-radius: 0.208vw;
+  border-radius: ${props=>(props.$round ? '100%': '0.208vw')};
+  /* border-radius: 0.208vw; */
   -webkit-box-shadow: 5px 5px 5px 0px #000000, 5px 5px 15px 5px rgba(0, 0, 0, 0);
   box-shadow: 5px 5px 5px 0px #000000, 5px 5px 15px 5px rgba(0, 0, 0, 0);
   width: 17.278vw;
