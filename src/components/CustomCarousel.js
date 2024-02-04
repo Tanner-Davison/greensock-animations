@@ -9,6 +9,7 @@ import SaitamaPunch from "../images/SaitamaPunch.png";
 import Stars from "../images/Stars.jpg";
 import colors from "../styles/colors";
 import text from "../styles/text";
+import media from '../styles/media';
 import { CarouselButtonLeft, CarouselButtonRight } from "./Buttons/Buttons";
 
 const CustomCarousel = () => {
@@ -154,7 +155,7 @@ const CustomCarousel = () => {
   ));
 
   return (
-    <Wrapper>
+    <Wrapper className={'wrapper'}>
       <BoxContainer>{runImgs}</BoxContainer>
       <Controls id={'controls'}>
         <CarouselButtonLeft id={"arrowLeft"} onClick={() => handleClickLeft()}>
@@ -184,26 +185,25 @@ const BoxContainer = styled.div`
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  overflow: hidden;
   width: 45vw;
   height: 30vw;
-  position: relative;
   margin: 1.667vw auto;
-  overflow: hidden;
   border-radius: 1.667vw;
 `;
 
 const Box = styled.div`
   position: absolute;
   display: flex;
-  width: 100%;
-  height: 100%;
-  display: grid;
-  place-items: center;
-  z-index: 0;
-  background-image: ${(props) => props.imgurl && `url(${props.imgurl})`};
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
+  display: grid;
+  place-items: center;
+  background-image: ${(props) => props.imgurl && `url(${props.imgurl})`};
+  width: 100%;
+  height: 100%;
+  z-index: 0;
   border-radius: 1.667vw;
 `;
 
@@ -212,14 +212,25 @@ const Controls = styled.div`
   align-items: center;
   justify-content: center;
   box-sizing: border-box;
-  gap: 1.389vw;
-  background-color: ${colors.grey};
-  border-radius: 1.389vw;
   border: 1px groove white;
+  background-color: ${colors.grey};
   transition: box-shadow 0.3s ease-in-out;
+  box-shadow: 0px 4px 19px ${colors.grey200};
+  gap: 1.389vw;
+  border-radius: 1.389vw;
   &:hover {
     border: 1px groove whitesmoke;
     box-shadow: 0px 4px 19px ${colors.grey200};
+  }
+  ${media.fullWidth} {
+  }
+
+  ${media.tablet} {
+  }
+
+  ${media.mobile} {
+    gap: 1.402vw;
+    border-radius: 3.505vw;
   }
 `;
 
@@ -228,4 +239,17 @@ const Wrapper = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  padding: 3.472vw 0vw;
+  ${media.fullWidth} {
+    padding: 50px 0px;
+  }
+
+  ${media.tablet} {
+    padding: 3.906vw 0vw;
+  }
+
+  ${media.mobile} {
+    padding:14.019vw 0vw;
+  }
 `;
+

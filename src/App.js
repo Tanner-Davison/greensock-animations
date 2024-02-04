@@ -1,12 +1,13 @@
 import React from "react";
 import CustomCarousel from "./components/CustomCarousel";
-import styled from "styled-components";
+import LogosContainer from "./components/LogosContainer";
 
 function App() {
   return (
-   
-  <CustomCarousel/>
-    
+    <>
+      <CustomCarousel />
+      <LogosContainer />
+    </>
   );
 }
 

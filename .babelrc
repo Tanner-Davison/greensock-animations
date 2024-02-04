@@ -1,0 +1,11 @@
+{
+  "plugins": [
+    [
+      "styled-components",
+      {
+        "displayName": true
+      }
+    ]
+  ],
+  "presets": ["react-app"]
+}
