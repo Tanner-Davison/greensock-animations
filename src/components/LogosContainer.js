@@ -38,6 +38,7 @@ const LogosContainer = () => {
   const logos = logoArray.map((image) => {
     return (
       <ImageBox
+        id={'imageBoxUnique'}
         onMouseOver={() => handleSlideUp(image.id)}
         onMouseLeave={() => handleSlideDown(image.id)}
         key={image.img}>
