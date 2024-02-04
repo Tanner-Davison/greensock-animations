@@ -1,26 +1,14 @@
 import { gsap } from "gsap";
 import React, { useEffect, useRef } from "react";
 import styled from "styled-components";
-import HeroImage from "../images/HeroImage.webp";
-import PictureLeft from "../images/PictureLeft.webp";
-import PictureLeftAgain from "../images/PictureLeftAgain.webp";
-import PictureRightAgain from "../images/PictureRightAgain.webp";
-import SaitamaPunch from "../images/SaitamaPunch.png";
-import Stars from "../images/Stars.jpg";
+import { codeLogosArray } from "../images/codeLogos/codeLogosObj";
 import colors from "../styles/colors";
 import text from "../styles/text";
 import media from '../styles/media';
 import { CarouselButtonLeft, CarouselButtonRight } from "./Buttons/Buttons";
 
 const CustomCarousel = () => {
-  const imgArray = [
-    HeroImage,
-    PictureLeft,
-    PictureRightAgain,
-    PictureLeftAgain,
-    SaitamaPunch,
-    Stars,
-  ];
+  const imgArray = codeLogosArray;
   
   let count = 0;
   const targets = useRef([]);
@@ -149,8 +137,8 @@ const CustomCarousel = () => {
   };
   const runImgs = imgArray.map((img, index) => (
     <Box
-      key={index}
-      imgurl={img}
+      key={img.id}
+      imgurl={img.img}
       className={`box box${index < 9 ? "0" : ""}${index + 1}`}></Box>
   ));
 
