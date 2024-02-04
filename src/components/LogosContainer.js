@@ -128,8 +128,8 @@ const SlideUpDiv = styled.div`
 `;
 const Image = styled.img`
   transition: transform 0.4s ease-in-out;
-  width: 102%;
-  height: 102%;
+  width: 104%;
+  height: 104%;
   &:hover {
     transform: scale(1.1);
   }
@@ -141,18 +141,19 @@ const ImageBox = styled.div`
   display: flex;
   align-items: end;
   overflow: hidden;
-  border-radius: ${props=>(props.$round ? '100%': '0.208vw')};
+  border-radius: ${(props) => (props.$round ? '100%' : '0.208vw')};
   /* border-radius: 0.208vw; */
   -webkit-box-shadow: 5px 5px 5px 0px #000000, 5px 5px 15px 5px rgba(0, 0, 0, 0);
   box-shadow: 5px 5px 5px 0px #000000, 5px 5px 15px 5px rgba(0, 0, 0, 0);
   width: 17.278vw;
   height: 17.278vw;
-
+ transition: border-radius .3s ease-out;
   &:hover {
     -webkit-box-shadow: 5px 5px 5px 0px #000000, inset 4px 4px 15px 0px #000000,
       5px 5px 15px 5px rgba(0, 0, 0, 0);
     box-shadow: 5px 5px 5px 0px #000000, inset 4px 4px 15px 0px #000000,
       5px 5px 15px 5px rgba(0, 0, 0, 0);
+    border-radius: ${(props) => (props.$round ? '0.208vw' : 'unset')};
   }
   ${media.fullWidth} {
     width: 249px;
@@ -171,7 +172,7 @@ const ImageBox = styled.div`
     height: 46.484vw;
     border-radius: 0.701vw;
   }
-`;
+`
 const AllImagesDiv = styled.div`
   display: flex;
   justify-content: space-evenly;
