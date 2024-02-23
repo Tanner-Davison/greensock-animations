@@ -5,13 +5,14 @@ import colors from '../styles/colors'
 import media from '../styles/media'
 import { gsap } from 'gsap'
 import text from '../styles/text'
+import getPosition from '../utils/getPosition'
 import {
   CarouselButtonLeft,
   CarouselButtonRight,
   GlobalLinkButton,
 } from './Buttons/Buttons'
 
-const CustomCarousel = ({scrollto}) => {
+const CustomCarousel = ({ scrollto }) => {
   const [isHover, setHover] = useState(false)
   const count = useRef(0)
   const [displayName, setDisplayName] = useState(
@@ -33,11 +34,11 @@ const CustomCarousel = ({scrollto}) => {
 
   function slideOneNext() {
     gsap.to(targets.current[count.current], {
-      duration: 1.3,
+      duration: 1,
       xPercent: -125,
       opacity: 0,
       zIndex: -10,
-      ease: 'circ.out',
+      ease: 'back.inOut',
     })
 
     count.current =
@@ -47,17 +48,17 @@ const CustomCarousel = ({scrollto}) => {
     gsap.fromTo(
       targets.current[count.current],
       { xPercent: 100, opacity: 1, zIndex: -10 },
-      { duration: 0.8, xPercent: 0, opacity: 1, zIndex: 0, ease: 'smooth' },
+      { duration: 1, xPercent: 0, opacity: 1, zIndex: 0, ease: 'back.inOut' },
     )
   }
 
   function slideOnePrev() {
     gsap.to(targets.current[count.current], {
-      duration: 1.3,
+      duration: 1,
       xPercent: 100,
       opacity: 0,
       zIndex: -10,
-      ease: 'circ.out',
+      ease: 'back.inOut',
     })
 
     count.current =
@@ -67,7 +68,7 @@ const CustomCarousel = ({scrollto}) => {
     gsap.fromTo(
       targets.current[count.current],
       { xPercent: -100, opacity: 1, zIndex: -10 },
-      { duration: 0.8, xPercent: 0, opacity: 1, zIndex: 0, ease: 'circ.Out' },
+      { duration: 1, xPercent: 0, opacity: 1, zIndex: 0, ease: 'back.inOut' },
     )
   }
 
@@ -151,13 +152,15 @@ const CustomCarousel = ({scrollto}) => {
     )
     slideOneNext()
   }
+
   const runImgs = codeLogosArray.map((imgObj, index) => {
     return (
       <BoxItem
         key={imgObj.id}
         className={`box box${index < 9 ? '0' : ''}${index + 1}`}
       >
-        <Image $srcurl={imgObj.img} $altTag={imgObj.img} />
+        <Image $srcurl={imgObj.img} $altTag={imgObj.img} 
+        onClick={(e)=>getPosition(e)}/>
         <ContentDiv>
           <ContentHeadline>{imgObj.Header}</ContentHeadline>
           <ContentBody>{imgObj.Body}</ContentBody>
@@ -170,7 +173,7 @@ const CustomCarousel = ({scrollto}) => {
             onMouseOver={() => setHover(true)}
             size={text.bodyMBold}
             color={colors.primaryOrange}
-            align={'right'} 
+            align={'right'}
           >
             Learn More
           </GlobalLinkButton>
@@ -182,7 +185,7 @@ const CustomCarousel = ({scrollto}) => {
   return (
     <Wrapper className={'wrapper'}>
       <BoxContainer>
-        <DisplayDataDiv >{runImgs}</DisplayDataDiv>
+        <DisplayDataDiv>{runImgs}</DisplayDataDiv>
       </BoxContainer>
       <Controls id={'controls'}>
         <CarouselButtonLeft id={'arrowLeft'} onClick={() => handleClickLeft()}>
@@ -210,7 +213,7 @@ const ContentBody = styled.p`
   ${text.bodyM}
   color:black;
   margin: unset;
-  ${media.mobile}{
+  ${media.mobile} {
     ${text.bodyS}
     text-align: left;
     text-indent: 15px;
@@ -219,7 +222,7 @@ const ContentBody = styled.p`
 const ContentHeadline = styled.h1`
   ${text.h1}
   margin:unset;
-  ${media.mobile}{
+  ${media.mobile} {
     ${text.h2}
   }
 `
@@ -232,14 +235,13 @@ const ContentDiv = styled.div`
   ${media.fullWidth} {
     gap: 25px;
   }
-  
+
   ${media.tablet} {
-  
   }
-  
+
   ${media.mobile} {
-  gap: 6.667vw;
-  width:100%;
+    gap: 6.667vw;
+    width: 100%;
   }
 `
 const Image = styled.div`
@@ -253,18 +255,18 @@ const Image = styled.div`
   height: 25.833vw;
   ${media.fullWidth} {
     width: 372px;
-  height: 372px;
+    height: 372px;
   }
-  
+
   ${media.tablet} {
     width: 34.604vw;
-  height: 34.604vw;
+    height: 34.604vw;
   }
-  
+
   ${media.mobile} {
-  align-self:center;
-  width:30.667vw;
-  height: 30.667vw;
+    align-self: center;
+    width: 30.667vw;
+    height: 30.667vw;
   }
 `
 const BoxItem = styled.div`
@@ -272,23 +274,21 @@ const BoxItem = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0vw 1.736vw;
+
   gap: 3.472vw;
   ${media.fullWidth} {
-    padding: 0px 25px;
     gap: 50px;
   }
-  
+
   ${media.tablet} {
-  
   }
-  
+
   ${media.mobile} {
-  flex-direction: column;
-  align-items: center;
-  justify-content:center;
-  text-align: center;
-  gap:6.667vw;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 6.667vw;
   }
 `
 const DisplayDataDiv = styled.div`
@@ -305,21 +305,20 @@ const DisplayDataDiv = styled.div`
   gap: 1.389vw;
   ${media.fullWidth} {
     width: 900px;
-  height: 500px;
-  z-index: 0;
-  border-radius: 24px;
-  gap: 20px;
+    height: 500px;
+    z-index: 0;
+    border-radius: 24px;
+    gap: 20px;
   }
-  
+
   ${media.tablet} {
     width: 75.914vw;
-  height: 45.952vw;
+    height: 45.952vw;
   }
-  
-  ${media.mobile} {
-    width:80vw;
-    height: 124vw;
 
+  ${media.mobile} {
+    width: 80vw;
+    height: 124vw;
   }
 `
 const BoxContainer = styled.div`
@@ -329,7 +328,7 @@ const BoxContainer = styled.div`
   flex-direction: column;
   overflow: hidden;
   border-radius: 1.667vw;
-  ${media.fullWidth}{
+  ${media.fullWidth} {
     border-radius: 24px;
   }
 `
@@ -357,16 +356,16 @@ const Controls = styled.div`
   }
 
   ${media.tablet} {
-    width:25.494vw;
+    width: 25.494vw;
     height: 7.993vw;
   }
 
   ${media.mobile} {
-    width:40vw;
+    width: 40vw;
     height: 13.333vw;
     gap: 1.402vw;
     border-radius: 3.505vw;
-    margin-top:4vw;
+    margin-top: 4vw;
   }
 `
 
@@ -376,10 +375,9 @@ const Wrapper = styled.div`
   align-items: center;
   justify-content: center;
   padding: 3.472vw 5.556vw;
-  
+
   ${media.fullWidth} {
     padding: 50px 0px;
-    
   }
 
   ${media.tablet} {
@@ -388,6 +386,5 @@ const Wrapper = styled.div`
 
   ${media.mobile} {
     padding: 14.019vw 0vw;
-    
   }
 `

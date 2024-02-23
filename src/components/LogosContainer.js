@@ -35,34 +35,34 @@ const LogosContainer = () => {
     const targets = elements.slice(3);
     gsap.set(slider, { yPercent: 102, zIndex: -1 });
     gsap.set(targets,{xPercent:1000})
-    gsap.set(firstThree,{xPercent:getMedia(115,125,0,0)})
+    gsap.set(firstThree,{xPercent:getMedia(115,110,0,0)})
     const tl = new gsap.timeline({
       paused: true,
       scrollTrigger:{
         trigger: trigger,
-        start: getMedia('top 45%','top 50%','top 20%','top 10%'),
+        start: getMedia('top 45%','top 50%','top 30%','top 10%'),
         toggleActions: 'play none none reverse',
       }
     });
     tl.to(CTAslider,{
-      yPercent:300,
-      duration:.3,
-      ease:'none'
+      yPercent:getMedia(130,130,0,125),
+      duration:.5,
+      ease:'back.inOut'
     },'<')
     tl.to(CTAslider,{
-      xPercent:-800,
+      xPercent:getMedia(-1100,-850,-400, -550),
       duration:1,
-      ease:'none'
-    },'<+=.3')
+      ease:'sine.inOut'
+    },'<+=.2')
     tl.to(firstThree, {
       xPercent: 0,
       stagger:.08,
-      duration:.4,
-      ease:'sine.out',
+      duration:.8,
+      ease:'back.inOut',
     },'<')
       tl.to(targets, {
         xPercent: 0,
-        stagger: .2,
+        stagger: .08,
         duration:.8,
         ease:'circ.out'
       },'<+=.3')
@@ -215,25 +215,45 @@ const ImageBox = styled.div`
   }
 `
 const StyledP= styled.h3`
-${text.h3}
+${text.h2}
 margin:unset;
 color:black;
-`
-const CTA = styled.div`
-position: absolute;
-width:fit-content;
-  top: 0%;
-  left: 86%;
+${media.fullWidth} {
 
+}
 
 ${media.tablet} {
-  top: 36%;
-  left: 29%;
+
 }
 
 ${media.mobile} {
-  top: 25%;
-    left: 61%;
+${text.h2}
+}
+`
+const CTA = styled.div`
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 14.472vw;
+    top: 0%;
+    left: 82%;
+
+${media.fullWidth}{
+  max-width: 198px;
+}
+${media.tablet} {
+  max-width:35.962vw;
+  text-align: center;
+  top: 36%;
+  left: 35%;
+}
+
+${media.mobile} {
+  max-width: 37.733vw;
+    width: 37.733vw;
+    top: 22%;
+    left: 55%;
 }
 
 `
