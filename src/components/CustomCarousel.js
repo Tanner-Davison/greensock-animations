@@ -23,7 +23,6 @@ const CustomCarousel = ({scrollto}) => {
     targets.current = document.querySelectorAll('.box')
     gsap.set(targets.current, { xPercent: 100, opacity: 0 })
     gsap.set(targets.current[0], { xPercent: 0, opacity: 1 })
-    // button Elements
     const moveRight = document.getElementById('rightArrow')
     const moveLeft = document.getElementById('leftArrow')
     const controls = document.getElementById('controls')
