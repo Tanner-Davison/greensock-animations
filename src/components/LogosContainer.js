@@ -36,7 +36,6 @@ const LogosContainer = () => {
   }, []);
 
   const logos = logoArray.map((image) => {
-    
     let round =
       image.id % 55 === 1 ||
       Number(image.id) === 10 ||
@@ -57,7 +56,7 @@ const LogosContainer = () => {
             onMouseOver={() => handleMouseOver()}
             onMouseLeave={() => handleMouseLeave()}
             isHover={isHover}
-            align={"right"}
+            align="center"
             color={`${colors.primaryOrange}`}>
             Learn More
           </GlobalLinkButton>

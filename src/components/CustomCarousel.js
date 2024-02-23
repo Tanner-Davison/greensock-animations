@@ -1,9 +1,9 @@
-import { gsap } from 'gsap'
 import React, { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 import { codeLogosArray } from '../images/codeLogos/codeLogosObj'
 import colors from '../styles/colors'
 import media from '../styles/media'
+import { gsap } from 'gsap'
 import text from '../styles/text'
 import {
   CarouselButtonLeft,
@@ -31,6 +31,7 @@ const CustomCarousel = ({scrollto}) => {
     gsap.set(moveLeft, { xPercent: 0 })
     gsap.set(controls, { xPercent: 0 })
   }, [])
+
   function slideOneNext() {
     gsap.to(targets.current[count.current], {
       duration: 1.3,
@@ -168,8 +169,9 @@ const CustomCarousel = ({scrollto}) => {
             }}
             onClick={() => scrollto('imageBoxUnique')}
             onMouseOver={() => setHover(true)}
-            size={text.mediaMBold}
+            size={text.bodyMBold}
             color={colors.primaryOrange}
+            align={'right'} 
           >
             Learn More
           </GlobalLinkButton>
@@ -209,10 +211,17 @@ const ContentBody = styled.p`
   ${text.bodyM}
   color:black;
   margin: unset;
+  ${media.mobile}{
+    ${text.bodyS}
+    text-align: left;
+  }
 `
 const ContentHeadline = styled.h1`
   ${text.h1}
   margin:unset;
+  ${media.mobile}{
+    ${text.h2}
+  }
 `
 const ContentDiv = styled.div`
   display: flex;
@@ -220,6 +229,18 @@ const ContentDiv = styled.div`
   align-items: left;
   gap: 1.736vw;
   width: 75%;
+  ${media.fullWidth} {
+    gap: 25px;
+  }
+  
+  ${media.tablet} {
+  
+  }
+  
+  ${media.mobile} {
+  gap: 6.667vw;
+  width:100%;
+  }
 `
 const Image = styled.div`
   display: flex;
@@ -230,14 +251,45 @@ const Image = styled.div`
   background-position: center;
   width: 25.833vw;
   height: 25.833vw;
+  ${media.fullWidth} {
+    width: 372px;
+  height: 372px;
+  }
+  
+  ${media.tablet} {
+    width: 34.604vw;
+  height: 34.604vw;
+  }
+  
+  ${media.mobile} {
+  align-self:center;
+  width:30.667vw;
+  height: 30.667vw;
+  }
 `
 const BoxItem = styled.div`
   position: absolute;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0px 25px;
-  gap: 50px;
+  padding: 0vw 1.736vw;
+  gap: 3.472vw;
+  ${media.fullWidth} {
+    padding: 0px 25px;
+    gap: 50px;
+  }
+  
+  ${media.tablet} {
+  
+  }
+  
+  ${media.mobile} {
+  flex-direction: column;
+  align-items: center;
+  justify-content:center;
+  text-align: center;
+  gap:6.667vw;
+  }
 `
 const DisplayDataDiv = styled.div`
   position: relative;
@@ -246,11 +298,29 @@ const DisplayDataDiv = styled.div`
   align-items: center;
   justify-content: center;
   box-sizing: border-box;
-  width: 900px;
-  height: 500px;
+  width: 62.5vw;
+  height: 34.722vw;
   z-index: 0;
   border-radius: 1.667vw;
   gap: 1.389vw;
+  ${media.fullWidth} {
+    width: 900px;
+  height: 500px;
+  z-index: 0;
+  border-radius: 24px;
+  gap: 20px;
+  }
+  
+  ${media.tablet} {
+    width: 75.914vw;
+  height: 45.952vw;
+  }
+  
+  ${media.mobile} {
+    width:80vw;
+    height: 124vw;
+
+  }
 `
 const BoxContainer = styled.div`
   display: flex;
@@ -259,6 +329,9 @@ const BoxContainer = styled.div`
   flex-direction: column;
   overflow: hidden;
   border-radius: 1.667vw;
+  ${media.fullWidth}{
+    border-radius: 24px;
+  }
 `
 const Controls = styled.div`
   display: flex;
@@ -271,19 +344,29 @@ const Controls = styled.div`
   box-shadow: 0px 4px 19px ${colors.grey200};
   gap: 1.389vw;
   border-radius: 1.389vw;
+  height: 6.944vw;
+  width: 18.833vw;
   &:hover {
     border: 1px groove whitesmoke;
     box-shadow: 0px 4px 19px ${colors.grey200};
   }
   ${media.fullWidth} {
+    width: 271px;
+    height: 100px;
+    border-radius: 20px;
   }
 
   ${media.tablet} {
+    width:25.494vw;
+    height: 7.993vw;
   }
 
   ${media.mobile} {
+    width:40vw;
+    height: 13.333vw;
     gap: 1.402vw;
     border-radius: 3.505vw;
+    margin-top:4vw;
   }
 `
 
@@ -293,8 +376,10 @@ const Wrapper = styled.div`
   align-items: center;
   justify-content: center;
   padding: 3.472vw 5.556vw;
+  
   ${media.fullWidth} {
     padding: 50px 0px;
+    
   }
 
   ${media.tablet} {
@@ -303,5 +388,6 @@ const Wrapper = styled.div`
 
   ${media.mobile} {
     padding: 14.019vw 0vw;
+    
   }
 `

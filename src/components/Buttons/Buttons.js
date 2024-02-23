@@ -85,10 +85,10 @@ const GlobalButton = styled.button`
   align-items: center;
   justify-content: center;
   ${text.bodyMBold}
-  background-color: ${(props) => props.$bgcolor || "transparent"};
+  background-color: ${(props) => props.$bgcolor ? `${props.$bgcolor}` : "transparent"};
   border: none;
-  color: ${(props) => props.$color || "black"};
-  justify-content: ${(props) => props.$align || "left"};
+  color: ${(props) => props.$color ? `${props.$color}` : "black"};
+  justify-content: ${(props) => `${props.$align}` ? props.$align : "left"};
 
   ${media.mobile} {
     ${text.bodyS}
