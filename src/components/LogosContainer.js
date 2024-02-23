@@ -40,9 +40,9 @@ const LogosContainer = () => {
       paused: true,
       scrollTrigger:{
         trigger: trigger,
-        start: getMedia('top 35%','top 35%','top 20%','top 10%'),
+        start: getMedia('top 45%','top 50%','top 20%','top 10%'),
         toggleActions: 'play none none reverse',
-        // markers: true,
+        markers: true,
 
       }
     });
