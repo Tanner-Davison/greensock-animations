@@ -34,14 +34,14 @@ const LogosContainer = () => {
     const targets = elements.slice(3);
     gsap.set(slider, { yPercent: 102, zIndex: -1 });
     gsap.set(targets,{xPercent:1000})
-    gsap.set(firstThree,{xPercent:getMedia(125,125,0,0)})
+    gsap.set(firstThree,{xPercent:getMedia(115,125,0,0)})
     const tl = new gsap.timeline({
       paused: true,
       scrollTrigger:{
         trigger: trigger,
         start: getMedia('top 50%','top 50%','top 40%','top 50%'),
         toggleActions: 'play none none reverse',
-        markers: true,
+        // markers: true,
 
       }
     });
