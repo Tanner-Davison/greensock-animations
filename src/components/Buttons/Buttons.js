@@ -68,12 +68,23 @@ export const GlobalLinkButton = ({
 const LinkArrow = styled.svg`
   cursor: pointer;
   display: inline-flex;
-  width: 30px;
-  padding: 5px;
+  width: 35px;
+  padding: 5px 0px;
   stroke: ${(props) => (props.$color ? `${props.$color}` : "black")};
   stroke-width: 2;
   transition: transform 0.3s ease-in-out;
   transform: ${(props) => (props.$hover ? `translateX(5px)` : "unset")};
+  ${media.fullWidth} {
+    width: 35px;
+  }
+  
+  ${media.tablet} {
+    width: 30px;
+  }
+  
+  ${media.mobile} {
+    width: 28px;
+  }
 `;
 const GlobalButton = styled.button`
   cursor: pointer;
@@ -88,10 +99,10 @@ const GlobalButton = styled.button`
   background-color: ${(props) => props.$bgcolor ? `${props.$bgcolor}` : "transparent"};
   border: none;
   color: ${(props) => props.$color ? `${props.$color}` : "black"};
-  justify-content: ${(props) => `${props.$align}` ? props.$align : "left"};
-
+  justify-content: ${(props) => props.$align ?` ${props.$align}` : "left"};
   ${media.mobile} {
-    ${text.bodyS}
+    ${text.bodySBold}
+
   }
 `;
 const StyledArrow = styled.svg`
@@ -99,7 +110,7 @@ const StyledArrow = styled.svg`
   width: 5.208vw;
   padding: 5px;
   height: auto;
-  fill: ${colors.primary}; /* Change fill color */
-  stroke: ${colors.primaryOrange}; /* Change stroke color */
-  stroke-width: 2; /* Adjust stroke width if needed */
+  fill: ${colors.primary}; 
+  stroke: ${colors.primaryOrange}; 
+  stroke-width: 2; 
 `;

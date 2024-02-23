@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 import { codeLogosArray } from '../images/codeLogos/codeLogosObj'
 import colors from '../styles/colors'
@@ -214,6 +214,7 @@ const ContentBody = styled.p`
   ${media.mobile}{
     ${text.bodyS}
     text-align: left;
+    text-indent: 15px;
   }
 `
 const ContentHeadline = styled.h1`
@@ -248,7 +249,7 @@ const Image = styled.div`
     props.$srcurl ? `url(${props.$srcurl})` : `unset`};
   background-size: contain;
   background-repeat: no-repeat;
-  background-position: center;
+  background-position: top;
   width: 25.833vw;
   height: 25.833vw;
   ${media.fullWidth} {

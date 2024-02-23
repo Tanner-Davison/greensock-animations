@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import media from "../styles/media";
 import colors from "../styles/colors";
@@ -6,17 +6,13 @@ import text from "../styles/text";
 import { logoArray } from "../images/logos/logoArray";
 import { gsap } from "gsap";
 import { GlobalLinkButton } from "./Buttons/Buttons";
+import {ScrollTrigger} from "gsap/ScrollTrigger";
+import getMedia from "../utils/getMedia";
+gsap.registerPlugin(ScrollTrigger);
 
 const LogosContainer = () => {
   const [visibleDiv, setVisibleDiv] = useState([]);
   const [isHover, setIsHover] = useState(false);
-
-  const handleMouseOver = (e) => {
-    setIsHover(true);
-  };
-  const handleMouseLeave = () => {
-    setIsHover(false);
-  };
 
   const handleSlideUp = (contentId) => {
     setVisibleDiv([...visibleDiv, contentId]);
@@ -32,7 +28,36 @@ const LogosContainer = () => {
   };
   useEffect(() => {
     const slider = document.querySelectorAll(".slideUpDiv");
+    const trigger = document.querySelector('.logoComponentWrapper');
+    const elements = gsap.utils.toArray('.allElements');
+    const firstThree = elements.slice(0,3);
+    const targets = elements.slice(3);
     gsap.set(slider, { yPercent: 102, zIndex: -1 });
+    gsap.set(targets,{xPercent:1000})
+    gsap.set(firstThree,{xPercent:getMedia(125,125,0,0)})
+    const tl = new gsap.timeline({
+      paused: true,
+      scrollTrigger:{
+        trigger: trigger,
+        start: getMedia('top 50%','top 50%','top 40%','top 50%'),
+        toggleActions: 'play none none reverse',
+        markers: true,
+
+      }
+    });
+    tl.to(firstThree, {
+      xPercent: 0,
+      stagger:.08,
+      duration:.4,
+      ease:'sine.out',
+    })
+
+      tl.to(targets, {
+        xPercent: 0,
+        stagger: .09,
+        duration:.5,
+        ease:'circ.out'
+      },'<')
   }, []);
 
   const logos = logoArray.map((image) => {
@@ -44,6 +69,7 @@ const LogosContainer = () => {
     return (
       <ImageBox
         id={'imageBoxUnique'}
+        className={'allElements'}
         $round={round}
         onMouseOver={() => handleSlideUp(image.id)}
         onMouseLeave={() => handleSlideDown(image.id)}
@@ -53,8 +79,8 @@ const LogosContainer = () => {
           <SlideHeadline>{image.Header}</SlideHeadline>
           <SlideBody>{image.Body}</SlideBody>
           <GlobalLinkButton
-            onMouseOver={() => handleMouseOver()}
-            onMouseLeave={() => handleMouseLeave()}
+            onMouseOver={() => setIsHover(true)}
+            onMouseLeave={() => setIsHover(false)}
             isHover={isHover}
             align="center"
             color={`${colors.primaryOrange}`}>
@@ -65,8 +91,11 @@ const LogosContainer = () => {
     );
   });
   return (
-    <Wrapper>
-      <AllImagesDiv>{logos}</AllImagesDiv>
+    <Wrapper >
+      <AllImagesDiv
+      className='logoComponentWrapper'>
+        {logos}
+        </AllImagesDiv>
     </Wrapper>
   );
 };
@@ -80,8 +109,10 @@ const SlideBody = styled.p`
   margin: unset;
   padding-left: 5%;
   
+  
   ${media.mobile} {
-  ${text.bodyS}
+  ${text.bodyS};
+  
   }
 `;
 const SlideHeadline = styled.h4`
@@ -169,7 +200,7 @@ const ImageBox = styled.div`
   ${media.mobile} {
     width: 45.594vw;
     height: 46.484vw;
-    border-radius: 0.701vw;
+    
   }
 `
 const AllImagesDiv = styled.div`
@@ -193,6 +224,7 @@ const AllImagesDiv = styled.div`
   ${media.mobile} {
     width: 100vw;
     gap: 4.673vw 2vw;
+    
   }
 `;
 const Wrapper = styled.div`
@@ -200,7 +232,7 @@ const Wrapper = styled.div`
   align-items: center;
   justify-content: center;
   padding: 60px 1.806vw;
-  
+  overflow: hidden;
   ${media.fullWidth} {
     padding: 60px 26px;
   }
