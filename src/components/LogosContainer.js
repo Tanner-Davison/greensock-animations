@@ -42,8 +42,6 @@ const LogosContainer = () => {
         trigger: trigger,
         start: getMedia('top 45%','top 50%','top 20%','top 10%'),
         toggleActions: 'play none none reverse',
-        markers: true,
-
       }
     });
     tl.to(CTAslider,{
@@ -53,7 +51,7 @@ const LogosContainer = () => {
     },'<')
     tl.to(CTAslider,{
       xPercent:-800,
-      duration:.3,
+      duration:1,
       ease:'none'
     },'<+=.3')
     tl.to(firstThree, {
@@ -65,7 +63,7 @@ const LogosContainer = () => {
       tl.to(targets, {
         xPercent: 0,
         stagger: .2,
-        duration:.5,
+        duration:.8,
         ease:'circ.out'
       },'<+=.3')
   }, []);

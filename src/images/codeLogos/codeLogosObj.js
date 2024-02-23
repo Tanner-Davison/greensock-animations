@@ -5,7 +5,7 @@ import codeLogo4 from "./codeLogo4.webp";
 import codeLogo5 from "./codeLogo5.webp";
 import codeLogo6 from "./codeLogo6.webp";
 import codeLogo7 from "./codeLogo7.webp";
-
+import codeLogo8 from './codeLogo8.webp';
 export const codeLogosArray = [
   {
     id: 1,
@@ -62,4 +62,11 @@ export const codeLogosArray = [
     Body: "Embark on a coding journey where logic meets creativity. Ideal for all levels, coding is an exploration of diverse paradigms, languages, and frameworks, shaping the future of programming.",
     language: "Odyssey",
   },
+  {
+    id: 8,
+    img: codeLogo8,
+    Header: "GSAP-Animations",
+    Body: "Unleash the magic of web animations with GSAP (GreenSock Animation Platform). Perfect for both beginners and pros, GSAP effortlessly transforms your web projects with captivating animations. Explore the power of GSAP-Animations, where fluid transitions and dynamic effects elevate your digital creations. Let the code logos guide you into a world of enchanting user experiences.",
+    language: "Gsap"
+  }
 ];
