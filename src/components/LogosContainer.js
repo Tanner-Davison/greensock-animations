@@ -29,6 +29,7 @@ const LogosContainer = () => {
   useEffect(() => {
     const slider = document.querySelectorAll(".slideUpDiv");
     const trigger = document.querySelector('.logoComponentWrapper');
+    const CTAslider = document.querySelector('.ctaSlider')
     const elements = gsap.utils.toArray('.allElements');
     const firstThree = elements.slice(0,3);
     const targets = elements.slice(3);
@@ -39,25 +40,34 @@ const LogosContainer = () => {
       paused: true,
       scrollTrigger:{
         trigger: trigger,
-        start: getMedia('top 50%','top 50%','top 40%','top 50%'),
+        start: getMedia('top 35%','top 35%','top 20%','top 10%'),
         toggleActions: 'play none none reverse',
         // markers: true,
 
       }
     });
+    tl.to(CTAslider,{
+      yPercent:300,
+      duration:.3,
+      ease:'none'
+    },'<')
+    tl.to(CTAslider,{
+      xPercent:-800,
+      duration:.3,
+      ease:'none'
+    },'<+=.3')
     tl.to(firstThree, {
       xPercent: 0,
       stagger:.08,
       duration:.4,
       ease:'sine.out',
-    })
-
+    },'<')
       tl.to(targets, {
         xPercent: 0,
-        stagger: .09,
+        stagger: .2,
         duration:.5,
         ease:'circ.out'
-      },'<')
+      },'<+=.3')
   }, []);
 
   const logos = logoArray.map((image) => {
@@ -82,7 +92,7 @@ const LogosContainer = () => {
             onMouseOver={() => setIsHover(true)}
             onMouseLeave={() => setIsHover(false)}
             isHover={isHover}
-            align="center"
+            align="right"
             color={`${colors.primaryOrange}`}>
             Learn More
           </GlobalLinkButton>
@@ -95,6 +105,9 @@ const LogosContainer = () => {
       <AllImagesDiv
       className='logoComponentWrapper'>
         {logos}
+        <CTA className={'ctaSlider'}>
+          <StyledP>{'See what we can do for you.'}</StyledP>
+        </CTA>
         </AllImagesDiv>
     </Wrapper>
   );
@@ -188,7 +201,7 @@ const ImageBox = styled.div`
   ${media.fullWidth} {
     width: 249px;
     height: 249px;
-    border-radius: 3px;
+  
   }
 
   ${media.tablet} {
@@ -203,7 +216,31 @@ const ImageBox = styled.div`
     
   }
 `
+const StyledP= styled.h3`
+${text.h3}
+margin:unset;
+color:black;
+`
+const CTA = styled.div`
+position: absolute;
+width:fit-content;
+  top: 0%;
+  left: 86%;
+
+
+${media.tablet} {
+  top: 36%;
+  left: 29%;
+}
+
+${media.mobile} {
+  top: 25%;
+    left: 61%;
+}
+
+`
 const AllImagesDiv = styled.div`
+position: relative;
   display: flex;
   justify-content: space-evenly;
   flex-wrap: wrap;

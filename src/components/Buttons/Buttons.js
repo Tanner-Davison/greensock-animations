@@ -15,7 +15,9 @@ export const CarouselButtonRight = ({ children, onClick }) => {
     <StyledArrow
       id={"rightArrow"}
       as={RightArrow}
-      onClick={handleClick}></StyledArrow>
+      onClick={handleClick}>
+        {children}
+      </StyledArrow>
   );
 };
 
@@ -27,7 +29,8 @@ export const CarouselButtonLeft = ({ children, onClick }) => {
     <StyledArrow
       id={"leftArrow"}
       as={LeftArrow}
-      onClick={handleClick}></StyledArrow>
+      onClick={handleClick}>
+        <div>{children}</div></StyledArrow>
   );
 };
 export const GlobalLinkButton = ({
@@ -83,7 +86,8 @@ const LinkArrow = styled.svg`
   }
   
   ${media.mobile} {
-    width: 28px;
+    width: 20px;
+    padding:unset;
   }
 `;
 const GlobalButton = styled.button`
@@ -102,7 +106,7 @@ const GlobalButton = styled.button`
   justify-content: ${(props) => props.$align ?` ${props.$align}` : "left"};
   ${media.mobile} {
     ${text.bodySBold}
-
+      
   }
 `;
 const StyledArrow = styled.svg`
