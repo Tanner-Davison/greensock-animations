@@ -6,8 +6,8 @@ import text from '../styles/text'
 import getPosition from '../utils/getPosition'
 
 const BoxPlayground = () => {
-  const [currentY, setCurrentY] = useState('')
-  const [currentX, setCurrentX] = useState('')
+  const [currentY, setCurrentY] = useState('250')
+  const [currentX, setCurrentX] = useState('250')
   const [indicX, setIndicX] = useState('335px')
   const [indicY, setIndicY] = useState('285px')
   const [snapshots, setSnapShots] = useState([])
@@ -46,8 +46,8 @@ const BoxPlayground = () => {
    
   }
   const handleOnMouseLeave = () => {
-    setCurrentX('')
-    setCurrentY('')
+    setCurrentX('250')
+    setCurrentY('250')
     setIndicY('285px')
     setIndicX('335px')
   }
@@ -105,6 +105,13 @@ const BoxPlayground = () => {
             }}
           >
             {'reset'}
+          </Toggle>
+          <Toggle onClick={() => {
+           const updatedElements = [...elements];
+           updatedElements.pop();
+           setElements(updatedElements);
+          }}>
+            {'back one'}
           </Toggle>
         </Controls>
         {runHistory}
