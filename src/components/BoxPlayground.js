@@ -13,6 +13,7 @@ const BoxPlayground = () => {
   const [snapshots, setSnapShots] = useState([])
   const [elements, setElements] = useState([])
   const [isActive, setIsActive] = useState(false)
+  const [isHover, setIsHover]= useState(false)
 
   const handleClick = (e) => {
     setSnapShots((prev) => [...prev, { x: currentX, y: currentY }])
@@ -24,7 +25,7 @@ const BoxPlayground = () => {
     // Create a new element object
     const newElement = {
       id: elements.length + 1,
-      content: `New Element ${elements.length + 1}`,
+      content: {x: elPosition.x, y:elPosition.y},
       position: { 
         x: elPosition.x - 11 / 2, 
         y: elPosition.y - 11 / 2 },
@@ -51,7 +52,11 @@ const BoxPlayground = () => {
     setIndicY('285px')
     setIndicX('335px')
   }
+  const handleIsHover=(e)=>{
+console.log(e.target.attributes.value.value);
+setIsHover(true)
 
+  }
   const runHistory = snapshots.map((set, index) => {
     return (
       <ClickedSet key={set + index}>
@@ -62,7 +67,9 @@ const BoxPlayground = () => {
   const runElements = elements.map((element, index) => (
     <NewElement
       key={index}
+      onMouseOver={(e)=>handleIsHover(e)}
       $active={isActive}
+      value={[element.content.x , element.content.y]}
       $top={element.position.y}
       $left={element.position.x}
     />
