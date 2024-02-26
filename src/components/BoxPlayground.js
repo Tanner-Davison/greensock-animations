@@ -6,6 +6,7 @@ import text from '../styles/text'
 import getPosition from '../utils/getPosition'
 import { getDistance } from '../utils/getDistance'
 import { getAngle } from '../utils/getAngle'
+import { getSlope } from '../utils/getSlope'
 const BoxPlayground = () => {
   const [currentY, setCurrentY] = useState('250')
   const [currentX, setCurrentX] = useState('250')
@@ -153,7 +154,11 @@ const BoxPlayground = () => {
             currentSelection.map((item, index) => {
               return (
                 <ClickedPosition $top={item.x} $left={item.y}>
-                  { index === 0 ? <span style={{color:colors.primaryOrange}}> ( A )</span> : <span style={{color:colors.primaryOrange}}> ( B )</span> }
+                  {index === 0 ? (
+                    <span style={{ color: colors.primaryOrange }}> ( A )</span>
+                  ) : (
+                    <span style={{ color: colors.primaryOrange }}> ( B )</span>
+                  )}
                 </ClickedPosition>
               )
             })}
@@ -197,32 +202,33 @@ const BoxPlayground = () => {
           <Equation>
             <NumberSet>
               <Span $underline={true}>Position A:</Span>
-              {setX.x1 !== '' && setY.y1 !== '' ? 
-              <PositionReadDiv>
-                <SpannedText>
-                  <span style={{color:colors.primaryOrange}}>x :</span>
-                  {`(${setX.x1} px) ,`}
-                  <br></br>
-                  <span style={{color:'blue'}}>y :</span>
-                  {`(${setY.y1} px)`}
-                </SpannedText>
+              {setX.x1 !== '' && setY.y1 !== '' ? (
+                <PositionReadDiv>
+                  <SpannedText>
+                    <span style={{ color: colors.primaryOrange }}>x :</span>
+                    {`(${setX.x1} px) ,`}
+                    <br></br>
+                    <span style={{ color: 'blue' }}>y :</span>
+                    {`(${setY.y1} px)`}
+                  </SpannedText>
                 </PositionReadDiv>
-               : (
+              ) : (
                 'select start point'
               )}
             </NumberSet>
-            
+
             <NumberSet>
               <Span $underline={true}>Position B:</Span>
               {setX.x2 !== '' && setY.y2 !== '' ? (
                 <PositionReadDiv>
-                  <SpannedText><span style={{ color: colors.primaryOrange }}>x : </span>
-                  {`(${setX.x2} px) ,`}
-                  </SpannedText>
-      
                   <SpannedText>
-                   <span style={{color:'blue'}}>y : </span>
-                  {`(${setY.y2} px)`}
+                    <span style={{ color: colors.primaryOrange }}>x : </span>
+                    {`(${setX.x2} px) ,`}
+                  </SpannedText>
+
+                  <SpannedText>
+                    <span style={{ color: 'blue' }}>y : </span>
+                    {`(${setY.y2} px)`}
                   </SpannedText>
                 </PositionReadDiv>
               ) : (
@@ -239,7 +245,7 @@ const BoxPlayground = () => {
               {totalIsReady && (
                 <>
                   <Results>
-                    {`(${getDistance(setX.x1, setY.y1, setX.x2, setY.y2)} px)`}
+                    {`(  ${getDistance(setX.x1, setY.y1, setX.x2, setY.y2)} px )`}
                   </Results>
                 </>
               )}
@@ -252,7 +258,20 @@ const BoxPlayground = () => {
 
                 {totalIsReady && (
                   <Results>
-                    {`(${getAngle(setX.x1, setY.y1, setX.x2, setY.y2)})`}
+                    {`( ${getAngle(setX.x1, setY.y1, setX.x2, setY.y2)} °)`}
+                  </Results>
+                )}
+              </TotalDistance>
+              <TotalDistance>
+                <Span $result={true}>
+                  Total{' '}
+                  <span style={{ color: colors.primaryOrange }}> Slope</span>{' '}
+                  From A to B ={' '}
+                </Span>
+
+                {totalIsReady && (
+                  <Results>
+                    {`( ${getSlope(setX.x1, setY.y1, setX.x2, setY.y2)}%)`}
                   </Results>
                 )}
               </TotalDistance>
@@ -367,7 +386,7 @@ const TotalDistance = styled.div`
 const Span = styled.h4.attrs((props) => ({
   style: {
     color: props.$result ? `${colors.darkPurple}` : `${colors.primaryPurple}`,
-    textDecoration: props.$underline ? 'underline': 'none',
+    textDecoration: props.$underline ? 'underline' : 'none',
   },
 }))`
   ${text.h4}
@@ -380,18 +399,18 @@ const NumberSet = styled.p`
   ${text.bodyMBold}
   margin:unset;
   color: black;
-  span{
+  span {
     text-indent: 50px;
   }
 `
-const SpannedText =styled.p`
-${text.bodyMBold}
-margin: unset;
+const SpannedText = styled.p`
+  ${text.bodyMBold}
+  margin: unset;
 `
 const PositionReadDiv = styled.div`
-display: flex;
-flex-direction: column;
-padding-left:20px;
+  display: flex;
+  flex-direction: column;
+  padding-left: 20px;
 `
 const Equation = styled.div`
   display: flex;
@@ -416,7 +435,7 @@ const DisplayCalc = styled.div`
   border: 2px solid blue;
   padding-top: 40px;
   max-height: 600px;
-  height:600px
+  height: 600px;
 `
 const Reader = styled.p`
   ${text.bodyMBold}
@@ -484,7 +503,7 @@ const Boundry = styled.div.attrs((props) => ({
 const Wrapper = styled.div`
   position: relative;
   display: flex;
-  flex-direction:row-reverse;
+  flex-direction: row-reverse;
   align-items: center;
   justify-content: center;
   padding: 100px 0px;
