@@ -18,6 +18,7 @@ const BoxPlayground = () => {
   const [activeElementIndex, setIsActiveElementIndex] = useState([])
   const [recentlyDeleted, setRecentlyDeleted] = useState([])
   const [totalIsReady, setTotalIsReady] = useState(false)
+  const [sliderValue, setSliderValue] = useState(8)
   const [setX, setSetX] = useState({
     x1: '',
     x2: '',
@@ -30,6 +31,9 @@ const BoxPlayground = () => {
   const handleClick = (e) => {
     const newEl = { x: currentX, y: currentY }
     return createElement(newEl)
+  }
+  const handleSliderChange = (event) => {
+    setSliderValue(event.target.value)
   }
   const createElement = (elPosition) => {
     const newElement = {
@@ -88,6 +92,7 @@ const BoxPlayground = () => {
     let updatedElements = [...elements]
     if (updatedElements.length > 0) {
       setCurrentCollection([])
+      setIsActiveElementIndex([])
       let deleted = updatedElements.pop()
       setRecentlyDeleted((prev) => [...prev, deleted])
       setElements(updatedElements)
@@ -110,25 +115,23 @@ const BoxPlayground = () => {
     setSetX({ x1: '', x2: '' })
     setSetY({ y1: '', y2: '' })
   }
-  // const runHistory = snapshots.map((set, index) => {
-  //   return (
-  //     <ClickedSet key={set + index}>
-  //       <SetBody>{`X : ${set.x} Y : ${set.y}`}</SetBody>
-  //     </ClickedSet>
-  //   )
-  // })
-  const runElements = elements.map((element, index) => (
-    <NewElement
-      key={index}
-      onClick={(e) => handleIsSelected(e, index)}
-      $active={isActive}
-      $isindexed={activeElementIndex.includes(index)}
-      valuex={element.content.x}
-      valuey={element.content.y}
-      $top={element.position.y}
-      $left={element.position.x}
-    />
-  ))
+  const runElements = elements.map((element, index) => {
+    console.log(sliderValue)
+
+    return (
+      <NewElement
+        key={index}
+        $size={sliderValue}
+        onClick={(e) => handleIsSelected(e, index)}
+        $active={isActive}
+        $isindexed={activeElementIndex.includes(index)}
+        valuex={element.content.x}
+        valuey={element.content.y}
+        $top={element.position.y}
+        $left={element.position.x}
+      />
+    )
+  })
 
   return (
     <Wrapper>
@@ -173,19 +176,57 @@ const BoxPlayground = () => {
           <Toggle onClick={() => deleteLast()}>{'Delete last'}</Toggle>
           <Toggle onClick={() => redo()}>{'Redo Delete'}</Toggle>
         </Controls>
+        <SliderDiv>
+          <Span>Tool Width</Span>
+
+          <Slider>
+            <SpanEx>{`${sliderValue}px`}</SpanEx>
+            <input
+              type='range'
+              min='1'
+              max='17'
+              value={sliderValue}
+              onChange={handleSliderChange}
+              id='slider'
+            ></input>
+            <ElExample $size={sliderValue} />
+          </Slider>
+        </SliderDiv>
         <DistanceCalculater>
           <Equation>
             <NumberSet>
-              <Span>Position A:</Span>
-              {setX.x1 !== '' && setY.y1 !== ''
-                ? ` x:(${setX.x1} px) , y:(${setY.y1} px)`
-                : 'select start point'}
+              <Span $underline={true}>Position A:</Span>
+              {setX.x1 !== '' && setY.y1 !== '' ? 
+              <PositionReadDiv>
+                <SpannedText>
+                  <span style={{color:colors.primaryOrange}}>x :</span>
+                  {`(${setX.x1} px) ,`}
+                  <br></br>
+                  <span style={{color:'blue'}}>y :</span>
+                  {`(${setY.y1} px)`}
+                </SpannedText>
+                </PositionReadDiv>
+               : (
+                'select start point'
+              )}
             </NumberSet>
+            
             <NumberSet>
-              <Span>Position B:</Span>
-              {setX.x2 !== '' && setY.y2 !== ''
-                ? `x:(${setX.x2} px) , y:(${setY.y2} px)`
-                : 'select endpoint'}
+              <Span $underline={true}>Position B:</Span>
+              {setX.x2 !== '' && setY.y2 !== '' ? (
+                <PositionReadDiv>
+                  <SpannedText><span style={{ color: colors.primaryOrange }}>x : </span>
+                  {`(${setX.x2} px) ,`}
+                  </SpannedText>
+      
+                  <SpannedText>
+                   <span style={{color:'blue'}}>y : </span>
+                  {`(${setY.y2} px)`}
+                  </SpannedText>
+                </PositionReadDiv>
+              ) : (
+                'select endpoint'
+              )}
             </NumberSet>
             <TotalDistance>
               <Span $result={true}>
@@ -223,7 +264,40 @@ const BoxPlayground = () => {
 }
 
 export default BoxPlayground
-
+const SpanEx = styled.p`
+  ${text.bodyMBold}
+  color:${colors.grey600};
+  margin: unset;
+  box-sizing: border-box;
+  min-width: 35px;
+  text-align: center;
+`
+const ElExample = styled.div.attrs((props) => ({
+  style: {
+    width: `${props.$size}px`,
+    height: `${props.$size}px`,
+  },
+}))`
+  position: absolute;
+  left: 105%;
+  color: black;
+  border-radius: 50px;
+  border: 2px solid black;
+`
+const Slider = styled.div`
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 100%;
+`
+const SliderDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+`
 const Toggle = styled.button`
   position: relative;
   top: 5px;
@@ -243,6 +317,8 @@ const NewElement = styled.span.attrs((props) => ({
     backgroundColor: props.$isindexed
       ? `${colors.primaryOrange}`
       : 'transparent',
+    height: `${props.$size}px`,
+    width: `${props.$size}px`,
   },
 }))`
   cursor: pointer;
@@ -250,9 +326,7 @@ const NewElement = styled.span.attrs((props) => ({
   align-self: center;
   justify-self: center;
   position: absolute;
-  width: 10px;
   margin: unset;
-  height: 10px;
   justify-self: center;
   border-radius: 50px;
   border: 2px solid black;
@@ -292,6 +366,7 @@ const TotalDistance = styled.div`
 const Span = styled.h4.attrs((props) => ({
   style: {
     color: props.$result ? `${colors.darkPurple}` : `${colors.primaryPurple}`,
+    textDecoration: props.$underline ? 'underline': 'none',
   },
 }))`
   ${text.h4}
@@ -304,6 +379,18 @@ const NumberSet = styled.p`
   ${text.bodyMBold}
   margin:unset;
   color: black;
+  span{
+    text-indent: 50px;
+  }
+`
+const SpannedText =styled.p`
+${text.bodyMBold}
+margin: unset;
+`
+const PositionReadDiv = styled.div`
+display: flex;
+flex-direction: column;
+padding-left:20px;
 `
 const Equation = styled.div`
   display: flex;
