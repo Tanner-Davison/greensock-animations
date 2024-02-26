@@ -109,6 +109,7 @@ const BoxPlayground = () => {
   const resetAll = () => {
     setElements([])
     setRecentlyDeleted([])
+    setIsActive(false)
     setCurrentCollection([])
     setIsActiveElementIndex([])
     setTotalIsReady(false)
@@ -152,7 +153,7 @@ const BoxPlayground = () => {
             currentSelection.map((item, index) => {
               return (
                 <ClickedPosition $top={item.x} $left={item.y}>
-                  {`( ${index === 0 ? 'A' : 'B'} )`}
+                  { index === 0 ? <span style={{color:colors.primaryOrange}}> ( A )</span> : <span style={{color:colors.primaryOrange}}> ( B )</span> }
                 </ClickedPosition>
               )
             })}
@@ -410,10 +411,12 @@ const DisplayCalc = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: start;
   width: 300px;
   border: 2px solid blue;
   padding-top: 40px;
+  max-height: 600px;
+  height:600px
 `
 const Reader = styled.p`
   ${text.bodyMBold}
@@ -481,7 +484,7 @@ const Boundry = styled.div.attrs((props) => ({
 const Wrapper = styled.div`
   position: relative;
   display: flex;
-  flex-direction: column;
+  flex-direction:row-reverse;
   align-items: center;
   justify-content: center;
   padding: 100px 0px;
