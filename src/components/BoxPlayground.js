@@ -1,41 +1,41 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import colors from '../styles/colors'
-
+import media from '../styles/media'
 import text from '../styles/text'
 import getPosition from '../utils/getPosition'
 import { getDistance } from '../utils/getDistance'
 import { getAngle } from '../utils/getAngle'
 import { getSlope } from '../utils/getSlope'
 const BoxPlayground = () => {
-  const [currentY, setCurrentY] = useState('250')
-  const [currentX, setCurrentX] = useState('250')
-  const [indicX, setIndicX] = useState('335px')
-  const [indicY, setIndicY] = useState('285px')
-  const [elements, setElements] = useState([])
-  const [isActive, setIsActive] = useState(false)
-  const [isHover, setIsHover] = useState(false)
-  const [currentSelection, setCurrentCollection] = useState([])
-  const [activeElementIndex, setIsActiveElementIndex] = useState([])
-  const [recentlyDeleted, setRecentlyDeleted] = useState([])
-  const [totalIsReady, setTotalIsReady] = useState(false)
-  const [sliderValue, setSliderValue] = useState(8)
+  const [currentY, setCurrentY] = useState("250");
+  const [currentX, setCurrentX] = useState("250");
+  const [indicX, setIndicX] = useState("335px");
+  const [indicY, setIndicY] = useState("285px");
+  const [elements, setElements] = useState([]);
+  const [isActive, setIsActive] = useState(false);
+  const [isHover, setIsHover] = useState(false);
+  const [currentSelection, setCurrentCollection] = useState([]);
+  const [activeElementIndex, setIsActiveElementIndex] = useState([]);
+  const [recentlyDeleted, setRecentlyDeleted] = useState([]);
+  const [totalIsReady, setTotalIsReady] = useState(false);
+  const [sliderValue, setSliderValue] = useState(8);
   const [setX, setSetX] = useState({
-    x1: '',
-    x2: '',
-  })
+    x1: "",
+    x2: "",
+  });
   const [setY, setSetY] = useState({
-    y1: '',
-    y2: '',
-  })
+    y1: "",
+    y2: "",
+  });
 
   const handleClick = (e) => {
-    const newEl = { x: currentX, y: currentY }
-    return createElement(newEl)
-  }
+    const newEl = { x: currentX, y: currentY };
+    return createElement(newEl);
+  };
   const handleSliderChange = (event) => {
-    setSliderValue(event.target.value)
-  }
+    setSliderValue(event.target.value);
+  };
   const createElement = (elPosition) => {
     const newElement = {
       id: elements.length + 1,
@@ -44,80 +44,82 @@ const BoxPlayground = () => {
         x: elPosition.x - 11 / 2,
         y: elPosition.y - 11 / 2,
       },
-    }
-    setElements((prevElements) => [...prevElements, newElement])
-  }
+    };
+    setElements((prevElements) => [...prevElements, newElement]);
+  };
   const handleOnBoundryMove = (e) => {
     if (isActive) {
-      return
+      return;
     }
-    const positions = getPosition(e)
-    setCurrentY(`${positions.y}`)
-    setCurrentX(`${positions.x}`)
-    setIndicX(`${positions.y - -80}px`)
-    setIndicY(`${positions.x - -35}px`)
-  }
+    const positions = getPosition(e);
+    setCurrentY(`${positions.y}`);
+    setCurrentX(`${positions.x}`);
+    setIndicX(`${positions.y - -80}px`);
+    setIndicY(`${positions.x - -35}px`);
+  };
   const handleOnBoundryLeave = () => {
-    setCurrentX('250')
-    setCurrentY('250')
-    setIndicY('285px')
-    setIndicX('335px')
-  }
+    setCurrentX("250");
+    setCurrentY("250");
+    setIndicY("285px");
+    setIndicX("335px");
+  };
   const handleIsSelected = (e, index) => {
     if (totalIsReady) {
-      setTotalIsReady(false)
-      setSetX({ x1: '', x2: '' })
-      setSetY({ y1: '', y2: '' })
-      setIsHover(false)
-      setCurrentCollection([])
-      setIsActiveElementIndex([])
-      return
+      setTotalIsReady(false);
+      setSetX({ x1: "", x2: "" });
+      setSetY({ y1: "", y2: "" });
+      setIsHover(false);
+      setCurrentCollection([]);
+      setIsActiveElementIndex([]);
+      return;
     }
-    setIsActiveElementIndex((prev) => [...prev, index])
-    let x = e.target.attributes.valuex.value
-    let y = e.target.attributes.valuey.value
-    if (setX.x1 === '' && setY.y1 === '') {
-      setSetX((prev) => ({ ...prev, x1: x }))
-      setSetY((prev) => ({ ...prev, y1: y }))
+    setIsActiveElementIndex((prev) => [...prev, index]);
+    let x = e.target.attributes.valuex.value;
+    let y = e.target.attributes.valuey.value;
+    if (setX.x1 === "" && setY.y1 === "") {
+      setSetX((prev) => ({ ...prev, x1: x }));
+      setSetY((prev) => ({ ...prev, y1: y }));
     } else {
-      setSetX((prev) => ({ ...prev, x2: x }))
-      setSetY((prev) => ({ ...prev, y2: y }))
-      setTotalIsReady(true)
+      setSetX((prev) => ({ ...prev, x2: x }));
+      setSetY((prev) => ({ ...prev, y2: y }));
+      setTotalIsReady(true);
     }
 
-    setCurrentCollection((prev) => [...prev, { x, y }])
-    setIsHover(true)
-  }
+    setCurrentCollection((prev) => [...prev, { x, y }]);
+    setIsHover(true);
+  };
 
   const deleteLast = () => {
-    let updatedElements = [...elements]
+    let updatedElements = [...elements];
     if (updatedElements.length > 0) {
-      setCurrentCollection([])
-      setIsActiveElementIndex([])
-      let deleted = updatedElements.pop()
-      setRecentlyDeleted((prev) => [...prev, deleted])
-      setElements(updatedElements)
+      setCurrentCollection([]);
+      setIsActiveElementIndex([]);
+      let deleted = updatedElements.pop();
+      setRecentlyDeleted((prev) => [...prev, deleted]);
+      setElements(updatedElements);
     }
-  }
+  };
   const redo = () => {
-    let deletedElements = [...recentlyDeleted]
+    let deletedElements = [...recentlyDeleted];
     if (deletedElements.length > 0) {
-      let reDoELement = deletedElements.pop()
-      setElements((prev) => [...prev, reDoELement])
-      setRecentlyDeleted(deletedElements)
+      let reDoELement = deletedElements.pop();
+      setElements((prev) => [...prev, reDoELement]);
+      setRecentlyDeleted(deletedElements);
     }
-  }
+  };
   const resetAll = () => {
-    setElements([])
-    setRecentlyDeleted([])
-    setIsActive(false)
-    setCurrentCollection([])
-    setIsActiveElementIndex([])
-    setTotalIsReady(false)
-    setSetX({ x1: '', x2: '' })
-    setSetY({ y1: '', y2: '' })
-  }
+    setElements([]);
+    setRecentlyDeleted([]);
+    setIsActive(false);
+    setCurrentCollection([]);
+    setIsActiveElementIndex([]);
+    setTotalIsReady(false);
+    setSetX({ x1: "", x2: "" });
+    setSetY({ y1: "", y2: "" });
+  };
   const runElements = elements.map((element, index) => {
+    console.log(sliderValue)
+
     return (
       <NewElement
         key={index}
@@ -130,16 +132,24 @@ const BoxPlayground = () => {
         $top={element.position.y}
         $left={element.position.x}
       />
-    )
-  })
+    );
+  });
 
   return (
     <Wrapper>
       <BoundryWrapper>
+        <Controls>
+          <Toggle onClick={() => setIsActive(!isActive)}>
+            {"edit mode (on/off)"}
+          </Toggle>
+          <Toggle onClick={() => resetAll()}>{"reset"}</Toggle>
+          <Toggle onClick={() => deleteLast()}>{"Delete last"}</Toggle>
+          <Toggle onClick={() => redo()}>{"Redo Delete"}</Toggle>
+        </Controls>
         <Reader>
           {!isActive
             ? `X : ( ${currentX} ) , Y : ( ${currentY} ) `
-            : 'In edit mode '}
+            : "In edit mode "}
         </Reader>
         <Boundry
           onMouseMove={(e) => handleOnBoundryMove(e)}
@@ -158,40 +168,32 @@ const BoxPlayground = () => {
                     <span style={{ color: colors.primaryOrange }}> ( B )</span>
                   )}
                 </ClickedPosition>
-              )
+              );
             })}
           <XAxis $top={`${currentY}`} />
           <YAxis $left={`${currentX}`} />
         </Boundry>
-        <Indicator className='indicX' $topX={`${indicX}`}>
-          {'X'}
+        <Indicator className="indicX" $topX={`${indicX}`}>
+          {"X"}
         </Indicator>
-        <Indicator className='indicY' $topY={`${indicY}`}>
-          {'Y'}
+        <Indicator className="indicY" $topY={`${indicY}`}>
+          {"Y"}
         </Indicator>
       </BoundryWrapper>
 
       <DisplayCalc>
-        <Controls>
-          <Toggle onClick={() => setIsActive(!isActive)}>
-            {'edit mode (on/off)'}
-          </Toggle>
-          <Toggle onClick={() => resetAll()}>{'reset'}</Toggle>
-          <Toggle onClick={() => deleteLast()}>{'Delete last'}</Toggle>
-          <Toggle onClick={() => redo()}>{'Redo Delete'}</Toggle>
-        </Controls>
         <SliderDiv>
           <Span>Tool Width</Span>
 
           <Slider>
             <SpanEx>{`${sliderValue}px`}</SpanEx>
             <input
-              type='range'
-              min='1'
-              max='17'
+              type="range"
+              min="1"
+              max="17"
               value={sliderValue}
               onChange={handleSliderChange}
-              id='slider'
+              id="slider"
             ></input>
             <ElExample $size={sliderValue} />
           </Slider>
@@ -200,24 +202,24 @@ const BoxPlayground = () => {
           <Equation>
             <NumberSet>
               <Span $underline={true}>Position A:</Span>
-              {setX.x1 !== '' && setY.y1 !== '' ? (
+              {setX.x1 !== "" && setY.y1 !== "" ? (
                 <PositionReadDiv>
                   <SpannedText>
                     <span style={{ color: colors.primaryOrange }}>x :</span>
                     {`(${setX.x1} px) ,`}
                     <br></br>
-                    <span style={{ color: 'blue' }}>y :</span>
+                    <span style={{ color: "blue" }}>y :</span>
                     {`(${setY.y1} px)`}
                   </SpannedText>
                 </PositionReadDiv>
               ) : (
-                'select start point'
+                "select start point"
               )}
             </NumberSet>
 
             <NumberSet>
               <Span $underline={true}>Position B:</Span>
-              {setX.x2 !== '' && setY.y2 !== '' ? (
+              {setX.x2 !== "" && setY.y2 !== "" ? (
                 <PositionReadDiv>
                   <SpannedText>
                     <span style={{ color: colors.primaryOrange }}>x : </span>
@@ -225,38 +227,33 @@ const BoxPlayground = () => {
                   </SpannedText>
 
                   <SpannedText>
-                    <span style={{ color: 'blue' }}>y : </span>
+                    <span style={{ color: "blue" }}>y : </span>
                     {`(${setY.y2} px)`}
                   </SpannedText>
                 </PositionReadDiv>
               ) : (
-                'select endpoint'
+                "select endpoint"
               )}
             </NumberSet>
             <TotalDistance>
               <Span $result={true}>
-                Total{' '}
-                <span style={{ color: colors.primaryOrange }}> Distance</span>{' '}
-                From A to B ={' '}
+                Total{" "}
+                <span style={{ color: colors.primaryOrange }}> Distance</span>{" "}
+                From A to B ={" "}
               </Span>
 
               {totalIsReady && (
                 <>
                   <Results>
-                    {`(  ${getDistance(
-                      setX.x1,
-                      setY.y1,
-                      setX.x2,
-                      setY.y2,
-                    )} px )`}
+                    {`(  ${getDistance(setX.x1, setY.y1, setX.x2, setY.y2)} px )`}
                   </Results>
                 </>
               )}
               <TotalDistance>
                 <Span $result={true}>
-                  Total{' '}
-                  <span style={{ color: colors.primaryOrange }}> Angle</span>{' '}
-                  From A to B ={' '}
+                  Total{" "}
+                  <span style={{ color: colors.primaryOrange }}> Angle</span>{" "}
+                  From A to B ={" "}
                 </Span>
 
                 {totalIsReady && (
@@ -267,9 +264,9 @@ const BoxPlayground = () => {
               </TotalDistance>
               <TotalDistance>
                 <Span $result={true}>
-                  Total{' '}
-                  <span style={{ color: colors.primaryOrange }}> Slope</span>{' '}
-                  From A to B ={' '}
+                  Total{" "}
+                  <span style={{ color: colors.primaryOrange }}> Slope</span>{" "}
+                  From A to B ={" "}
                 </Span>
 
                 {totalIsReady && (
@@ -283,10 +280,10 @@ const BoxPlayground = () => {
         </DistanceCalculater>
       </DisplayCalc>
     </Wrapper>
-  )
-}
+  );
+};
 
-export default BoxPlayground
+export default BoxPlayground;
 const SpanEx = styled.p`
   ${text.bodyMBold}
   color:${colors.grey600};
@@ -294,7 +291,7 @@ const SpanEx = styled.p`
   box-sizing: border-box;
   min-width: 35px;
   text-align: center;
-`
+`;
 const ElExample = styled.div.attrs((props) => ({
   style: {
     width: `${props.$size}px`,
@@ -306,40 +303,54 @@ const ElExample = styled.div.attrs((props) => ({
   color: black;
   border-radius: 50px;
   border: 2px solid black;
-`
+`;
 const Slider = styled.div`
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
   max-width: 100%;
-`
+`;
 const SliderDiv = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   margin-bottom: 20px;
-`
+`;
 const Toggle = styled.button`
   position: relative;
   top: 5px;
   display: flex;
-`
+  height: 78px;
+  width: 100px;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  ${text.bodyMBold}
+`;
 const Controls = styled.div`
-  position: relative;
+  position: absolute;
   display: flex;
-  top: -25px;
-  width: 200px;
-`
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  text-align: center;
+
+  height: 500px;
+  gap: 20px;
+top:100px;
+  right: -55px;
+  width: 100px;
+`;
 const NewElement = styled.span.attrs((props) => ({
   style: {
     top: props.$top,
     left: props.$left,
-    pointerEvents: props.$active ? 'visible' : 'none',
+    pointerEvents: props.$active ? "visible" : "none",
     backgroundColor: props.$isindexed
       ? `${colors.primaryOrange}`
-      : 'transparent',
+      : "transparent",
     height: `${props.$size}px`,
     width: `${props.$size}px`,
   },
@@ -355,11 +366,11 @@ const NewElement = styled.span.attrs((props) => ({
   border: 2px solid black;
   z-index: -1;
   background-color: ${(props) =>
-    props.$isHover ? `${colors.primaryOrange}` : 'transparent'};
+    props.$isHover ? `${colors.primaryOrange}` : "transparent"};
   &:hover {
     background-color: green;
   }
-`
+`;
 const ClickedPosition = styled.p.attrs((props) => ({
   style: {
     top: `${props.$left - -8}px`,
@@ -371,13 +382,13 @@ const ClickedPosition = styled.p.attrs((props) => ({
   position: absolute;
   margin: unset;
   color: black;
-`
+`;
 const Results = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
   ${text.h4};
-`
+`;
 const TotalDistance = styled.div`
   display: flex;
   flex-direction: column;
@@ -385,11 +396,11 @@ const TotalDistance = styled.div`
   gap: 10px;
   ${text.bodyMBold};
   color: ${colors.primaryTeal};
-`
+`;
 const Span = styled.h4.attrs((props) => ({
   style: {
     color: props.$result ? `${colors.darkPurple}` : `${colors.primaryPurple}`,
-    textDecoration: props.$underline ? 'underline' : 'none',
+    textDecoration: props.$underline ? "underline" : "none",
   },
 }))`
   ${text.h4}
@@ -397,7 +408,7 @@ const Span = styled.h4.attrs((props) => ({
   color: ${colors.primaryPurple};
   align-self: center;
   justify-self: center;
-`
+`;
 const NumberSet = styled.p`
   ${text.bodyMBold}
   margin:unset;
@@ -405,16 +416,16 @@ const NumberSet = styled.p`
   span {
     text-indent: 50px;
   }
-`
+`;
 const SpannedText = styled.p`
   ${text.bodyMBold}
   margin: unset;
-`
+`;
 const PositionReadDiv = styled.div`
   display: flex;
   flex-direction: column;
   padding-left: 20px;
-`
+`;
 const Equation = styled.div`
   display: flex;
   flex-direction: column;
@@ -423,11 +434,11 @@ const Equation = styled.div`
   justify-content: start;
   ${text.bodyMBold};
   color: black;
-`
+`;
 const DistanceCalculater = styled.div`
   display: flex;
   flex-direction: column;
-`
+`;
 const DisplayCalc = styled.div`
   position: relative;
   display: flex;
@@ -439,14 +450,14 @@ const DisplayCalc = styled.div`
   padding-top: 40px;
   max-height: 600px;
   height: 600px;
-`
+`;
 const Reader = styled.p`
   ${text.bodyMBold}
-`
+`;
 const Indicator = styled.h2.attrs((props) => ({
   style: {
     top: props.$topX ? `${props.$topX}` : `82%`,
-    left: props.$topY ? `${props.$topY}` : '1%',
+    left: props.$topY ? `${props.$topY}` : "1%",
   },
 }))`
   pointer-events: none;
@@ -454,11 +465,11 @@ const Indicator = styled.h2.attrs((props) => ({
   margin: unset;
 
   ${text.h2}
-`
+`;
 
 const YAxis = styled.span.attrs((props) => ({
   style: {
-    left: props.$left ? `${props.$left}px` : '50%',
+    left: props.$left ? `${props.$left}px` : "50%",
   },
 }))`
   pointer-events: none;
@@ -467,11 +478,11 @@ const YAxis = styled.span.attrs((props) => ({
   width: 2px;
   background-color: black;
   z-index: 100;
-`
+`;
 
 const XAxis = styled.span.attrs((props) => ({
   style: {
-    top: props.$top ? `${props.$top}px` : '50%',
+    top: props.$top ? `${props.$top}px` : "50%",
   },
 }))`
   pointer-events: none;
@@ -480,35 +491,35 @@ const XAxis = styled.span.attrs((props) => ({
   height: 2px;
   background-color: black;
   z-index: 100;
-`
+`;
 const BoundryWrapper = styled.div`
   position: relative;
   display: flex;
   flex-direction: column;
 
   padding: 50px;
-`
+`;
 const Boundry = styled.div.attrs((props) => ({
   style: {
-    backgroundColor: props.$active ? 'lightgray' : 'transparent',
+    backgroundColor: props.$active ? "lightgray" : "transparent",
   },
 }))`
   position: relative;
   display: flex;
   overflow: hidden;
+  background-color: transparent;
   width: 500px;
   height: 500px;
   border: 2px solid red;
-  margin-bottom: 80px;
-  background-color: transparent;
+  margin-bottom: 5.556vw;
   z-index: 100;
-`
+`;
 const Wrapper = styled.div`
   position: relative;
   display: flex;
   flex-direction: row-reverse;
   align-items: center;
   justify-content: center;
-  padding: 100px 0px;
+  padding: 6.944vw 0vw;
   z-index: 1;
-`
+`;
