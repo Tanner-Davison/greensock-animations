@@ -159,8 +159,11 @@ const CustomCarousel = ({ scrollto }) => {
         key={imgObj.id}
         className={`box box${index < 9 ? '0' : ''}${index + 1}`}
       >
-        <Image $srcurl={imgObj.img} $altTag={imgObj.img} 
-        onClick={(e)=>getPosition(e)}/>
+        <Image
+          $srcurl={imgObj.img}
+          $altTag={imgObj.img}
+          onClick={(e) => getPosition(e)}
+        />
         <ContentDiv>
           <ContentHeadline>{imgObj.Header}</ContentHeadline>
           <ContentBody>{imgObj.Body}</ContentBody>

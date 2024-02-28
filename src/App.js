@@ -1,7 +1,13 @@
 import React from 'react'
-import CustomCarousel from './components/CustomCarousel'
-import LogosContainer from './components/LogosContainer'
-import BoxPlayground from './components/BoxPlayground'
+import HomePage from './pages/HomePage'
+import Playground from './pages/Playground'
+
+import {
+  createBrowserRouter,
+  createRoutesFromElements,
+  Route,
+  RouterProvider,
+} from 'react-router-dom'
 
 const scrollToSection = (sectionId) => {
   const element = document.getElementById(sectionId)
@@ -13,11 +19,17 @@ const scrollToSection = (sectionId) => {
 }
 
 function App() {
+  const router = createBrowserRouter(
+    createRoutesFromElements(
+      <>
+        <Route path='/' element={<HomePage scrollto={scrollToSection} />} />,
+        <Route path='/boxPlayground' element={<Playground/>}/>,
+      </>,
+    ),
+  )
   return (
     <>
-      <CustomCarousel scrollto={scrollToSection} />
-      <LogosContainer scrollto={scrollToSection} />
-      <BoxPlayground scrollto={scrollToSection}/>
+      <RouterProvider router={router} />
     </>
   )
 }

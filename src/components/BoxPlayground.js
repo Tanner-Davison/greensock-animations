@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import colors from '../styles/colors'
-import media from '../styles/media'
+
 import text from '../styles/text'
 import getPosition from '../utils/getPosition'
 import { getDistance } from '../utils/getDistance'
@@ -118,8 +118,6 @@ const BoxPlayground = () => {
     setSetY({ y1: '', y2: '' })
   }
   const runElements = elements.map((element, index) => {
-    console.log(sliderValue)
-
     return (
       <NewElement
         key={index}
@@ -245,7 +243,12 @@ const BoxPlayground = () => {
               {totalIsReady && (
                 <>
                   <Results>
-                    {`(  ${getDistance(setX.x1, setY.y1, setX.x2, setY.y2)} px )`}
+                    {`(  ${getDistance(
+                      setX.x1,
+                      setY.y1,
+                      setX.x2,
+                      setY.y2,
+                    )} px )`}
                   </Results>
                 </>
               )}
