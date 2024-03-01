@@ -8,12 +8,13 @@ const NavigationBar = () => {
     const navigate = useNavigate();
   const links = [
     { name: 'Home',link:'/' },
-    { name: 'Box-Playground', link: '/boxPlayground'  },
+    { name: 'Box-Playground', link: '/box-playground'},
+  {name: 'In progress', link: '/in-progress'}
   ]
 
   const displayNavNames = links.map((link, index) =>{
     return (
-        <LinkName onClick={()=>navigate(link.link)}> {link.name}</LinkName>
+        <LinkName key={index} onClick={()=>navigate(link.link)}> {link.name}</LinkName>
     )
   })
   return <Wrapper>{displayNavNames}</Wrapper>

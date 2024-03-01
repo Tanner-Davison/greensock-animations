@@ -342,11 +342,11 @@ const Controls = styled.div`
   justify-content: space-between;
   text-align: center;
 
-  height: 500px;
-  gap: 20px;
-top:100px;
-  right: -55px;
-  width: 100px;
+  height: 34.722vw;
+  gap: 1.389vw;
+  top: 9.944vw;
+  right: -3.819vw;
+  width: 6.944vw;
 `;
 const NewElement = styled.span.attrs((props) => ({
   style: {
@@ -468,7 +468,6 @@ const Indicator = styled.h2.attrs((props) => ({
   pointer-events: none;
   position: absolute;
   margin: unset;
-
   ${text.h2}
 `;
 
@@ -479,10 +478,19 @@ const YAxis = styled.span.attrs((props) => ({
 }))`
   pointer-events: none;
   position: absolute;
-  height: 500px;
-  width: 2px;
   background-color: black;
   z-index: 100;
+  height: 100%;
+  width: 0.139vw;
+  ${media.fullWidth} {
+    width: 0.139vw;
+  }
+
+  ${media.tablet} {
+  }
+
+  ${media.mobile} {
+  }
 `;
 
 const XAxis = styled.span.attrs((props) => ({
@@ -492,17 +500,35 @@ const XAxis = styled.span.attrs((props) => ({
 }))`
   pointer-events: none;
   position: absolute;
-  width: 500px;
-  height: 2px;
   background-color: black;
+  width: 100%;
+  height: 0.139vw;
   z-index: 100;
+  ${media.fullWidth} {
+    height: 2px;
+  }
+
+  ${media.tablet} {
+  }
+
+  ${media.mobile} {
+  }
 `;
 const BoundryWrapper = styled.div`
   position: relative;
   display: flex;
   flex-direction: column;
 
-  padding: 50px;
+  padding: 3.472vw;
+  ${media.fullWidth} {
+    padding: 50px;
+  }
+
+  ${media.tablet} {
+  }
+
+  ${media.mobile} {
+  }
 `;
 const Boundry = styled.div.attrs((props) => ({
   style: {
@@ -513,11 +539,22 @@ const Boundry = styled.div.attrs((props) => ({
   display: flex;
   overflow: hidden;
   background-color: transparent;
+  border: 2px solid red;
   width: 500px;
   height: 500px;
-  border: 2px solid red;
   margin-bottom: 5.556vw;
   z-index: 100;
+  ${media.fullWidth} {
+    width: 500px;
+    height: 500px;
+    margin-bottom: 80px;
+  }
+
+  ${media.tablet} {
+  }
+
+  ${media.mobile} {
+  }
 `;
 const Wrapper = styled.div`
   position: relative;
@@ -527,4 +564,13 @@ const Wrapper = styled.div`
   justify-content: center;
   padding: 6.944vw 0vw;
   z-index: 1;
+  ${media.fullWidth} {
+    padding: 100px 0px;
+  }
+
+  ${media.tablet} {
+  }
+
+  ${media.mobile} {
+  }
 `;

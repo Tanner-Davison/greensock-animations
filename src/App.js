@@ -1,6 +1,7 @@
 import React from 'react'
 import HomePage from './pages/HomePage'
 import Playground from './pages/Playground'
+import inProgress from './pages/InProgress'
 
 import {
   createBrowserRouter,
@@ -8,6 +9,7 @@ import {
   Route,
   RouterProvider,
 } from 'react-router-dom'
+import InProgress from './pages/InProgress'
 
 const scrollToSection = (sectionId) => {
   const element = document.getElementById(sectionId)
@@ -23,7 +25,8 @@ function App() {
     createRoutesFromElements(
       <>
         <Route path='/' element={<HomePage scrollto={scrollToSection} />} />,
-        <Route path='/boxPlayground' element={<Playground/>}/>,
+        <Route path='/box-playground' element={<Playground/>}/>,
+        <Route path='/in-progress' element={<InProgress/>}/>,
       </>,
     ),
   )
