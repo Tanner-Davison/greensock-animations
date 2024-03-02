@@ -32,7 +32,7 @@ const Wrapper = styled.div`
   align-items: center;
   justify-content: center;
   gap:30px;
-  width: 100vw;
+  max-width: 100vw;
   height: 10vw;
   border: 1px solid red;
 
