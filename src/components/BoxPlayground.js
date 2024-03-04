@@ -117,6 +117,8 @@ const BoxPlayground = () => {
   const resetAll = () => {
     setElements([]);
     setRecentlyDeleted([]);
+    setLineEnd({x:'',y:''})
+    setLineStart({x:'',y:''})
     setIsActive(false);
     setCurrentCollection([]);
     setIsActiveElementIndex([]);
@@ -418,11 +420,13 @@ const Span = styled.h4.attrs((props) => ({
     textDecoration: props.$underline ? "underline" : "none",
   },
 }))`
+  position: relative;
   ${text.h4}
   margin:unset;
   color: ${colors.primaryPurple};
   align-self: center;
   justify-self: center;
+  z-index: 100;
 `;
 const NumberSet = styled.p`
   ${text.bodyMBold}
@@ -553,7 +557,7 @@ const Boundry = styled.div.attrs((props) => ({
   width: 500px;
   height: 500px;
   margin-bottom: 5.556vw;
-  z-index: 100;
+  z-index: 1;
   ${media.fullWidth} {
     width: 500px;
     height: 500px;
