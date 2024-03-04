@@ -4,6 +4,7 @@ import colors from "../styles/colors";
 import media from "../styles/media";
 import text from "../styles/text";
 import getPosition from "../utils/getPosition";
+import {Line} from './Line'
 import { getDistance } from "../utils/getDistance";
 import { getAngle } from "../utils/getAngle";
 import { getSlope } from "../utils/getSlope";
@@ -12,6 +13,8 @@ const BoxPlayground = () => {
   const [currentX, setCurrentX] = useState("250");
   const [indicX, setIndicX] = useState("335px");
   const [indicY, setIndicY] = useState("285px");
+  const [lineStart, setLineStart] = useState({x:'',y:''});
+  const [lineEnd, setLineEnd]= useState({x:'',y:''});
   const [elements, setElements] = useState([]);
   const [isActive, setIsActive] = useState(false);
   const [isHover, setIsHover] = useState(false);
@@ -69,6 +72,8 @@ const BoxPlayground = () => {
       setSetX({ x1: "", x2: "" });
       setSetY({ y1: "", y2: "" });
       setIsHover(false);
+      setLineStart({x:'',y:''})
+      setLineEnd({x:'',y:''})
       setCurrentCollection([]);
       setIsActiveElementIndex([]);
       return;
@@ -79,9 +84,11 @@ const BoxPlayground = () => {
     if (setX.x1 === "" && setY.y1 === "") {
       setSetX((prev) => ({ ...prev, x1: x }));
       setSetY((prev) => ({ ...prev, y1: y }));
+      setLineStart({x:x, y:y})
     } else {
       setSetX((prev) => ({ ...prev, x2: x }));
       setSetY((prev) => ({ ...prev, y2: y }));
+      setLineEnd({x:x,y:y})
       setTotalIsReady(true);
     }
 
@@ -170,6 +177,9 @@ const BoxPlayground = () => {
                 </ClickedPosition>
               );
             })}
+            {lineStart.x !== '' && lineEnd.x !=='' &&(
+              <Line start={lineStart} end={lineEnd}/>
+            )}
           <XAxis $top={`${currentY}`} />
           <YAxis $left={`${currentX}`} />
         </Boundry>

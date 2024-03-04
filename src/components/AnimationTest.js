@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect,useRef } from "react";
 import NavigationBar from "./NavigationBar";
 import styled from "styled-components";
 import media from "../styles/media";
@@ -7,14 +7,18 @@ import text from "../styles/text";
 import getMedia from "../utils/getMedia";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
+
 gsap.registerPlugin(ScrollTrigger);
 const AnimationTest = () => {
+  const container = useRef()
+
   const boxes = new Array(6).fill("");
   const runBoxes = boxes.map((box, index) => {
     return <Box key={index} id={`boxes`} className="boxClass"></Box>;
   });
 
-  useEffect(() => {
+  useGSAP(() => {
     const xValue = getMedia(-620, -500, -340, -170);
     const additionOne = getMedia(120, 100, 80, 40);
     const additionTwo = getMedia(240, 200, 150, 75);
@@ -221,11 +225,11 @@ const AnimationTest = () => {
         "<"
       );
     // boxTl.play("test");
-  }, []);
+  }, {scope:container});
   return (
     <>
       <NavigationBar />
-      <Wrapper>
+      <Wrapper ref={container}>
         <BoxesWrapper className={"boxesDiv"}>{runBoxes}</BoxesWrapper>
       </Wrapper>
     </>
