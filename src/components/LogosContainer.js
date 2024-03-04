@@ -44,7 +44,7 @@ const LogosContainer = () => {
         toggleActions: 'play none none reverse',
       },
     })
-    tl.to(
+    tl.to( 
       CTAslider,
       {
         yPercent: getMedia(130, 130, 0, 125),
