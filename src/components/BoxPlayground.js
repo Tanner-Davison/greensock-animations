@@ -76,7 +76,7 @@ const BoxPlayground = () => {
       setLineEnd({x:'',y:''})
       setCurrentCollection([]);
       setIsActiveElementIndex([]);
-      return;
+      return
     }
     setIsActiveElementIndex((prev) => [...prev, index]);
     let x = e.target.attributes.valuex.value;
