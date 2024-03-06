@@ -386,12 +386,12 @@ const Toggle = styled.button`
   height: 5vw;
   width: 5.972vw;
   padding: 0.3vw 0vw;
-  transition: transform 0.3s ease-in-out;
+  transition: border 1s ease-in-out, transform 0.2s ease-in-out;
   &:hover {
-    transform: scale(0.9);
+    transform: scale(0.95);
     -webkit-box-shadow: inset 0px 0px 15px 0px rgba(0, 0, 0, 0.43);
     box-shadow: inset 0px 0px 15px 0px rgba(0, 0, 0, 0.43);
-    border: 3px solid black;
+    border: 2px inset black;
   }
   ${media.fullWidth} {
     border-radius: 15px;
@@ -417,7 +417,7 @@ const Controls = styled.div`
   box-shadow: -1px 5px 15px -3px #000000;
   background-color: #2f3334;
   border: 4px solid #3e3852;
-  border-radius: 30px;
+  border-radius: 20px;
   padding: 1.4vw 0.3vw;
   max-height: 34.722vw;
   gap: 0.4vw;
