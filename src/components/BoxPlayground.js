@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import colors from '../styles/colors'
 import media from '../styles/media'
@@ -13,11 +13,12 @@ import { getDistance } from '../utils/getDistance'
 import { getAngle } from '../utils/getAngle'
 import { getSlope } from '../utils/getSlope'
 import getMedia from '../utils/getMedia'
+import useMedia from '../utils/useMedia.js'
 import { gsap } from 'gsap'
 const BoxPlayground = () => {
   const [currentY, setCurrentY] = useState('250')
   const [currentX, setCurrentX] = useState('250')
-  const [indicX, setIndicX] = useState('50.5%')
+  const [indicX, setIndicX] = useState('52%')
   const [indicY, setIndicY] = useState('48%')
   const [lineStart, setLineStart] = useState({ x: '', y: '' })
   const [lineEnd, setLineEnd] = useState({ x: '', y: '' })
@@ -30,7 +31,11 @@ const BoxPlayground = () => {
   const [recentlyDeleted, setRecentlyDeleted] = useState([])
   const [totalIsReady, setTotalIsReady] = useState(false)
   const [sliderValue, setSliderValue] = useState(8)
-
+  const [controlValues, setControlValues] = useState('')
+  useEffect(() => {
+    const values = getMedia('45%', '32%', '32%', '32%')
+    setControlValues(values)
+  }, [])
   const [setX, setSetX] = useState({
     x1: '',
     x2: '',
@@ -140,13 +145,16 @@ const BoxPlayground = () => {
       gsap.fromTo(
         `#Layer_1Reset`,
         { rotate: 0 },
-        { rotate: 260, transformOrigin: '50% 50%' },
+        {
+          rotate: 360,
+          transformOrigin: '50% 50%',
+          duration: 1.5,
+          ease: 'back.out',
+        },
       )
     }
   }
   const runElements = elements.map((element, index) => {
-    console.log(sliderValue)
-
     return (
       <NewElement
         key={index}
@@ -165,9 +173,9 @@ const BoxPlayground = () => {
   return (
     <Wrapper>
       <BoundryWrapper>
-        <Controls>
+        <Controls $topValues={controlValues}>
           <Toggle onClick={() => setIsActive(!isActive)}>
-            edit <EditTool />
+            edit <EditTool widths={'100%'} heights={'100%'} />
           </Toggle>
           <Toggle
             id={'resetTarget'}
@@ -176,20 +184,22 @@ const BoxPlayground = () => {
             onMouseEnter={(e) => handleToolEnter(e)}
           >
             reset{' '}
-            <ResetTool id={'resetTool'} widths={'100px'} heights={'100px'} />
+            <ResetTool id={'resetTool'} widths={'100%'} heights={'100%'} />
           </Toggle>
           <Toggle onClick={() => deleteLast()}>
-            delete <DeleteTool />
+            delete <DeleteTool widths={'100%'} heights={'100%'} />
           </Toggle>
           <Toggle onClick={() => redo()}>
-            redo <UndoTool />
+            redo <UndoTool widths={'100%'} heights={'100%'} />
           </Toggle>
         </Controls>
-        <Reader>
-          {!isActive
-            ? `X : ( ${currentX} ) , Y : ( ${currentY} ) `
-            : 'In edit mode '}
-        </Reader>
+        <ReaderContainer>
+          <Reader>
+            {!isActive
+              ? `X : ( ${currentX} ) , Y : ( ${currentY} ) `
+              : 'Selection Mode '}
+          </Reader>
+        </ReaderContainer>
         <Boundry
           onMouseMove={(e) => handleOnBoundryMove(e)}
           onMouseLeave={(e) => handleOnBoundryLeave(e)}
@@ -215,18 +225,16 @@ const BoxPlayground = () => {
           <XAxis $top={`${currentY}`} />
           <YAxis $left={`${currentX}`} />
         </Boundry>
-        <Indicator className='indicX' $topX={`${indicX}`}>
+        <XandYLetters className='indicX' $topX={`${indicX}`}>
           {'X'}
-        </Indicator>
-        <Indicator className='indicY' $topY={`${indicY}`}>
+        </XandYLetters>
+        <XandYLetters className='indicY' $topY={`${indicY}`}>
           {'Y'}
-        </Indicator>
+        </XandYLetters>
       </BoundryWrapper>
-
       <DisplayCalc>
         <SliderDiv>
           <Span>Tool Width</Span>
-
           <Slider>
             <SpanEx>{`${sliderValue}px`}</SpanEx>
             <input
@@ -246,12 +254,11 @@ const BoxPlayground = () => {
               <Span $underline={true}>Position A:</Span>
               {setX.x1 !== '' && setY.y1 !== '' ? (
                 <PositionReadDiv>
-                  <SpannedText>
-                    <span style={{ color: colors.primaryOrange }}>x :</span>
-                    {`(${setX.x1} px) ,`}
-                    <br></br>
-                    <span style={{ color: 'blue' }}>y :</span>
-                    {`(${setY.y1} px)`}
+                  <SpannedText $color={'#CD3B30'}>
+                    x :{`(${setX.x1} px) ,`}
+                  </SpannedText>
+                  <SpannedText $color={'#005CC8'}>
+                    y :{`(${setY.y1} px)`}
                   </SpannedText>
                 </PositionReadDiv>
               ) : (
@@ -260,60 +267,55 @@ const BoxPlayground = () => {
             </NumberSet>
 
             <NumberSet>
-              <Span $underline={true}>Position B:</Span>
+              <Span $underline>Position B:</Span>
               {setX.x2 !== '' && setY.y2 !== '' ? (
                 <PositionReadDiv>
-                  <SpannedText>
-                    <span style={{ color: colors.primaryOrange }}>x : </span>
-                    {`(${setX.x2} px) ,`}
+                  <SpannedText $color={'#CD3B30'}>
+                    x :{`(${setX.x2} px) ,`}
                   </SpannedText>
 
-                  <SpannedText>
-                    <span style={{ color: 'blue' }}>y : </span>
-                    {`(${setY.y2} px)`}
+                  <SpannedText $color={'#005CC8'}>
+                    y :{`(${setY.y2} px)`}
                   </SpannedText>
                 </PositionReadDiv>
               ) : (
                 'select endpoint'
               )}
             </NumberSet>
-            <TotalDistance>
-              <Span $result={true}>
-                Total{' '}
-                <span style={{ color: colors.primaryOrange }}> Distance</span>{' '}
-                From A to B ={' '}
+          
+            <CalculationWrapper>
+              <Calculation>
+              <Span $color={`#CD3B30`} $result={true}>
+                Distance:
               </Span>
-
+              
               {totalIsReady && (
                 <>
                   <Results>
-                    {`(  ${getDistance(
+                   <Span $color={`#00FF41`}> {`(  ${getDistance(
                       setX.x1,
                       setY.y1,
                       setX.x2,
                       setY.y2,
                     )} px )`}
+                    </Span>
                   </Results>
                 </>
               )}
-              <TotalDistance>
-                <Span $result={true}>
-                  Total{' '}
-                  <span style={{ color: colors.primaryOrange }}> Angle</span>{' '}
-                  From A to B ={' '}
+             </Calculation>
+              <Calculation>
+                <Span $result={true} $color={`#CD3B30`}>
+                  Angle:
                 </Span>
-
                 {totalIsReady && (
                   <Results>
                     {`( ${getAngle(setX.x1, setY.y1, setX.x2, setY.y2)} °)`}
                   </Results>
                 )}
-              </TotalDistance>
-              <TotalDistance>
-                <Span $result={true}>
-                  Total{' '}
-                  <span style={{ color: colors.primaryOrange }}> Slope</span>{' '}
-                  From A to B ={' '}
+              </Calculation>
+              <Calculation>
+                <Span $result={true} $color={'#CD3B30'}>
+                  Slope:
                 </Span>
 
                 {totalIsReady && (
@@ -321,9 +323,10 @@ const BoxPlayground = () => {
                     {`( ${getSlope(setX.x1, setY.y1, setX.x2, setY.y2)}%)`}
                   </Results>
                 )}
-              </TotalDistance>
-            </TotalDistance>
+              </Calculation>
+              </CalculationWrapper>
           </Equation>
+           
         </DistanceCalculater>
       </DisplayCalc>
     </Wrapper>
@@ -418,14 +421,13 @@ const Controls = styled.div`
   padding: 1.4vw 0.3vw;
   max-height: 34.722vw;
   gap: 0.4vw;
-  top: 8.944vw;
+  top: ${(props) => props.$topValues};
   right: -5.819vw;
   width: 6.944vw;
   ${media.fullWidth} {
     padding: 29px 0px;
     max-height: 300px;
     gap: 6px;
-    top: 143px;
     right: -55px;
     width: 100px;
   }
@@ -444,6 +446,9 @@ const NewElement = styled.span.attrs((props) => ({
     backgroundColor: props.$isindexed
       ? `${colors.primaryOrange}`
       : 'transparent',
+    border: props.$isindexed
+      ? `3px solid ${colors.primaryOrange}`
+      : `3px solid #005CC8`,
     height: `${props.$size}px`,
     width: `${props.$size}px`,
   },
@@ -456,7 +461,7 @@ const NewElement = styled.span.attrs((props) => ({
   margin: unset;
   justify-self: center;
   border-radius: 50px;
-  border: 2px solid black;
+  border: 3px solid #005cc8;
   z-index: -1;
   background-color: ${(props) =>
     props.$isHover ? `${colors.primaryOrange}` : 'transparent'};
@@ -480,26 +485,39 @@ const Results = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
   ${text.h4};
 `
-const TotalDistance = styled.div`
+const Calculation = styled.div`
   display: flex;
-  flex-direction: column;
-  margin-top: 10%;
-  gap: 10px;
+  flex-direction:row;
+  max-width: 100%;
+  min-width: 100%;
+  padding:15px;
+  gap: 5px;
   ${text.bodyMBold};
   color: ${colors.primaryTeal};
 `
+const CalculationWrapper = styled.div`
+display: flex;
+flex-direction: column;
+background-color:#2F3334 ;
+border:3px outset #3e3852;
+max-width: 100%;
+min-width:100%;
+align-self: center;
+border-radius:15px;
+`
 const Span = styled.h4.attrs((props) => ({
   style: {
-    color: props.$result ? `${colors.darkPurple}` : `${colors.primaryPurple}`,
+    color: props.$color ? `${props.$color}` : `#3e3852`,
     textDecoration: props.$underline ? 'underline' : 'none',
   },
 }))`
   position: relative;
   ${text.h4}
   margin:unset;
-  color: ${colors.primaryPurple};
+  color: #3e3852;
   align-self: center;
   justify-self: center;
   z-index: 100;
@@ -515,6 +533,7 @@ const NumberSet = styled.p`
 const SpannedText = styled.p`
   ${text.bodyMBold}
   margin: unset;
+  color: ${(props) => props.$color};
 `
 const PositionReadDiv = styled.div`
   display: flex;
@@ -533,6 +552,7 @@ const Equation = styled.div`
 const DistanceCalculater = styled.div`
   display: flex;
   flex-direction: column;
+  width: 100%;
 `
 const DisplayCalc = styled.div`
   position: relative;
@@ -547,11 +567,41 @@ const DisplayCalc = styled.div`
   height: 600px;
 `
 const Reader = styled.p`
-  ${text.bodyMBold}
+  ${text.bodySBold}
+  color:#00FF41;
+  letter-spacing: 1px;
 `
-const Indicator = styled.h2.attrs((props) => ({
+const ReaderContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-self: center;
+  box-sizing: border-box;
+  background-color: #2f3334;
+  width: 22.889vw;
+  border: 0.278vw outset #3e3852;
+  -webkit-box-shadow: -0.069vw 0.347vw 1.042vw -0.208vw #000000;
+  box-shadow: -0.069vw 0.347vw 1.042vw -0.208vw #000000;
+  margin-bottom: 1.389vw;
+  border-radius: 1.042vw;
+  ${media.fullWidth} {
+    width: 330px;
+    border: 4px outset #3e3852;
+    -webkit-box-shadow: -1px 5px 15px -3px #000000;
+    box-shadow: -1px 5px 15px -3px #000000;
+    margin-bottom: 20px;
+    border-radius: 15px;
+  }
+
+  ${media.tablet} {
+  }
+
+  ${media.mobile} {
+  }
+`
+const XandYLetters = styled.h2.attrs((props) => ({
   style: {
-    top: props.$topX ? `${props.$topX}` : `93%`,
+    top: props.$topX ? `${props.$topX}` : `94%`,
     left: props.$topY ? `${props.$topY}` : '0%',
   },
 }))`
@@ -571,9 +621,10 @@ const YAxis = styled.span.attrs((props) => ({
   background-color: black;
   z-index: 100;
   height: 100%;
+  opacity: 50%;
   width: 0.139vw;
   ${media.fullWidth} {
-    width: 0.139vw;
+    width: 2px;
   }
 
   ${media.tablet} {
@@ -591,6 +642,7 @@ const XAxis = styled.span.attrs((props) => ({
   pointer-events: none;
   position: absolute;
   background-color: black;
+  opacity: 50%;
   width: 100%;
   height: 0.139vw;
   z-index: 100;
@@ -622,16 +674,20 @@ const BoundryWrapper = styled.div`
 `
 const Boundry = styled.div.attrs((props) => ({
   style: {
-    backgroundColor: props.$active ? 'lightgray' : 'transparent',
+    backgroundColor: props.$active ? '#A9A9A9' : 'lightgray',
   },
 }))`
   position: relative;
   display: flex;
   overflow: hidden;
   background-color: transparent;
-  border: 2px solid red;
+  -webkit-box-shadow: inset 0px 0px 15px -2px #000000;
+  box-shadow: inset 0px 0px 15px -2px #000000;
   width: 500px;
   height: 500px;
+  border-radius: 1vw;
+  outline: 0.1vw inset #ffff;
+  box-sizing: border-box;
   z-index: 1;
   ${media.fullWidth} {
     width: 500px;

@@ -1,7 +1,7 @@
-const EditTool =()=>{
+const EditTool =({widths,heights})=>{
     const svgStyle = {
         fill: '#3e8c40',
-        width: '800px',
+        width: {widths},
         height: '800px',
         viewBox: '0 0 32 32',
         fillRule: 'evenodd',
@@ -12,8 +12,8 @@ const EditTool =()=>{
     return(
 <svg 
 fill="#FFFFFF" 
-width="800px" 
-height="800px" 
+width={widths} 
+height={heights} 
 viewBox="0 0 32 32" 
 style={svgStyle}
 version="1.1" 

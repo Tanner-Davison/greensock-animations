@@ -1,8 +1,8 @@
-const UndoTool = () => {
+const UndoTool = ({widths, heights}) => {
   return (
     <svg
-      width='800px'
-      height='800px'
+      width={widths}
+      height={heights}
       viewBox='-0.5 0 25 25'
       fill='none'
       xmlns='http://www.w3.org/2000/svg'
