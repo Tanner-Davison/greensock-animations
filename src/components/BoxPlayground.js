@@ -225,7 +225,7 @@ const BoxPlayground = () => {
             <SpanEx>{`${sliderValue}px`}</SpanEx>
             <input
               type='range'
-              min='1'
+              min='4'
               max='17'
               value={sliderValue}
               onChange={handleSliderChange}
@@ -343,7 +343,7 @@ const BoxPlayground = () => {
 export default BoxPlayground
 const SpanEx = styled.p`
   ${text.bodyMBold}
-  color:${colors.grey600};
+  color:${colors.white};
   margin: unset;
   box-sizing: border-box;
   min-width: 35px;
