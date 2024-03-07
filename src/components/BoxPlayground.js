@@ -8,6 +8,7 @@ import DeleteTool from '../images/graphTools/DeleteTool.js'
 import EditTool from '../images/graphTools/EditTool.js'
 import ResetTool from '../images/graphTools/ResetTool.js'
 import UndoTool from '../images/graphTools/UndoTool.js'
+import VectorGrid from '../images/graphTools/VectorGrid.jpg'
 import { Line } from './Line'
 import { getDistance } from '../utils/getDistance'
 import { getAngle } from '../utils/getAngle'
@@ -30,12 +31,13 @@ const BoxPlayground = () => {
   const [activeElementIndex, setIsActiveElementIndex] = useState([])
   const [recentlyDeleted, setRecentlyDeleted] = useState([])
   const [totalIsReady, setTotalIsReady] = useState(false)
-  const [sliderValue, setSliderValue] = useState(8)
+  const [sliderValue, setSliderValue] = useState(9)
   const [controlValues, setControlValues] = useState('')
   useEffect(() => {
     const values = getMedia('45%', '32%', '32%', '32%')
     setControlValues(values)
   }, [])
+
   const [setX, setSetX] = useState({
     x1: '',
     x2: '',
@@ -110,6 +112,10 @@ const BoxPlayground = () => {
   }
 
   const deleteLast = () => {
+    if (totalIsReady) {
+      setLineStart({ x: '', y: '' })
+      setLineEnd({ x: '', y: '' })
+    }
     let updatedElements = [...elements]
     if (updatedElements.length > 0) {
       setCurrentCollection([])
@@ -173,26 +179,6 @@ const BoxPlayground = () => {
   return (
     <Wrapper>
       <BoundryWrapper>
-        <Controls $topValues={controlValues}>
-          <Toggle onClick={() => setIsActive(!isActive)}>
-            edit <EditTool widths={'100%'} heights={'100%'} />
-          </Toggle>
-          <Toggle
-            id={'resetTarget'}
-            onClick={() => resetAll()}
-            active={toolActive}
-            onMouseEnter={(e) => handleToolEnter(e)}
-          >
-            reset{' '}
-            <ResetTool id={'resetTool'} widths={'100%'} heights={'100%'} />
-          </Toggle>
-          <Toggle onClick={() => deleteLast()}>
-            delete <DeleteTool widths={'100%'} heights={'100%'} />
-          </Toggle>
-          <Toggle onClick={() => redo()}>
-            redo <UndoTool widths={'100%'} heights={'100%'} />
-          </Toggle>
-        </Controls>
         <ReaderContainer>
           <Reader>
             {!isActive
@@ -232,7 +218,7 @@ const BoxPlayground = () => {
           {'Y'}
         </XandYLetters>
       </BoundryWrapper>
-      <DisplayCalc>
+      <ControlPanelDiv>
         <SliderDiv>
           <Span>Tool Width</Span>
           <Slider>
@@ -248,21 +234,41 @@ const BoxPlayground = () => {
             <ElExample $size={sliderValue} />
           </Slider>
         </SliderDiv>
-        <DistanceCalculater>
-          <Equation>
+        <MiddleControlPanelDiv>
+          <Controls $topValues={controlValues}>
+            <Toggle onClick={() => setIsActive(!isActive)}>
+              edit <EditTool widths={'100%'} heights={'100%'} />
+            </Toggle>
+            <Toggle
+              id={'resetTarget'}
+              onClick={() => resetAll()}
+              active={toolActive}
+              onMouseEnter={(e) => handleToolEnter(e)}
+            >
+              reset{' '}
+              <ResetTool id={'resetTool'} widths={'100%'} heights={'100%'} />
+            </Toggle>
+            <Toggle onClick={() => deleteLast()}>
+              delete <DeleteTool widths={'100%'} heights={'100%'} />
+            </Toggle>
+            <Toggle onClick={() => redo()}>
+              redo <UndoTool widths={'100%'} heights={'100%'} />
+            </Toggle>
+          </Controls>
+          <PositionsSetWrapper>
             <NumberSet>
               <Span $underline={true}>Position A:</Span>
               {setX.x1 !== '' && setY.y1 !== '' ? (
                 <PositionReadDiv>
                   <SpannedText $color={'#CD3B30'}>
-                    x :{`(${setX.x1} px) ,`}
+                    X : {`(${setX.x1} px) ,`}
                   </SpannedText>
                   <SpannedText $color={'#005CC8'}>
-                    y :{`(${setY.y1} px)`}
+                    Y : {`(${setY.y1} px)`}
                   </SpannedText>
                 </PositionReadDiv>
               ) : (
-                'select start point'
+                <SpannedText $color={'gray'}>select start point</SpannedText>
               )}
             </NumberSet>
 
@@ -271,64 +277,65 @@ const BoxPlayground = () => {
               {setX.x2 !== '' && setY.y2 !== '' ? (
                 <PositionReadDiv>
                   <SpannedText $color={'#CD3B30'}>
-                    x :{`(${setX.x2} px) ,`}
+                    X : {`(${setX.x2} px) ,`}
                   </SpannedText>
 
                   <SpannedText $color={'#005CC8'}>
-                    y :{`(${setY.y2} px)`}
+                    Y : {`(${setY.y2} px)`}
                   </SpannedText>
                 </PositionReadDiv>
               ) : (
-                'select endpoint'
+                <SpannedText $color={'gray'}>select start point</SpannedText>
               )}
             </NumberSet>
-          
-            <CalculationWrapper>
-              <Calculation>
-              <Span $color={`#CD3B30`} $result={true}>
+          </PositionsSetWrapper>
+
+          <TotalsDiv>
+            <Calculation>
+              <Span $color={`white`} $result={true}>
                 Distance:
               </Span>
-              
+
               {totalIsReady && (
                 <>
                   <Results>
-                   <Span $color={`#00FF41`}> {`(  ${getDistance(
-                      setX.x1,
-                      setY.y1,
-                      setX.x2,
-                      setY.y2,
-                    )} px )`}
+                    <Span $color={`#00FF41`}>
+                      {' '}
+                      {`(  ${getDistance(
+                        setX.x1,
+                        setY.y1,
+                        setX.x2,
+                        setY.y2,
+                      )} px )`}
                     </Span>
                   </Results>
                 </>
               )}
-             </Calculation>
-              <Calculation>
-                <Span $result={true} $color={`#CD3B30`}>
-                  Angle:
-                </Span>
-                {totalIsReady && (
-                  <Results>
-                    {`( ${getAngle(setX.x1, setY.y1, setX.x2, setY.y2)} °)`}
-                  </Results>
-                )}
-              </Calculation>
-              <Calculation>
-                <Span $result={true} $color={'#CD3B30'}>
-                  Slope:
-                </Span>
+            </Calculation>
+            <Calculation>
+              <Span $result={true} $color={`white`}>
+                Angle:
+              </Span>
+              {totalIsReady && (
+                <Results>
+                  {`( ${getAngle(setX.x1, setY.y1, setX.x2, setY.y2)} °)`}
+                </Results>
+              )}
+            </Calculation>
+            <Calculation>
+              <Span $result={true} $color={'white'}>
+                Slope:
+              </Span>
 
-                {totalIsReady && (
-                  <Results>
-                    {`( ${getSlope(setX.x1, setY.y1, setX.x2, setY.y2)}%)`}
-                  </Results>
-                )}
-              </Calculation>
-              </CalculationWrapper>
-          </Equation>
-           
-        </DistanceCalculater>
-      </DisplayCalc>
+              {totalIsReady && (
+                <Results>
+                  {`(${getSlope(setX.x1, setY.y1, setX.x2, setY.y2)}%)`}
+                </Results>
+              )}
+            </Calculation>
+          </TotalsDiv>
+        </MiddleControlPanelDiv>
+      </ControlPanelDiv>
     </Wrapper>
   )
 }
@@ -382,16 +389,15 @@ const Toggle = styled.button`
   color: white;
   margin: unset;
   border-radius: 25%;
-  top: 0px;
-  height: 5vw;
-  width: 5.972vw;
+  height: 6vw;
+  width: 6vw;
   padding: 0.3vw 0vw;
-  transition: border 1s ease-in-out, transform 0.2s ease-in-out;
+  transition: transform 0.2s ease-in-out;
   &:hover {
     transform: scale(0.95);
     -webkit-box-shadow: inset 0px 0px 15px 0px rgba(0, 0, 0, 0.43);
     box-shadow: inset 0px 0px 15px 0px rgba(0, 0, 0, 0.43);
-    border: 2px inset black;
+    border: 3px inset black;
   }
   ${media.fullWidth} {
     border-radius: 15px;
@@ -407,23 +413,23 @@ const Toggle = styled.button`
   }
 `
 const Controls = styled.div`
-  position: absolute;
+  position: relative;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
-  justify-content: space-between;
+  align-self: center;
+  justify-content: space-evenly;
   text-align: center;
+  flex-wrap: wrap;
   -webkit-box-shadow: -1px 5px 15px -3px #000000;
   box-shadow: -1px 5px 15px -3px #000000;
   background-color: #2f3334;
-  border: 4px solid #3e3852;
-  border-radius: 20px;
+  border: 3px solid rgb(0, 2, 30);
+  border-radius: 15px;
   padding: 1.4vw 0.3vw;
-  max-height: 34.722vw;
-  gap: 0.4vw;
-  top: ${(props) => props.$topValues};
-  right: -5.819vw;
-  width: 6.944vw;
+  height: 150px;
+  gap: 0vw;
+  width: 80%;
   ${media.fullWidth} {
     padding: 29px 0px;
     max-height: 300px;
@@ -443,17 +449,13 @@ const NewElement = styled.span.attrs((props) => ({
     top: props.$top,
     left: props.$left,
     pointerEvents: props.$active ? 'visible' : 'none',
-    backgroundColor: props.$isindexed
-      ? `${colors.primaryOrange}`
-      : 'transparent',
-    border: props.$isindexed
-      ? `3px solid ${colors.primaryOrange}`
-      : `3px solid #005CC8`,
+    backgroundColor: props.$isindexed ? `${colors.primaryOrange}` : '#0CFF40',
+    border: props.$isindexed ? `3px solid #EEE352` : `3px solid #0CFF40`,
     height: `${props.$size}px`,
     width: `${props.$size}px`,
+    cursor: props.$active ? 'pointer' : 'auto',
   },
 }))`
-  cursor: pointer;
   display: flex;
   align-self: center;
   justify-self: center;
@@ -465,8 +467,10 @@ const NewElement = styled.span.attrs((props) => ({
   z-index: -1;
   background-color: ${(props) =>
     props.$isHover ? `${colors.primaryOrange}` : 'transparent'};
+  transition: transform 0.3s ease-in-out;
   &:hover {
-    background-color: green;
+    background-color: green !important;
+    transform: scale(1.2);
   }
 `
 const ClickedPosition = styled.p.attrs((props) => ({
@@ -490,27 +494,30 @@ const Results = styled.div`
 `
 const Calculation = styled.div`
   display: flex;
-  flex-direction:row;
+  flex-direction: row;
   max-width: 100%;
   min-width: 100%;
-  padding:15px;
+  padding: 15px;
   gap: 5px;
   ${text.bodyMBold};
   color: ${colors.primaryTeal};
 `
-const CalculationWrapper = styled.div`
-display: flex;
-flex-direction: column;
-background-color:#2F3334 ;
-border:3px outset #3e3852;
-max-width: 100%;
-min-width:100%;
-align-self: center;
-border-radius:15px;
+const TotalsDiv = styled.div`
+  position: absolute;
+  bottom: 3%;
+  display: flex;
+  flex-direction: column;
+  background-color: #2f3334;
+  border: 3px double ;
+  max-width: 90%;
+  min-width: 90%;
+  align-self: center;
+  border-radius: 15px;
+  padding:10px 0px;
 `
 const Span = styled.h4.attrs((props) => ({
   style: {
-    color: props.$color ? `${props.$color}` : `#3e3852`,
+    color: props.$color ? `${props.$color}` : `white`,
     textDecoration: props.$underline ? 'underline' : 'none',
   },
 }))`
@@ -525,7 +532,7 @@ const Span = styled.h4.attrs((props) => ({
 const NumberSet = styled.p`
   ${text.bodyMBold}
   margin:unset;
-  color: black;
+  color: red;
   span {
     text-indent: 50px;
   }
@@ -538,38 +545,64 @@ const SpannedText = styled.p`
 const PositionReadDiv = styled.div`
   display: flex;
   flex-direction: column;
-  padding-left: 20px;
+  padding-left: 1.389vw;
+  ${media.fullWidth} {
+    padding-left: 20px;
+  }
+
+  ${media.tablet} {
+  }
+
+  ${media.mobile} {
+  }
 `
-const Equation = styled.div`
+const PositionsSetWrapper = styled.div`
   display: flex;
-  flex-direction: column;
-  align-items: start;
-  gap: 25px;
-  justify-content: start;
-  ${text.bodyMBold};
-  color: black;
-`
-const DistanceCalculater = styled.div`
-  display: flex;
-  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  border-radius: 15px;
+  padding: 10px;
+  align-self: center;
+  background-color: #2f3334;
+  border: 3px solid #16171E;
   width: 100%;
 `
-const DisplayCalc = styled.div`
+const MiddleControlPanelDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1.736vw;
+  width: 100%;
+`
+const ControlPanelDiv = styled.div`
   position: relative;
   display: flex;
   flex-direction: column;
+  background: radial-gradient(circle at 50% 30%, rgb(0, 2, 12) 0%, rgb(64, 64, 64) 90.2%);
   align-items: center;
   justify-content: start;
-  width: 300px;
-  border: 2px solid blue;
+  width: 21.833vw;
+  border-radius: 25px;
+  padding: 25px;
   padding-top: 40px;
-  max-height: 600px;
-  height: 600px;
+  height: 48.667vw;
+  ${media.fullWidth} {
+  }
+
+  ${media.tablet} {
+  }
+
+  ${media.mobile} {
+  }
 `
-const Reader = styled.p`
+const Reader = styled.div`
+  padding: 0.694vw;
   ${text.bodySBold}
   color:#00FF41;
   letter-spacing: 1px;
+  width: 90%;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
 `
 const ReaderContainer = styled.div`
   display: flex;
@@ -603,6 +636,7 @@ const XandYLetters = styled.h2.attrs((props) => ({
   style: {
     top: props.$topX ? `${props.$topX}` : `94%`,
     left: props.$topY ? `${props.$topY}` : '0%',
+    color: props.$topY ? '#EA4335' : `${colors.primaryBlue}`,
   },
 }))`
   pointer-events: none;
@@ -618,10 +652,11 @@ const YAxis = styled.span.attrs((props) => ({
 }))`
   pointer-events: none;
   position: absolute;
-  background-color: black;
+  background-color: ${colors.primaryYellow};
   z-index: 100;
   height: 100%;
-  opacity: 50%;
+
+  opacity: 80%;
   width: 0.139vw;
   ${media.fullWidth} {
     width: 2px;
@@ -641,10 +676,11 @@ const XAxis = styled.span.attrs((props) => ({
 }))`
   pointer-events: none;
   position: absolute;
-  background-color: black;
-  opacity: 50%;
+  background-color: ${colors.primaryYellow};
+  opacity: 80%;
   width: 100%;
-  height: 0.139vw;
+  height: 0.2vw;
+  border-radius: 50px;
   z-index: 100;
   ${media.fullWidth} {
     height: 2px;
@@ -674,19 +710,22 @@ const BoundryWrapper = styled.div`
 `
 const Boundry = styled.div.attrs((props) => ({
   style: {
-    backgroundColor: props.$active ? '#A9A9A9' : 'lightgray',
+    backgroundColor: props.$active ? '	#585858' : '	#000000',
   },
 }))`
   position: relative;
   display: flex;
+  background: url(${VectorGrid});
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: fill;
+  background-blend-mode: lighten;
   overflow: hidden;
   background-color: transparent;
-  -webkit-box-shadow: inset 0px 0px 15px -2px #000000;
-  box-shadow: inset 0px 0px 15px -2px #000000;
   width: 500px;
   height: 500px;
   border-radius: 1vw;
-  outline: 0.1vw inset #ffff;
+  outline: 0.2vw outset black;
   box-sizing: border-box;
   z-index: 1;
   ${media.fullWidth} {
@@ -703,7 +742,7 @@ const Boundry = styled.div.attrs((props) => ({
 const Wrapper = styled.div`
   position: relative;
   display: flex;
-  flex-direction: row-reverse;
+  flex-direction: row;
   align-items: center;
   justify-content: center;
   padding: 2.944vw 0vw;

@@ -24,10 +24,10 @@ export const Line = ({ start, end }) => {
   return <LineEl ref={lineRef} className='line'></LineEl>
 }
 const LineEl = styled.span`
+  pointer-events: none;
   position: relative;
-  height: 4px;
+  height: 5px;
   border-radius: 50px;
-  -webkit-box-shadow: 0px 0px 15px 0px #ffffff;
-  box-shadow: 0px 0px 15px 0px #ffffff;
-  background-color: #000000;
+  background-color: ${colors.primaryOrange};
+  
 `
