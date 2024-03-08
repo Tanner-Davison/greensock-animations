@@ -234,7 +234,7 @@ const BoxPlayground = () => {
             <ElExample $size={sliderValue} />
           </Slider>
         </SliderDiv>
-        <MiddleControlPanelDiv>
+        
           <Controls $topValues={controlValues}>
             <Toggle onClick={() => setIsActive(!isActive)}>
               edit <EditTool widths={'100%'} heights={'100%'} />
@@ -255,6 +255,7 @@ const BoxPlayground = () => {
               redo <UndoTool widths={'100%'} heights={'100%'} />
             </Toggle>
           </Controls>
+          <MiddleControlPanelDiv>
           <PositionsSetWrapper>
             <NumberSet>
               <Span $underline={true}>Position A:</Span>
@@ -289,7 +290,7 @@ const BoxPlayground = () => {
               )}
             </NumberSet>
           </PositionsSetWrapper>
-
+          </MiddleControlPanelDiv>
           <TotalsDiv>
             <Calculation>
               <Span $color={`white`} $result={true}>
@@ -334,7 +335,7 @@ const BoxPlayground = () => {
               )}
             </Calculation>
           </TotalsDiv>
-        </MiddleControlPanelDiv>
+        
       </ControlPanelDiv>
     </Wrapper>
   )
@@ -389,9 +390,8 @@ const Toggle = styled.button`
   color: white;
   margin: unset;
   border-radius: 25%;
-  height: 6vw;
-  width: 6vw;
-  padding: 0.3vw 0vw;
+  height: 6.5vw;
+  width: 6.5vw;
   transition: transform 0.2s ease-in-out;
   &:hover {
     transform: scale(0.95);
@@ -407,6 +407,10 @@ const Toggle = styled.button`
   }
 
   ${media.tablet} {
+    border-radius: 1.799vw;
+    top: 0px;
+    height: 10.633vw;
+    width: 10.312vw;
   }
 
   ${media.mobile} {
@@ -416,20 +420,18 @@ const Controls = styled.div`
   position: relative;
   display: flex;
   flex-direction: row;
-  align-items: center;
+  align-items: start;
   align-self: center;
-  justify-content: space-evenly;
-  text-align: center;
+  justify-content: center;
   flex-wrap: wrap;
+  width: 80%;
   -webkit-box-shadow: -1px 5px 15px -3px #000000;
   box-shadow: -1px 5px 15px -3px #000000;
   background-color: #2f3334;
-  border: 3px solid rgb(0, 2, 30);
-  border-radius: 15px;
-  padding: 1.4vw 0.3vw;
-  height: 150px;
-  gap: 0vw;
-  width: 80%;
+  border: 0.208vw solid rgb(0, 2, 30);
+  border-radius: 1.042vw;
+  padding: 2vw 0vw;
+  gap: 1vw;
   ${media.fullWidth} {
     padding: 29px 0px;
     max-height: 300px;
@@ -439,6 +441,18 @@ const Controls = styled.div`
   }
 
   ${media.tablet} {
+    position: absolute;
+    flex-direction: column;
+    align-items: center;
+    bottom:-70vw;
+    left:80%;
+    padding: 3.477vw 0vw;
+    max-height: 50.971vw;
+    min-height: 45vw;
+    gap: 0.719vw;
+    right: -6.595vw;
+    width: 15.99vw;
+    gap:2vw;
   }
 
   ${media.mobile} {
@@ -497,23 +511,60 @@ const Calculation = styled.div`
   flex-direction: row;
   max-width: 100%;
   min-width: 100%;
-  padding: 15px;
-  gap: 5px;
+  padding: 1.042vw;
+  gap: 0.347vw;
   ${text.bodyMBold};
   color: ${colors.primaryTeal};
+  ${media.fullWidth} {
+    padding: 15px;
+    gap: 5px;
+  }
+
+  ${media.tablet} {
+    
+   flex-direction:column;
+   align-items: center;
+   justify-content: center;
+    gap: 1vw;
+  }
+
+  ${media.mobile} {
+  }
 `
+
 const TotalsDiv = styled.div`
   position: absolute;
-  bottom: 3%;
   display: flex;
   flex-direction: column;
+  align-self: center;
   background-color: #2f3334;
-  border: 3px double ;
+  bottom: 3%;
   max-width: 90%;
   min-width: 90%;
-  align-self: center;
-  border-radius: 15px;
-  padding:10px 0px;
+  border: 0.208vw double;
+  border-radius: 1.042vw;
+  padding: 0.694vw 0vw;
+  ${media.fullWidth} {
+    border: 3px double;
+    border-radius: 15px;
+    padding: 10px 0px;
+  }
+
+  ${media.tablet} {
+    flex-direction: column-reverse;
+    max-width: 25%;
+    min-width: 25%;
+    right: 3%;
+    height: 75%;
+    bottom: 6%;
+    align-items: start;
+    text-align: start;
+    justify-content: space-around;
+    padding: 1.799vw;
+  }
+
+  ${media.mobile} {
+  }
 `
 const Span = styled.h4.attrs((props) => ({
   style: {
@@ -528,6 +579,17 @@ const Span = styled.h4.attrs((props) => ({
   align-self: center;
   justify-self: center;
   z-index: 100;
+  ${media.fullWidth} {
+  
+  }
+  
+  ${media.tablet} {
+    align-self: start;
+  }
+  
+  ${media.mobile} {
+  
+  }
 `
 const NumberSet = styled.p`
   ${text.bodyMBold}
@@ -535,6 +597,17 @@ const NumberSet = styled.p`
   color: red;
   span {
     text-indent: 50px;
+  }
+  ${media.fullWidth} {
+  
+  }
+  
+  ${media.tablet} {
+    ${text.h3}
+  }
+  
+  ${media.mobile} {
+  
   }
 `
 const SpannedText = styled.p`
@@ -551,6 +624,7 @@ const PositionReadDiv = styled.div`
   }
 
   ${media.tablet} {
+    padding-left: 2.398vw;
   }
 
   ${media.mobile} {
@@ -560,49 +634,113 @@ const PositionsSetWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-around;
-  border-radius: 15px;
-  padding: 10px;
-  align-self: center;
   background-color: #2f3334;
-  border: 3px solid #16171E;
-  width: 100%;
+  width: 95%;
+  border-radius: 1.042vw;
+  padding: 0.694vw;
+  align-self: center;
+  border: 0.208vw solid #16171e;
+  ${media.fullWidth} {
+    border-radius: 15px;
+    padding: 10px;
+    align-self: center;
+    border: 3px solid #16171e;
+  }
+
+  ${media.tablet} {
+    justify-content: space-around;
+    flex-direction: column;
+    align-items: start;
+    width:100%;
+    height: 100%;
+    border-radius: 1.799vw;
+    padding: 1.199vw;
+    align-self: center;
+    border: 0.36vw solid #16171e;
+  }
+
+  ${media.mobile} {
+  }
 `
 const MiddleControlPanelDiv = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 1.736vw;
   width: 100%;
+  gap: 1.736vw;
+  ${media.fullWidth} {
+    gap: 25px;
+  }
+
+  ${media.tablet} {
+    position: absolute;
+    left:4%;
+    bottom:6%;
+    height:20vw;
+    width: 40vw;
+    gap: 1vw;
+  }
+
+  ${media.mobile} {
+  }
 `
 const ControlPanelDiv = styled.div`
   position: relative;
   display: flex;
   flex-direction: column;
-  background: radial-gradient(circle at 50% 30%, rgb(0, 2, 12) 0%, rgb(64, 64, 64) 90.2%);
+  background: radial-gradient(
+    circle at 50% 30%,
+    rgb(0, 2, 12) 0%,
+    rgb(64, 64, 64) 90.2%
+  );
   align-items: center;
   justify-content: start;
-  width: 21.833vw;
-  border-radius: 25px;
-  padding: 25px;
-  padding-top: 40px;
-  height: 48.667vw;
+  width: 21.806vw;
+  border-radius: 1.736vw;
+  padding: 1.736vw;
+  padding-top: 2.778vw;
+  height: 48.681vw;
   ${media.fullWidth} {
+    width: 314px;
+    border-radius: 25px;
+    padding: 25px;
+    padding-top: 40px;
+    height: 701px;
   }
 
   ${media.tablet} {
+    flex-direction: row;
+    align-self:center;
+    width: 80.65vw;
+    border-radius: 2.998vw;
+    padding: 2.998vw;
+    padding-top: 4.796vw;
+    height: 30.053vw;
   }
 
   ${media.mobile} {
   }
 `
 const Reader = styled.div`
-  padding: 0.694vw;
   ${text.bodySBold}
-  color:#00FF41;
-  letter-spacing: 1px;
-  width: 90%;
   align-items: center;
   justify-content: center;
   text-align: center;
+  color: #00ff41;
+  width: 90%;
+  padding: 0.694vw;
+  letter-spacing: 0.069vw;
+  ${media.fullWidth} {
+    padding: 10px;
+    letter-spacing: 1px;
+  }
+
+  ${media.tablet} {
+    padding: 1.199vw;
+    letter-spacing: 0.12vw;
+  }
+
+  ${media.mobile} {
+  }
 `
 const ReaderContainer = styled.div`
   display: flex;
@@ -611,7 +749,7 @@ const ReaderContainer = styled.div`
   align-self: center;
   box-sizing: border-box;
   background-color: #2f3334;
-  width: 22.889vw;
+  width: 22.917vw;
   border: 0.278vw outset #3e3852;
   -webkit-box-shadow: -0.069vw 0.347vw 1.042vw -0.208vw #000000;
   box-shadow: -0.069vw 0.347vw 1.042vw -0.208vw #000000;
@@ -627,6 +765,12 @@ const ReaderContainer = styled.div`
   }
 
   ${media.tablet} {
+    width: 34.568vw;
+    border: 0.48vw outset #3e3852;
+    -webkit-box-shadow: -0.12vw 0.6vw 1.799vw -0.36vw #000000;
+    box-shadow: -0.12vw 0.6vw 1.799vw -0.36vw #000000;
+    margin-bottom: 2.398vw;
+    border-radius: 1.799vw;
   }
 
   ${media.mobile} {
@@ -655,7 +799,6 @@ const YAxis = styled.span.attrs((props) => ({
   background-color: ${colors.primaryYellow};
   z-index: 100;
   height: 100%;
-
   opacity: 80%;
   width: 0.139vw;
   ${media.fullWidth} {
@@ -663,6 +806,7 @@ const YAxis = styled.span.attrs((props) => ({
   }
 
   ${media.tablet} {
+    width: 0.24vw;
   }
 
   ${media.mobile} {
@@ -679,14 +823,14 @@ const XAxis = styled.span.attrs((props) => ({
   background-color: ${colors.primaryYellow};
   opacity: 80%;
   width: 100%;
-  height: 0.2vw;
-  border-radius: 50px;
+  height: 0.208vw;
   z-index: 100;
   ${media.fullWidth} {
     height: 2px;
   }
 
   ${media.tablet} {
+    height: 0.36vw;
   }
 
   ${media.mobile} {
@@ -697,12 +841,13 @@ const BoundryWrapper = styled.div`
   display: flex;
   flex-direction: column;
 
-  padding: 4.5vw;
+  padding: 4.514vw;
   ${media.fullWidth} {
-    padding: 72px;
+    padding: 65px;
   }
 
   ${media.tablet} {
+    padding: 4.794vw;
   }
 
   ${media.mobile} {
@@ -734,6 +879,8 @@ const Boundry = styled.div.attrs((props) => ({
   }
 
   ${media.tablet} {
+    width: 59.952vw;
+    height: 59.952vw;
   }
 
   ${media.mobile} {
@@ -745,13 +892,16 @@ const Wrapper = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  padding: 2.944vw 0vw;
+  padding: 2.917vw 0vw;
   z-index: 1;
   ${media.fullWidth} {
     padding: 0px 0px;
   }
 
   ${media.tablet} {
+    padding: 9.036vw 3vw;
+    flex-direction: column-reverse;
+    align-items: start;
   }
 
   ${media.mobile} {
