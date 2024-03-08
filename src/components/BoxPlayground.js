@@ -34,7 +34,7 @@ const BoxPlayground = () => {
   const [sliderValue, setSliderValue] = useState(9)
   const [controlValues, setControlValues] = useState('')
   useEffect(() => {
-    const values = getMedia('45%', '32%', '32%', '32%')
+    const values = getMedia('45%', '32%', '40%', '32%')
     setControlValues(values)
   }, [])
 
@@ -72,13 +72,13 @@ const BoxPlayground = () => {
     const positions = getPosition(e)
     setCurrentY(`${positions.y}`)
     setCurrentX(`${positions.x}`)
-    setIndicX(`${positions.y - getMedia(-108, -83, -68, -5)}px`)
-    setIndicY(`${positions.x - getMedia(-60, -42, -35, -5)}px`)
+    setIndicX(`${positions.y - getMedia(-108, -83, -90, -5)}px`)
+    setIndicY(`${positions.x - getMedia(-60, -42, -30, -5)}px`)
   }
   const handleOnBoundryLeave = () => {
     setCurrentX('250')
     setCurrentY('250')
-    setIndicX('50.5%')
+    setIndicX(getMedia('50.5%', '50.5%', '52%', '50.5%'))
     setIndicY('48%')
   }
   const handleIsSelected = (e, index) => {
@@ -110,7 +110,6 @@ const BoxPlayground = () => {
     setCurrentCollection((prev) => [...prev, { x, y }])
     setIsHover(true)
   }
-
   const deleteLast = () => {
     if (totalIsReady) {
       setLineStart({ x: '', y: '' })
@@ -175,10 +174,9 @@ const BoxPlayground = () => {
       />
     )
   })
-
   return (
     <Wrapper>
-      <BoundryWrapper>
+      <BoundryWrapper className={'boundryWrapper'}>
         <ReaderContainer>
           <Reader>
             {!isActive
@@ -187,6 +185,7 @@ const BoxPlayground = () => {
           </Reader>
         </ReaderContainer>
         <Boundry
+          className={'boundry'}
           onMouseMove={(e) => handleOnBoundryMove(e)}
           onMouseLeave={(e) => handleOnBoundryLeave(e)}
           onMouseDown={(e) => !isActive && handleClick(e)}
@@ -211,15 +210,11 @@ const BoxPlayground = () => {
           <XAxis $top={`${currentY}`} />
           <YAxis $left={`${currentX}`} />
         </Boundry>
-        <XandYLetters className='indicX' $topX={`${indicX}`}>
-          {'X'}
-        </XandYLetters>
-        <XandYLetters className='indicY' $topY={`${indicY}`}>
-          {'Y'}
-        </XandYLetters>
+        <XandYLetters $topX={`${indicX}`}>{'X'}</XandYLetters>
+        <XandYLetters $topY={`${indicY}`}>{'Y'}</XandYLetters>
       </BoundryWrapper>
-      <ControlPanelDiv>
-        <SliderDiv>
+      <ControlPanelDiv className={'controlPanelDiv'}>
+        <SliderDiv className={'SliderDiv'}>
           <Span>Tool Width</Span>
           <Slider>
             <SpanEx>{`${sliderValue}px`}</SpanEx>
@@ -234,28 +229,28 @@ const BoxPlayground = () => {
             <ElExample $size={sliderValue} />
           </Slider>
         </SliderDiv>
-        
-          <Controls $topValues={controlValues}>
-            <Toggle onClick={() => setIsActive(!isActive)}>
-              edit <EditTool widths={'100%'} heights={'100%'} />
-            </Toggle>
-            <Toggle
-              id={'resetTarget'}
-              onClick={() => resetAll()}
-              active={toolActive}
-              onMouseEnter={(e) => handleToolEnter(e)}
-            >
-              reset{' '}
-              <ResetTool id={'resetTool'} widths={'100%'} heights={'100%'} />
-            </Toggle>
-            <Toggle onClick={() => deleteLast()}>
-              delete <DeleteTool widths={'100%'} heights={'100%'} />
-            </Toggle>
-            <Toggle onClick={() => redo()}>
-              redo <UndoTool widths={'100%'} heights={'100%'} />
-            </Toggle>
-          </Controls>
-          <MiddleControlPanelDiv>
+
+        <Controls $topValues={controlValues}>
+          <Toggle onClick={() => setIsActive(!isActive)}>
+            edit <EditTool widths={'100%'} heights={'100%'} />
+          </Toggle>
+          <Toggle
+            id={'resetTarget'}
+            onClick={() => resetAll()}
+            active={toolActive}
+            onMouseEnter={(e) => handleToolEnter(e)}
+          >
+            reset{' '}
+            <ResetTool id={'resetTool'} widths={'100%'} heights={'100%'} />
+          </Toggle>
+          <Toggle onClick={() => deleteLast()}>
+            delete <DeleteTool widths={'100%'} heights={'100%'} />
+          </Toggle>
+          <Toggle onClick={() => redo()}>
+            redo <UndoTool widths={'100%'} heights={'100%'} />
+          </Toggle>
+        </Controls>
+        <MiddleControlPanelDiv>
           <PositionsSetWrapper>
             <NumberSet>
               <Span $underline={true}>Position A:</Span>
@@ -290,52 +285,49 @@ const BoxPlayground = () => {
               )}
             </NumberSet>
           </PositionsSetWrapper>
-          </MiddleControlPanelDiv>
-          <TotalsDiv>
-            <Calculation>
-              <Span $color={`white`} $result={true}>
-                Distance:
-              </Span>
-
-              {totalIsReady && (
-                <>
-                  <Results>
-                    <Span $color={`#00FF41`}>
-                      {' '}
-                      {`(  ${getDistance(
-                        setX.x1,
-                        setY.y1,
-                        setX.x2,
-                        setY.y2,
-                      )} px )`}
-                    </Span>
-                  </Results>
-                </>
-              )}
-            </Calculation>
-            <Calculation>
-              <Span $result={true} $color={`white`}>
-                Angle:
-              </Span>
-              {totalIsReady && (
+        </MiddleControlPanelDiv>
+        <TotalsDiv>
+          <Totals>
+            <Span $color={`white`} $result={true}>
+              Distance:
+            </Span>
+            {totalIsReady && (
+              <>
                 <Results>
-                  {`( ${getAngle(setX.x1, setY.y1, setX.x2, setY.y2)} °)`}
+                  <Span $color={`#00FF41`}>
+                    {' '}
+                    {`(  ${getDistance(
+                      setX.x1,
+                      setY.y1,
+                      setX.x2,
+                      setY.y2,
+                    )} px )`}
+                  </Span>
                 </Results>
-              )}
-            </Calculation>
-            <Calculation>
-              <Span $result={true} $color={'white'}>
-                Slope:
-              </Span>
-
-              {totalIsReady && (
-                <Results>
-                  {`(${getSlope(setX.x1, setY.y1, setX.x2, setY.y2)}%)`}
-                </Results>
-              )}
-            </Calculation>
-          </TotalsDiv>
-        
+              </>
+            )}
+          </Totals>
+          <Totals>
+            <Span $result={true} $color={`white`}>
+              Angle:
+            </Span>
+            {totalIsReady && (
+              <Results>
+                {`( ${getAngle(setX.x1, setY.y1, setX.x2, setY.y2)} °)`}
+              </Results>
+            )}
+          </Totals>
+          <Totals>
+            <Span $result={true} $color={'white'}>
+              Slope:
+            </Span>
+            {totalIsReady && (
+              <Results>
+                {`(${getSlope(setX.x1, setY.y1, setX.x2, setY.y2)}%)`}
+              </Results>
+            )}
+          </Totals>
+        </TotalsDiv>
       </ControlPanelDiv>
     </Wrapper>
   )
@@ -360,7 +352,8 @@ const ElExample = styled.div.attrs((props) => ({
   left: 105%;
   color: black;
   border-radius: 50px;
-  border: 2px solid black;
+  background-color: #0CFF40;
+  border: 3px solid #0CFF40;
 `
 const Slider = styled.div`
   position: relative;
@@ -374,7 +367,21 @@ const SliderDiv = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin-bottom: 20px;
+  margin-bottom: 1.389vw;
+  ${media.fullWidth} {
+    margin-bottom: 20px;
+  }
+  
+  ${media.tablet} {
+    position: absolute;
+    margin-bottom: 2.398vw;
+    top: 3vw;
+    left:3vw;
+  }
+  
+  ${media.mobile} {
+  
+  }
 `
 const Toggle = styled.button`
   cursor: pointer;
@@ -433,26 +440,29 @@ const Controls = styled.div`
   padding: 2vw 0vw;
   gap: 1vw;
   ${media.fullWidth} {
+    position: relative;
+    left:25px;
+    align-self: flex-start;
     padding: 29px 0px;
     max-height: 300px;
     gap: 6px;
     right: -55px;
-    width: 100px;
   }
 
   ${media.tablet} {
     position: absolute;
     flex-direction: column;
     align-items: center;
-    bottom:-70vw;
-    left:80%;
+    bottom: -70vw;
+    left: 83%;
     padding: 3.477vw 0vw;
     max-height: 50.971vw;
     min-height: 45vw;
+    border-radius:2.3vw;
     gap: 0.719vw;
     right: -6.595vw;
-    width: 15.99vw;
-    gap:2vw;
+    width: 13.99vw;
+    gap: 2vw;
   }
 
   ${media.mobile} {
@@ -506,11 +516,10 @@ const Results = styled.div`
   flex-direction: column;
   ${text.h4};
 `
-const Calculation = styled.div`
+const Totals = styled.div`
   display: flex;
   flex-direction: row;
-  max-width: 100%;
-  min-width: 100%;
+  width:98%;
   padding: 1.042vw;
   gap: 0.347vw;
   ${text.bodyMBold};
@@ -521,10 +530,9 @@ const Calculation = styled.div`
   }
 
   ${media.tablet} {
-    
-   flex-direction:column;
-   align-items: center;
-   justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     gap: 1vw;
   }
 
@@ -580,15 +588,13 @@ const Span = styled.h4.attrs((props) => ({
   justify-self: center;
   z-index: 100;
   ${media.fullWidth} {
-  
   }
-  
+
   ${media.tablet} {
     align-self: start;
   }
-  
+
   ${media.mobile} {
-  
   }
 `
 const NumberSet = styled.p`
@@ -599,32 +605,44 @@ const NumberSet = styled.p`
     text-indent: 50px;
   }
   ${media.fullWidth} {
+  }
+
+  ${media.tablet} {
+    ${text.h3}
+  }
+
+  ${media.mobile} {
+  }
+`
+const SpannedText = styled.p`
+  ${text.bodyMBold}
+  
+  margin: unset;
+  color: ${(props) => props.$color};
+  ${media.fullWidth} {
   
   }
   
   ${media.tablet} {
-    ${text.h3}
+    ${text.h4}
   }
   
   ${media.mobile} {
   
   }
 `
-const SpannedText = styled.p`
-  ${text.bodyMBold}
-  margin: unset;
-  color: ${(props) => props.$color};
-`
 const PositionReadDiv = styled.div`
   display: flex;
   flex-direction: column;
   padding-left: 1.389vw;
+  gap:0.694vw;
   ${media.fullWidth} {
     padding-left: 20px;
   }
 
   ${media.tablet} {
-    padding-left: 2.398vw;
+    margin-top:0.959vw;
+    gap:1vw;
   }
 
   ${media.mobile} {
@@ -634,27 +652,28 @@ const PositionsSetWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-around;
+  align-self: center;
   background-color: #2f3334;
   width: 95%;
+  margin-top: 1.736vw;
   border-radius: 1.042vw;
-  padding: 0.694vw;
-  align-self: center;
+  padding: 0.972vw;
   border: 0.208vw solid #16171e;
   ${media.fullWidth} {
     border-radius: 15px;
-    padding: 10px;
+    padding: 14px;
     align-self: center;
     border: 3px solid #16171e;
   }
 
   ${media.tablet} {
     justify-content: space-around;
-    flex-direction: column;
+    flex-direction: row;
     align-items: start;
-    width:100%;
-    height: 100%;
+    width: 100%;
+    height: 80%;
     border-radius: 1.799vw;
-    padding: 1.199vw;
+    padding: 2.199vw;
     align-self: center;
     border: 0.36vw solid #16171e;
   }
@@ -667,15 +686,20 @@ const MiddleControlPanelDiv = styled.div`
   flex-direction: column;
   width: 100%;
   gap: 1.736vw;
+  
+
+  
   ${media.fullWidth} {
     gap: 25px;
   }
 
   ${media.tablet} {
     position: absolute;
-    left:4%;
-    bottom:6%;
-    height:20vw;
+    align-items: center;
+    justify-content: center;
+    left: 6%;
+    bottom: 10%;
+    height: 15vw;
     width: 40vw;
     gap: 1vw;
   }
@@ -698,23 +722,22 @@ const ControlPanelDiv = styled.div`
   border-radius: 1.736vw;
   padding: 1.736vw;
   padding-top: 2.778vw;
-  height: 48.681vw;
+  height: 50.972vw;
   ${media.fullWidth} {
     width: 314px;
     border-radius: 25px;
     padding: 25px;
     padding-top: 40px;
-    height: 701px;
+    height: 734px;
   }
 
   ${media.tablet} {
     flex-direction: row;
-    align-self:center;
-    width: 80.65vw;
+    align-self: center;
+    width:75.65vw;
+    padding:4.796vw;
     border-radius: 2.998vw;
-    padding: 2.998vw;
-    padding-top: 4.796vw;
-    height: 30.053vw;
+    height: 24.053vw;
   }
 
   ${media.mobile} {
@@ -879,8 +902,8 @@ const Boundry = styled.div.attrs((props) => ({
   }
 
   ${media.tablet} {
-    width: 59.952vw;
-    height: 59.952vw;
+    width: 500px;
+    height: 500px;
   }
 
   ${media.mobile} {
@@ -899,7 +922,7 @@ const Wrapper = styled.div`
   }
 
   ${media.tablet} {
-    padding: 9.036vw 3vw;
+    padding: 15.036vw 3vw;
     flex-direction: column-reverse;
     align-items: start;
   }
