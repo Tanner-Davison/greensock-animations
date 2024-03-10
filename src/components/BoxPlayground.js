@@ -900,7 +900,6 @@ const Boundry = styled.div.attrs((props) => ({
     width: 500px;
     height: 500px;
   }
-
   ${media.tablet} {
     width: 500px;
     height: 500px;
