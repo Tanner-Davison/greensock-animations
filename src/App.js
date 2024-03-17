@@ -1,7 +1,8 @@
 import React from 'react'
 import HomePage from './pages/HomePage'
-import Playground from './pages/Playground'
+import CustomTools from './pages/CustomTools'
 import inProgress from './pages/InProgress'
+import MetaData from './components/MetaData'
 
 import {
   createBrowserRouter,
@@ -25,8 +26,9 @@ function App() {
     createRoutesFromElements(
       <>
         <Route path='/' element={<HomePage scrollto={scrollToSection} />} />,
-        <Route path='/box-playground' element={<Playground/>}/>,
-        <Route path='/in-progress' element={<InProgress/>}/>,
+        <Route path='/box-playground' element={<CustomTools />} />,
+        <Route path='/in-progress' element={<InProgress />} />,
+        <Route path='/metaDataTool' element={<MetaData />} />,
       </>,
     ),
   )

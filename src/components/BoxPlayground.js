@@ -127,8 +127,8 @@ const BoxPlayground = () => {
   const redo = () => {
     let deletedElements = [...recentlyDeleted]
     if (deletedElements.length > 0) {
-      let reDoELement = deletedElements.pop()
-      setElements((prev) => [...prev, reDoELement])
+      let redoElement = deletedElements.pop()
+      setElements((prev) => [...prev, redoElement])
       setRecentlyDeleted(deletedElements)
     }
   }

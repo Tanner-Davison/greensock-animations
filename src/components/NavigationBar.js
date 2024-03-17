@@ -15,7 +15,7 @@ const NavigationBar = () => {
 
   const links = [
     { name: 'Home', link: '/' },
-    { name: 'Box-Playground', link: '/box-playground' },
+    { name: 'My Custom Tools', link: '/box-playground' },
     { name: 'In progress', link: '/in-progress' },
   ]
 
@@ -87,11 +87,15 @@ const Wrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  top:0;
   gap: 5.083vw;
   max-width: 100vw;
-  height: 10vw;
+  height: 5vw;
   border: 1px solid red;
   ${media.fullWidth} {
+    gap: 73px;
+    height: 72px;
+  justify-self:center;
   }
 
   ${media.tablet} {
