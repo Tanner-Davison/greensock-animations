@@ -11,21 +11,22 @@ const MetaData = () => {
   const [searchUrl, setSearchUrl] = useState('')
   const fetchMetaData = async (searchUrl) => {
     try {
-      const response = await axios.get(searchUrl);
-      const $ = cheerio.load(response.data);
-      const parsedHTML = $.parseHTML(response.data); 
-      const title = $(parsedHTML).find('title').text(); 
-      const description = $(parsedHTML).find('meta[name="description"]').attr('content');
-      setMetaData({ title, description });
+      const response = await axios.get(searchUrl)
+      const $ = cheerio.load(response.data)
+      const parsedHTML = $.parseHTML(response.data)
+      const title = $(parsedHTML).find('title').text()
+      const description = $(parsedHTML)
+        .find('meta[name="description"]')
+        .attr('content')
+      setMetaData({ title, description })
     } catch (error) {
-      console.error('Error fetching meta data:', error);
+      console.error('Error fetching meta data:', error)
     }
-  };
-  console.log('hello world ');
-  
+  }
+
   return (
     <Wrapper>
-      <Label htmlFor={'metaUrlInput'}> 
+      <Label htmlFor={'metaUrlInput'}>
         Website Url:
         <UrlInput
           id={'metaUrlInput'}
