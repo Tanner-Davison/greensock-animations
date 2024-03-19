@@ -145,7 +145,7 @@ const IphoneCTA = ({ content }) => {
           toggleActions: 'play none play reverse',
         },
       })
-      .to(Iphone, { yPercent: 0, rotate: 360, duration: 2 })
+      .to(Iphone, { yPercent: 0, rotate: 360, duration: 1.5 })
       .to(
         IphoneBg,
         { scale: 1, opacity: 1, duration: 1, ease: 'smooth' },
@@ -677,7 +677,7 @@ const Wrapper = styled.div`
   overflow: hidden;
   background: ${colors.white};
   width: 100vw;
-  padding: 10.417vw 0;
+  padding: 3vw 0;
 
   margin-left: -0.64vw;
 

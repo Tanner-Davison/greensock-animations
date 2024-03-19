@@ -9,8 +9,8 @@ const HomePage = ({ scrollto }) => {
     <>
       <NavigationBar />
       <CustomCarousel scrollto={scrollto} />
-      <LogosContainer scrollto={scrollto} />
       <IphoneCTA/>
+      <LogosContainer scrollto={scrollto} />
       <GridLayout/>
     </>
   )
