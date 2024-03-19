@@ -1,25 +1,32 @@
 const express = require('express');
 const axios = require('axios');
-const cheerio = require('cheerio'); // Import Cheerio for parsing HTML
+const cheerio = require('cheerio');
+const cors = require('cors');
 
 const app = express();
 const PORT = 5000;
 
+// Enable CORS for all routes
+app.use(cors());
+
 // Define a route to proxy the request
 app.get('/proxy', async (req, res) => {
+  const searchUrl = req.query.searchUrl;
+  console.log( searchUrl);
+  
   try {
     // Make a request to the target server
-    const response = await axios.get('https://vasion.com/');
+    const response = await axios.get(`https://${searchUrl}`);
+console.log(response.data)
+    // Extract required headers from the original response
+    const headers = {
+      'content-type': response.headers['content-type'],
+      'cache-control': response.headers['cache-control'],
+      // Add any other headers you want to forward
+    };
 
-    // Use Cheerio to load the HTML content
-    const $ = cheerio.load(response.data);
-
-    // Get the HTML content
-    const htmlContent = $.html();
-
-    // Forward the HTML content back to the frontend
-    
-    res.send(htmlContent);
+    // Forward the headers along with the HTML content
+    res.set(headers).send(response.data);
   } catch (error) {
     // Handle errors
     console.error('Error proxying request:', error);
