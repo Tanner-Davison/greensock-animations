@@ -646,12 +646,12 @@ const Background = styled.div`
 
   background-size: 100vw 49.792vw;
   max-width: 100%;
-  gap: 14.306vw;
+  gap: 8.333vw;
   padding: 0vw 17.292vw 0vw 7.014vw;
   ${media.fullWidth} {
     background-size: 100% 688px;
     max-width: 1440px;
-    gap: 206px;
+    gap: 120px;
     padding: 0px 249px 0px 101px;
   }
 
@@ -659,7 +659,7 @@ const Background = styled.div`
     background-size: 100% 59.961vw;
     min-width: 100vw;
     max-width: 100vw;
-    gap: 5.129vw;
+    gap: 8.388vw;
     padding: unset;
   }
 
