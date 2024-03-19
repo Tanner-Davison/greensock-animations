@@ -370,8 +370,8 @@ const SubmitButtonLogin = styled.button`
   margin-top: 1.042vw;
   transition: transform 0.2s ease-in-out;
   width: 9.766vw;
-  background-color: rgba(0, 0, 0, 0.8);
-  border: 0.098vw solid ${colors.primaryOrange};
+  background-color: rgba(0, 0, 0, 1);
+  border: 0.098vw solid ${colors.white};
   color: ${colors.primaryOrange};
 
   &:hover {
