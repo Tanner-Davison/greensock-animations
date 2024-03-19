@@ -24,7 +24,6 @@ const BoxPlayground = () => {
   const [lineStart, setLineStart] = useState({ x: '', y: '' })
   const [lineEnd, setLineEnd] = useState({ x: '', y: '' })
   const [elements, setElements] = useState([])
-  const [toolActive, setToolActive] = useState(false)
   const [isActive, setIsActive] = useState(false)
   const [isHover, setIsHover] = useState(false)
   const [currentSelection, setCurrentCollection] = useState([])
@@ -237,7 +236,6 @@ const BoxPlayground = () => {
           <Toggle
             id={'resetTarget'}
             onClick={() => resetAll()}
-            active={toolActive}
             onMouseEnter={(e) => handleToolEnter(e)}
           >
             reset{' '}
@@ -497,7 +495,7 @@ const NewElement = styled.span.attrs((props) => ({
     transform: scale(1.2);
   }
 `
-const ClickedPosition = styled.p.attrs((props) => ({
+const ClickedPosition = styled.div.attrs((props) => ({
   style: {
     top: `${props.$left - -8}px`,
     left: `${props.$top - 10}px`,
@@ -597,7 +595,7 @@ const Span = styled.h4.attrs((props) => ({
   ${media.mobile} {
   }
 `
-const NumberSet = styled.p`
+const NumberSet = styled.div`
   ${text.bodyMBold}
   margin:unset;
   color: red;

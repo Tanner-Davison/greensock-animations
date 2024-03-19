@@ -10,16 +10,16 @@ const UndoTool = ({widths, heights}) => {
       <path
         d='M10 21.4199H15C16.8565 21.4199 18.637 20.6824 19.9497 19.3696C21.2625 18.0569 22 16.2764 22 14.4199C22 12.5634 21.2625 10.783 19.9497 9.47021C18.637 8.15746 16.8565 7.41992 15 7.41992H2'
         stroke='#eee352'
-        stroke-width='1.5'
-        stroke-linecap='round'
-        stroke-linejoin='round'
+        strokeWidth='1.5'
+        strokeLinecap='round'
+        strokeLinejoin='round'
       />
       <path
         d='M6 11.4199L2 7.41992L6 3.41992'
         stroke='#eee352'
-        stroke-width='1.5'
-        stroke-linecap='round'
-        stroke-linejoin='round'
+        strokeWidth='1.5'
+        strokeLinecap='round'
+        strokeLinejoin='round'
       />
     </svg>
   )

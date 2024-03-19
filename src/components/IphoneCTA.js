@@ -186,7 +186,7 @@ const IphoneCTA = ({ content }) => {
               <Eyebrow>{textData.eyebrow}</Eyebrow>
               <Header>{textData.headline}</Header>
               <Body>{textData.body}</Body>
-              <Link href={'/page-2'}>{textData.link}</Link>
+              <Link href={'/'}>{textData.link}</Link>
             </MainContent>
           </MainContentWrapper>
         )}
