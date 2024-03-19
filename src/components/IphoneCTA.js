@@ -676,7 +676,6 @@ const Wrapper = styled.div`
   justify-content: center;
   overflow: hidden;
   background: ${colors.white};
-  width: 100vw;
   padding: 3vw 0;
 
   margin-left: -0.64vw;
