@@ -1,0 +1,19 @@
+.flex-dots {
+  display: flex;
+  color: white;
+}
+:is(p) {
+  text-transform: capitalize;
+  font-family: sans-serif;
+  font-weight: 800;
+  color:black;
+}
+:is(em) {
+  color: black;
+  text-transform: lowercase;
+}
+:is(#dots) {
+  color: black;
+  font-weight: 800;
+  margin:33px;
+}

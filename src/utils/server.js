@@ -12,11 +12,13 @@ app.use(cors());
 // Define a route to proxy the request
 app.get('/proxy', async (req, res) => {
   const searchUrl = req.query.searchUrl;
-  console.log( searchUrl);
+  const searchExtended = req.query.searchExtendedUrl;
+  const {domain} = req.query;
+  console.log('HEERREEE', searchUrl, searchExtended);
   
   try {
     // Make a request to the target server
-    const response = await axios.get(`https://${searchUrl}`);
+    const response = await axios.get(`https://www.${searchUrl}${domain}/${searchExtended}`);
 console.log(response.data)
     // Extract required headers from the original response
     const headers = {
