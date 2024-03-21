@@ -6,7 +6,12 @@ import media from '../styles/media'
 import colors from '../styles/colors'
 import text from '../styles/text'
 import TypingComp from '../utils/TypingComp'
-
+import diskette from '../images/diskette.png'
+import downloadIcon from '../images/downloadIcon.png'
+import moreIcon from '../images/more.png'
+import saveFill from '../images/saveFill.png'
+import saveNoFill from '../images/saveNoFill.png'
+import preDownload from '../images/preDownload.png'
 const MetaData = () => {
   const [metaData, setMetaData] = useState({
     title: 'Look up any site',
@@ -16,9 +21,20 @@ const MetaData = () => {
   const [searchExtendedUrl, setSearchExtendedUrl] = useState('')
   const [domain, setDomain] = useState('.com')
   const [imgArr, setImgArr] = useState([])
-  const [altTags, setAltTags] = useState([])
+  const [isHover, setIsHover] = useState('')
+  const [iconHover, setIconHover]= useState(false)
+  const [downloadIsHover, setDownloadIsHover]= useState(false)
   const [isLoading, setIsLoading] = useState(false)
 
+  const runShapes = new Array(5).fill().map((num) => {
+    return (
+      <>
+        <Triangle />
+        <TriangleTwo />
+        <Circle />
+      </>
+    )
+  })
   const fetchMetaData = async (searchUrl, searchExtendedUrl, domain) => {
     setIsLoading(true)
     setMetaData({ title: '', description: '', alt: '' })
@@ -41,11 +57,14 @@ const MetaData = () => {
       $('img').each((index, element) => {
         const src = $(element).attr('src')
         const delayedUrl = $(element).attr('data-delayed-url')
-        const dataSrc = $(element).attr('data-src')
+        const delayedSrc = $(element).attr('data-src')
         const altTag = $(element).attr('alt')
 
-        if (dataSrc && dataSrc.trim() !== '') {
-          setImgArr((prev) => [...prev, { dataSource: dataSrc, alt: altTag }])
+        if (delayedSrc && delayedSrc.trim() !== '') {
+          setImgArr((prev) => [
+            ...prev,
+            { dataSource: delayedSrc, alt: altTag },
+          ])
         } else if (src && src.trim() !== '') {
           setImgArr((prev) => [...prev, { dataSource: src, alt: altTag }])
         } else if (delayedUrl && delayedUrl.trim() !== '') {
@@ -103,22 +122,42 @@ const MetaData = () => {
     return (
       <ChunkDiv key={index}>
         {chunk.map((img, innerIndex) => {
-          console.log('HERE', img)
           return (
-            <ImageWrapper key={innerIndex}>
+            <ImageWrapper
+              key={innerIndex}
+              onMouseEnter={() => setIsHover(innerIndex)}
+              onMouseLeave={() => setIsHover(false)}
+            >
               <Img
-                key={innerIndex}
                 src={img.dataSource}
                 data-source={img.dataSource}
-                alt={img.altTag}
+                alt={img.alt}
               />
-              <DisplayAlt>{img?.alt && truncateText(img.alt, 35)}</DisplayAlt>
-              <Save
-                value={img.dataSource}
-                onClick={() => handleImageSave(img.dataSource)}
-              >
-                Save Image
-              </Save>
+              <AltAndButtonsWrapper>
+                <DisplayAlt>
+                  {img?.alt !== ''
+                    ? truncateText(img.alt, 35)
+                    : 'Description: Not Found'}
+                </DisplayAlt>
+                <ImgIconsWrapper $isHover={isHover === innerIndex}>
+                <AddToCollection
+                    value={img?.dataSource}
+                    src={iconHover ? saveFill : saveNoFill}
+                    onMouseOver={(e)=> setIconHover(true)}
+                    onMouseLeave={() => setIconHover(false)}
+                    alt={'moreIcon'}
+                  />
+                  <Save
+                    value={img?.dataSource}
+                    src={downloadIsHover ? downloadIcon:preDownload}
+                    onMouseOver={()=>setDownloadIsHover(true)}
+                    onMouseLeave={()=>setDownloadIsHover(false)}
+                    alt={'saveIcon'}
+                    onClick={() => handleImageSave(img.dataSource)}
+                  />
+                  
+                </ImgIconsWrapper>
+              </AltAndButtonsWrapper>
             </ImageWrapper>
           )
         })}
@@ -176,16 +215,72 @@ const MetaData = () => {
 
         {webImages}
       </AllImagesWrapper>
+      {imgArr.length === 0 && <TrianglesWrapper>{runShapes}</TrianglesWrapper>}
     </Wrapper>
   )
 }
 
 export default MetaData
+const Circle = styled.div`
+  width: 15px;
+  height: 15px;
+  border-radius: 6px;
+  background-color: lightblue;
+`
+const TriangleTwo = styled.div`
+  width: 2px;
+  height: 0;
+  border-top: 15px solid black;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-radius: 5px;
+`
+const Triangle = styled.div`
+  width: 2px;
+  height: 0;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-bottom: 15px solid red;
+  border-radius: 5px;
+`
+const TrianglesWrapper = styled.div`
+  display: flex;
+`
 const DisplayAlt = styled.p`
   ${text.bodyMBold}
   text-align: center;
 `
-const Save = styled.button``
+const AddToCollection = styled.img`
+  cursor: pointer;
+  width: 25px;
+  transition: transform .1s ease-in;
+  &:hover{
+    transform: scale(1.1);
+  }
+`
+const Save = styled.img`
+  cursor: pointer;
+  width: 25px;
+  transition: transform .1s ease-in;
+  &:hover{
+    transform: scale(1.1);
+  }
+`
+const AltAndButtonsWrapper = styled.div`
+  position: relative;
+  display: flex;
+  flex-direction: column;
+`
+const ImgIconsWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  transition: opacity 0.2s ease-in-out;
+  opacity: ${(props) => (props.$isHover ? '100' : '0')};
+  padding-bottom:10px;
+  padding-right:10px;
+`
 const Img = styled.img`
   position: relative;
   width: 100%;
@@ -193,6 +288,7 @@ const Img = styled.img`
   min-width: 50px;
 `
 const ImageWrapper = styled.div`
+  position: relative;
   display: flex;
   flex-direction: column;
 `
@@ -219,8 +315,9 @@ const ChunkDiv = styled.div`
   justify-content: space-evenly;
   align-items: flex-end;
   flex-wrap: wrap;
+  overflow-y:scroll;
   border: 4px solid red;
-  height: fit-content;
+  height: 47.569vw;
   gap: 50px 10px;
 `
 const AllImagesWrapper = styled.div`
@@ -231,7 +328,6 @@ const AllImagesWrapper = styled.div`
   width: 98vw;
   max-height: 700px;
   background-color: transparent;
-  overflow-y: scroll;
 `
 const SubmitUrl = styled.button`
   ${text.bodyM}
