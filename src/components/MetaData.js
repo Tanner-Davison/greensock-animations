@@ -22,8 +22,8 @@ const MetaData = () => {
   const [domain, setDomain] = useState('.com')
   const [imgArr, setImgArr] = useState([])
   const [isHover, setIsHover] = useState('')
-  const [iconHover, setIconHover]= useState(false)
-  const [downloadIsHover, setDownloadIsHover]= useState(false)
+  const [iconHover, setIconHover] = useState(false)
+  const [downloadIsHover, setDownloadIsHover] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
 
   const runShapes = new Array(5).fill().map((num) => {
@@ -93,14 +93,18 @@ const MetaData = () => {
     }
     return chunks
   }
-  const handleImageSave = async (imgSrc) => {
+  const handleImageSave = async (imgSrc, imageAlt) => {
     const imageUrl = imgSrc
+    const removedSpaces = [...imageAlt].reduce(
+      (acc, char) => (char === ' ' ? acc : acc + char),
+      '',
+    )
     try {
       const response = await fetch(imageUrl)
       const blob = await response.blob()
       const link = document.createElement('a')
       link.href = window.URL.createObjectURL(blob)
-      link.download = 'image.jpg'
+      link.download = removedSpaces.substring(0, 12) + '...'
       document.body.appendChild(link)
       link.click()
       document.body.removeChild(link)
@@ -110,18 +114,25 @@ const MetaData = () => {
     }
   }
   const truncateText = (text, maxLength) => {
-    if (text.length <= maxLength) {
+    if (text?.length <= maxLength) {
       return text
     } else {
-      return text.substring(0, maxLength - 3) + '...'
+      return text?.substring(0, maxLength - 3) + '...'
     }
   }
   const chunky = chunkArray(imgArr, imgArr.length)
   const webImages = chunky.map((chunk, index) => {
     console.log(chunk)
+    const sortedChunk = chunk?.slice().sort((a, b) => {
+      const altA = a.alt?.toLowerCase();
+      const altB = b.alt?.toLowerCase();
+      if (altA < altB) return -1;
+      if (altA > altB) return 1;
+      return 0;
+  });
     return (
       <ChunkDiv key={index}>
-        {chunk.map((img, innerIndex) => {
+        {sortedChunk.map((img, innerIndex) => {
           return (
             <ImageWrapper
               key={innerIndex}
@@ -140,22 +151,21 @@ const MetaData = () => {
                     : 'Description: Not Found'}
                 </DisplayAlt>
                 <ImgIconsWrapper $isHover={isHover === innerIndex}>
-                <AddToCollection
+                  <AddToCollection
                     value={img?.dataSource}
                     src={iconHover ? saveFill : saveNoFill}
-                    onMouseOver={(e)=> setIconHover(true)}
+                    onMouseOver={(e) => setIconHover(true)}
                     onMouseLeave={() => setIconHover(false)}
                     alt={'moreIcon'}
                   />
                   <Save
                     value={img?.dataSource}
-                    src={downloadIsHover ? downloadIcon:preDownload}
-                    onMouseOver={()=>setDownloadIsHover(true)}
-                    onMouseLeave={()=>setDownloadIsHover(false)}
+                    src={downloadIsHover ? downloadIcon : preDownload}
+                    onMouseOver={() => setDownloadIsHover(true)}
+                    onMouseLeave={() => setDownloadIsHover(false)}
                     alt={'saveIcon'}
-                    onClick={() => handleImageSave(img.dataSource)}
+                    onClick={() => handleImageSave(img.dataSource, img.alt)}
                   />
-                  
                 </ImgIconsWrapper>
               </AltAndButtonsWrapper>
             </ImageWrapper>
@@ -186,6 +196,7 @@ const MetaData = () => {
           <DomainOption value={'.io'}>.io</DomainOption>
           <DomainOption value={'.org'}>.org</DomainOption>
           <DomainOption value={'.edu'}>.edu</DomainOption>
+          <DomainOption value={'.tv'}>.tv</DomainOption>
         </Select>
         <UrlInput
           id={'metaUrlInputSecond'}
@@ -253,16 +264,16 @@ const DisplayAlt = styled.p`
 const AddToCollection = styled.img`
   cursor: pointer;
   width: 25px;
-  transition: transform .1s ease-in;
-  &:hover{
+  transition: transform 0.1s ease-in;
+  &:hover {
     transform: scale(1.1);
   }
 `
 const Save = styled.img`
   cursor: pointer;
   width: 25px;
-  transition: transform .1s ease-in;
-  &:hover{
+  transition: transform 0.1s ease-in;
+  &:hover {
     transform: scale(1.1);
   }
 `
@@ -278,8 +289,8 @@ const ImgIconsWrapper = styled.div`
   gap: 10px;
   transition: opacity 0.2s ease-in-out;
   opacity: ${(props) => (props.$isHover ? '100' : '0')};
-  padding-bottom:10px;
-  padding-right:10px;
+  padding-bottom: 10px;
+  padding-right: 10px;
 `
 const Img = styled.img`
   position: relative;
@@ -315,10 +326,21 @@ const ChunkDiv = styled.div`
   justify-content: space-evenly;
   align-items: flex-end;
   flex-wrap: wrap;
-  overflow-y:scroll;
+  overflow-y: scroll;
   border: 4px solid red;
   height: 47.569vw;
   gap: 50px 10px;
+  ${media.fullWidth} {
+    height: 685px;
+  }
+  
+  ${media.tablet} {
+  
+  }
+  
+  ${media.mobile} {
+  
+  }
 `
 const AllImagesWrapper = styled.div`
   position: relative;
@@ -326,7 +348,7 @@ const AllImagesWrapper = styled.div`
   flex-wrap: wrap;
   justify-content: center;
   width: 98vw;
-  max-height: 700px;
+  
   background-color: transparent;
 `
 const SubmitUrl = styled.button`
