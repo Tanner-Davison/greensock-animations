@@ -40,7 +40,7 @@ const MetaData = () => {
     setMetaData({ title: '', description: '', alt: '' })
     setImgArr([])
     try {
-      const response = await axios.get('http://localhost:5000/proxy', {
+      const response = await axios.get('http://localhost:5002/proxy', {
         params: { searchUrl, searchExtendedUrl, domain },
       })
       const $ = cheerio.load(response.data)
