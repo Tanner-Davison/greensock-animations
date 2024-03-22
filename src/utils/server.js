@@ -24,8 +24,10 @@ console.log(response.data)
     const headers = {
       'content-type': response.headers['content-type'],
       'cache-control': response.headers['cache-control'],
+
       // Add any other headers you want to forward
     };
+    res.set('Access-Control-Allow-Origin','*')
 
     // Forward the headers along with the HTML content
     res.set(headers).send(response.data);
