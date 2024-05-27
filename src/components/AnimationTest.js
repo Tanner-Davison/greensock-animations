@@ -1,9 +1,7 @@
 import React, { useEffect,useRef } from "react";
 import NavigationBar from "./NavigationBar";
 import styled from "styled-components";
-import media from "../styles/media";
-import colors from "../styles/colors";
-import text from "../styles/text";
+
 import getMedia from "../utils/getMedia";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";

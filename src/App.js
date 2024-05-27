@@ -1,16 +1,16 @@
 import React from 'react'
 import HomePage from './pages/HomePage'
 import CustomTools from './pages/CustomTools'
-import inProgress from './pages/InProgress'
-import MetaData from './components/MetaData'
 
+import MetaData from './components/MetaData'
+import ScrollExample from './pages/ScrollExample'
+import InProgress from './pages/InProgress'
 import {
   createBrowserRouter,
   createRoutesFromElements,
   Route,
   RouterProvider,
 } from 'react-router-dom'
-import InProgress from './pages/InProgress'
 
 const scrollToSection = (sectionId) => {
   const element = document.getElementById(sectionId)
@@ -29,6 +29,7 @@ function App() {
         <Route path='/box-playground' element={<CustomTools />} />,
         <Route path='/in-progress' element={<InProgress />} />,
         <Route path='/metaDataTool' element={<MetaData />} />,
+        <Route path='/pinned-scroll' element={<ScrollExample />} />,
       </>,
     ),
   )

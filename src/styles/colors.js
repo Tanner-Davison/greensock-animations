@@ -4,7 +4,6 @@ const colors = {
   yellow500: "#FFDB4F",
   yellow400: "#FFE068",
   yellow300: "#FFE582",
-  primaryYellow: "#EEE352",
   yellow200: "#FFF5CD",
   yellow100: "#FFFAE6",
   darkTeal: "#007C77",
