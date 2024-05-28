@@ -11,7 +11,7 @@ import Content5 from './GridContent/Content5'
 
 const GridLayout = () => {
   return (
-    <Wrapper>
+    <Wrapper className='end-home-trigger'>
         <Layout>
             <Content className={'content1'}>content1</Content>
             <Content className={'content2'}>content2</Content>

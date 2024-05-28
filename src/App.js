@@ -1,7 +1,7 @@
 import React from 'react'
 import HomePage from './pages/HomePage'
 import CustomTools from './pages/CustomTools'
-
+import NavigationBar from './components/NavigationBar'
 import MetaData from './components/MetaData'
 import ScrollExample from './pages/ScrollExample'
 import InProgress from './pages/InProgress'
@@ -30,6 +30,7 @@ function App() {
         <Route path='/in-progress' element={<InProgress />} />,
         <Route path='/metaDataTool' element={<MetaData />} />,
         <Route path='/pinned-scroll' element={<ScrollExample />} />,
+        <Route path='/meta-lookup' element={<><NavigationBar/><MetaData/></>}/>,
       </>,
     ),
   )

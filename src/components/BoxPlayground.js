@@ -912,10 +912,10 @@ const Wrapper = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  padding: 2.917vw 0vw;
+  padding: 5.903vw 0vw;
   z-index: 1;
   ${media.fullWidth} {
-    padding: 0px 0px;
+    padding: 85px 0px;
   }
 
   ${media.tablet} {

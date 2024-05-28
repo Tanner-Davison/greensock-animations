@@ -1,6 +1,6 @@
 import { useGSAP } from '@gsap/react'
 import gsap from 'gsap'
-import React, { useRef, useState } from 'react'
+import React, { useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import colors from '../styles/colors'
@@ -17,6 +17,7 @@ const NavigationBar = () => {
     { name: 'Home', link: '/' },
     { name: 'My Custom Tools', link: '/box-playground' },
     { name: 'In progress', link: '/in-progress' },
+    {name: 'Meta-Lookup', link: '/meta-lookup'}
   ]
 
   const tweenOn = contextSafe((index) => {
@@ -39,7 +40,7 @@ const NavigationBar = () => {
       rotate: 0,
       transformOrigin: '120% 60%',
       borderRadius: '50%',
-      backgroundColor:'black',
+      backgroundColor: 'black',
       ease: 'back.inOut',
     })
   })
@@ -59,7 +60,26 @@ const NavigationBar = () => {
       </LinkItem>
     )
   })
-  return <Wrapper ref={container}>{NavLinks}</Wrapper>
+    useGSAP(
+      () => {
+        gsap.to('.nav-bar', {
+          scrollTrigger: {
+            trigger: '.nav-bar',
+            start: 'top top',
+            endTrigger:'.end-home-trigger', 
+            pin: true,
+            pinSpacing: false,
+            pinSpacer: false,
+          },
+        })
+      },
+      { scope:'nav-bar' ,revertOnUpdate: false },
+    )
+  return (
+    <Wrapper className='nav-bar' ref={container}>
+      {NavLinks}
+    </Wrapper>
+  )
 }
 
 export default NavigationBar
@@ -84,18 +104,21 @@ const LinkItem = styled.div`
   align-items: center;
 `
 const Wrapper = styled.div`
+position: fixed;
   display: flex;
   align-items: center;
   justify-content: center;
-  top:0;
-  gap: 5.083vw;
-  max-width: 100vw;
+  background-color: white;
+  justify-self: center;
   height: 5vw;
-  border: 1px solid red;
+  width:99%;
+  padding-left:10px;
+  gap: 5.083vw;
+  z-index: 1000;
   ${media.fullWidth} {
     gap: 73px;
     height: 72px;
-  justify-self:center;
+    justify-self: center;
   }
 
   ${media.tablet} {
