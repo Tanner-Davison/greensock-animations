@@ -9,6 +9,7 @@ import saveNoFill from '../images/saveNoFill.png'
 import media from '../styles/media'
 import text from '../styles/text'
 import gsap from 'gsap'
+import colors from '../styles/colors'
 import TypingComp from '../utils/TypingComp'
 import { useGSAP } from '@gsap/react'
 const MetaData = () => {
@@ -173,45 +174,47 @@ const MetaData = () => {
       </ChunkDiv>
     )
   })
-  useGSAP(() => {
-    const elTarget = document.querySelector('.meta-search-container');
-    const endTarget = document.querySelector('.chunk-div')
- 
-    const enteredTl = gsap.timeline({ paused: true });
-    enteredTl
-    .to(elTarget, {
-      height: '62px', 
-      overflow: 'hidden',
-      padding:'0px',
-      left:'0px',
-      top:'75px',
-      
-    })
-    .to('.meta-search-bar',{padding:'0px', left:'0px' },0)
-    
-    
-    if(metaImages.length > 5){
-      elTarget.addEventListener('mouseover',()=> enteredTl.reverse())
-      elTarget.addEventListener('mouseleave', ()=> enteredTl.play())
-    }
+  useGSAP(
+    () => {
+      const elTarget = document.querySelector('.meta-search-container')
+      const endTarget = document.querySelector('.chunk-div')
 
-    const pinnedTimeline = gsap.timeline({
-      scrollTrigger: {
-        trigger: elTarget, 
-        start: 'top top',
-        endTrigger: endTarget,
-        end: 'bottom bottom',
-        markers: true,
-        onEnter: () => enteredTl.play(),
-        onLeaveBack: () => enteredTl.reverse(),
-        onEnterBack: ()=> enteredTl.reverse(),
-        
-      },
-    });
-  
-    pinnedTimeline.play(); 
-  },
-  { scope: '.meta-data-wrapper',dependencies:[metaImages], revertOnUpdate: true });
+      const enteredTl = gsap.timeline({ paused: true })
+      enteredTl
+        .to(elTarget, {
+          height: '62px',
+          overflow: 'hidden',
+          padding: '0px',
+          left: '0px',
+          top: '73px',
+        })
+        .to('.meta-search-bar', { padding: '0px', left: '0px' }, 0)
+
+      if (metaImages.length > 5) {
+        elTarget.addEventListener('mouseover', () => enteredTl.reverse())
+        elTarget.addEventListener('mouseleave', () => enteredTl.play())
+      }
+
+      const pinnedTimeline = gsap.timeline({
+        scrollTrigger: {
+          trigger: elTarget,
+          start: 'top top',
+          endTrigger: endTarget,
+          end: 'bottom bottom',
+          onEnter: () => enteredTl.play(),
+          onLeaveBack: () => enteredTl.reverse(),
+          onEnterBack: () => enteredTl.reverse(),
+        },
+      })
+
+      pinnedTimeline.play()
+    },
+    {
+      scope: '.meta-data-wrapper',
+      dependencies: [metaImages],
+      revertOnUpdate: true,
+    },
+  )
 
   useGSAP(
     () => {
@@ -276,7 +279,9 @@ const MetaData = () => {
           {!isLoading && (
             <>
               <MetaTitle className='metadata-title'>{metaData.title}</MetaTitle>
-              <MetaDescription className='metadata-body'>{metaData.description}</MetaDescription>
+              <MetaDescription className='metadata-body'>
+                {metaData.description}
+              </MetaDescription>
             </>
           )}
           {metaImages.length === 0 && (
@@ -402,27 +407,27 @@ const MetaHeaderWrapper = styled.div`
   text-align: center;
   padding: 1.736vw;
   width: 50vw;
-  background-color: rgba(0, 0, 0, 0.06);
-  border-radius: 1.736vw;
-
+  border: 2px inset #71706e;
+  color: ${colors.white};
+  background-color: hsla(224, 3%, 19%, 1);
+  border-radius: 1.25vw;
+  -webkit-box-shadow: 5px 5px 5px 0px #000000, inset 4px 4px 15px 0px #000000, inset 5px 5px 15px 5px rgba(255,255,255,0); 
+box-shadow: 5px 5px 5px 0px #fffefe, inset 4px 4px 15px 0px #000000, inset 5px 5px 15px 5px rgba(255,255,255,0);
   ${media.fullWidth} {
     padding: 25px;
     width: 720px;
-    background-color: rgba(0, 0, 0, 0.06);
     border-radius: 25px;
   }
 
   ${media.tablet} {
     padding: 2.441vw;
     width: 70.313vw;
-    background-color: rgba(0, 0, 0, 0.06);
     border-radius: 2.441vw;
   }
 
   ${media.mobile} {
     padding: 5.841vw;
     width: 105.14vw;
-    background-color: rgba(0, 0, 0, 0.06);
     border-radius: 5.841vw;
   }
 `
@@ -454,12 +459,27 @@ const AllImagesWrapper = styled.div`
   justify-content: center;
   background-color: white;
   max-width: 100%;
-  margin-top:300px;
+  margin-top: 300px;
 `
 
 const SubmitUrl = styled.button`
-  ${text.bodyM}
-  background-color: transparent;
+  ${text.bodyMBold}
+  cursor: pointer;
+  border-radius: 10px;
+  border: 1px outset gray ;
+  padding: 2px 8px;
+  color:black;
+  box-shadow: inset 0px 1px 0px rgba(255,255,255,.5),0px 1px 3px rgba(0,0,0,0.3);
+  
+  background: linear-gradient(top, rgba(38, 38, 38, 0.8), #e6e6e6 25%, #ffffff 38%, #c5c5c5 63%, #f7f7f7 87%, rgba(38, 38, 38, 0.8));
+  background: -webkit-linear-gradient(top, rgba(38, 38, 38, 0.5), #e6e6e6 45%, #ffffff 48%, rgba(0, 0, 0, 0.25)  63%, #e6e6e6 87%, rgba(38, 38, 38, 0.4));
+  transition:transform .3s ease-in-out;
+  &:hover{
+    border:1px inset gray;
+    transform:scale(0.95);
+  }
+
+  
 `
 
 const DomainOption = styled.option`
@@ -485,20 +505,51 @@ const SearchBar = styled.div`
   justify-content: center;
 `
 const SearchContainer = styled.div`
-  ${text.bodyM}
+  ${text.bodyMBold}
   position:fixed;
   display: flex;
+  height: auto;
   flex-direction: column;
   align-items: center;
-  top: 8%;
-  border: 2px inset darkgray;
-  border-radius: 25px;
-  background-color: #b3cdd1;
-  background-image: linear-gradient(315deg, #b3cdd1 0%, #9fa4c4 74%);
-
+  background-color: hsla(224, 10%, 10%, 1);
+  color: black;
+  border: 1px ridge silver;
+  top: 9%;
+  border-radius: 12px;
   padding: 2.014vw 5vw;
   z-index: 500;
+  background-size: 75px 320px;
   
+  background-image: -webkit-repeating-linear-gradient(
+      left,
+      hsla(0, 0%, 100%, 0) 0%,
+      hsla(0, 0%, 100%, 0) 6%,
+      hsla(0, 0%, 100%, 0.1) 7.5%,
+      hsla(0, 0%, 100%, 0) 9%
+    ),
+    -webkit-repeating-linear-gradient(left, hsla(0, 0%, 0%, 0) 0%, hsla(
+            0,
+            0%,
+            0%,
+            0
+          )
+          4%, hsla(0, 0%, 0%, 0.03) 4.5%, hsla(0, 0%, 0%, 0) 6%),
+    -webkit-repeating-linear-gradient(left, hsla(0, 0%, 100%, 0) 0%, hsla(
+            0,
+            0%,
+            100%,
+            0
+          )
+          1.2%, hsla(0, 0%, 100%, 0.15) 2.2%, hsla(0, 0%, 100%, 0) 4%),
+    -webkit-linear-gradient(-90deg, hsl(0, 0%, 78%) 0%, hsl(0, 0%, 90%) 47%, hsl(
+            0,
+            0%,
+            78%
+          )
+          53%, hsl(0, 0%, 70%) 100%);
+
+  -webkit-box-shadow: 5px 5px 8px 1px rgba(0, 0, 0, 0.41);
+  box-shadow: 5px 5px 8px 1px rgba(0, 0, 0, 0.41);
   ${media.fullWidth} {
     padding: 29px 72px;
   }
