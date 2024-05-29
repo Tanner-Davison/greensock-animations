@@ -15,7 +15,6 @@ const NavigationBar = () => {
   const links = [
     { name: 'Home', link: '/' },
     { name: 'My Custom Tools', link: '/box-playground' },
-    { name: 'In progress', link: '/in-progress' },
     { name: 'Meta-Lookup', link: '/meta-lookup' },
   ]
 

@@ -242,8 +242,17 @@ const MetaData = () => {
           geoTimeline.play()
         }
         Draggable.create("#drag-me", {
-          type: "y",
-          inertia: true,
+          type: "xy",
+          dragClickables:false,
+          dragResistance: 0.40,
+          intertia:true,
+          liveSnap: {
+            points: [
+              { x: 0, y: 0 },
+          
+            ],
+            radius: 50,
+          },
         });
     },
     { scope: '.meta-data-wrapper', revertOnUpdate:true , dependencies:[isLoading, isError]},
