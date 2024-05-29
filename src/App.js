@@ -1,16 +1,20 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import HomePage from './pages/HomePage'
 import CustomTools from './pages/CustomTools'
 import NavigationBar from './components/NavigationBar'
 import MetaData from './components/MetaData'
 import ScrollExample from './pages/ScrollExample'
 import InProgress from './pages/InProgress'
+import gsap from 'gsap'
+
 import {
   createBrowserRouter,
   createRoutesFromElements,
   Route,
   RouterProvider,
 } from 'react-router-dom'
+
+
 
 const scrollToSection = (sectionId) => {
   const element = document.getElementById(sectionId)
@@ -22,6 +26,7 @@ const scrollToSection = (sectionId) => {
 }
 
 function App() {
+ 
   const router = createBrowserRouter(
     createRoutesFromElements(
       <>

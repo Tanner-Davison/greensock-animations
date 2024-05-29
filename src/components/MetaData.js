@@ -13,6 +13,9 @@ import colors from '../styles/colors'
 import TypingComp from '../utils/TypingComp'
 import truncateText from '../utils/truncateText'
 import { useGSAP } from '@gsap/react'
+import { Draggable } from 'gsap/all'
+
+gsap.registerPlugin(Draggable)
 const MetaData = () => {
   const [searchUrl, setSearchUrl] = useState('')
   const [searchPath, setSearchPath] = useState('')
@@ -238,6 +241,10 @@ const MetaData = () => {
         }else{
           geoTimeline.play()
         }
+        Draggable.create("#drag-me", {
+          type: "y",
+          inertia: true,
+        });
     },
     { scope: '.meta-data-wrapper', revertOnUpdate:true , dependencies:[isLoading, isError]},
   )
@@ -247,6 +254,7 @@ const MetaData = () => {
       <SearchContainer
         htmlFor={'metaUrlInput'}
         className='meta-search-container'
+        id='drag-me'
       >
         <SearchBar className='meta-search-bar'>
           www.

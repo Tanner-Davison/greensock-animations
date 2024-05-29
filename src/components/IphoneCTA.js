@@ -11,7 +11,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 gsap.registerPlugin(ScrollTrigger)
 gsap.registerPlugin(GSDevTools)
 const IphoneCTA = ({ content }) => {
-  const flipTl = gsap.timeline()
+  const flipTl = gsap.timeline({nullTargetWarn:false})
   const [phoneFlipped, setPhoneFlipped] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
   const useHeadlineIfFlipped = ['User', 'Login']
@@ -78,7 +78,7 @@ const IphoneCTA = ({ content }) => {
     const Header = document.querySelectorAll('.iphoneHeader')
     const PhoneBody = document.querySelectorAll('.iphoneBody')
     const SubmitBtn = document.querySelectorAll('.submitBtn')
-    const flipTlBack = gsap.timeline({ paused: false })
+    const flipTlBack = gsap.timeline({ paused: false, nullTargetWarn:false })
     const LoginBtn = document.querySelectorAll('.loginBtn')
     flipTlBack.to(
       Iphone,
@@ -143,7 +143,6 @@ const IphoneCTA = ({ content }) => {
       const onStart = gsap
         .timeline({
           paused: true,
-          nullTargetWarn: false,
           scrollTrigger: {
             trigger: trigger,
             start: 'top 50%',
@@ -163,7 +162,7 @@ const IphoneCTA = ({ content }) => {
         )
         .to(IphoneBody, { yPercent: 0, duration: 1.3 }, '<')
     },
-    { scope: '.iphoneTrigger', revertOnUpdate: true },
+    {  revertOnUpdate: true },
   )
   const flippedHeadline = useHeadlineIfFlipped.map((word, index) => (
     <IphoneHeader
