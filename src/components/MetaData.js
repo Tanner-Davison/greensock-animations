@@ -11,12 +11,14 @@ import text from '../styles/text'
 import gsap from 'gsap'
 import colors from '../styles/colors'
 import TypingComp from '../utils/TypingComp'
+import truncateText from '../utils/truncateText'
 import { useGSAP } from '@gsap/react'
 const MetaData = () => {
   const [searchUrl, setSearchUrl] = useState('')
   const [searchPath, setSearchPath] = useState('')
   const [domain, setDomain] = useState('.com')
   const [isLoading, setIsLoading] = useState(false)
+  const [isError,setIsError]= useState(false)
   const [metaImages, setMetaImages] = useState([])
   const [isHover, setIsHover] = useState('')
   const [saveIconHover, setSaveIconHover] = useState(false)
@@ -74,11 +76,13 @@ const MetaData = () => {
             { dataSource: delayedUrl, alt: altTag },
           ])
         }
+        
       })
     } catch (error) {
       console.error('Error fetching meta data:', error)
+      setIsError(true)
       setMetaData({
-        title: 'Oops.. Invalid Request',
+        title: 'Request-Denied',
         description:
           'Some websites may restrict access to their metadata to protect user privacy. Metadata can sometimes contain personally identifiable information or other sensitive data that the website owner wants to keep private.',
       })
@@ -107,13 +111,7 @@ const MetaData = () => {
       console.log('error downloading image, : ', error)
     }
   }
-  const truncateText = (text, maxLength) => {
-    if (text?.length <= maxLength) {
-      return text
-    } else {
-      return text?.substring(0, maxLength - 3) + '...'
-    }
-  }
+
   const chunkArray = (array, maxSize) => {
     const chunks = []
     for (let i = 0; i < array.length; i += maxSize) {
@@ -122,6 +120,7 @@ const MetaData = () => {
     return chunks
   }
   const chunky = chunkArray(metaImages, metaImages.length)
+
   const webImages = chunky.map((chunk, index) => {
     const sortedChunk = chunk?.slice().sort((a, b) => {
       const altA = a.alt?.toLowerCase()
@@ -178,14 +177,15 @@ const MetaData = () => {
     () => {
       const elTarget = document.querySelector('.meta-search-container')
       const endTarget = document.querySelector('.chunk-div')
-
+      if(metaImages.length<1){
+        return
+      }
       const enteredTl = gsap.timeline({ paused: true })
       enteredTl
         .to(elTarget, {
           height: '62px',
           overflow: 'hidden',
           padding: '0px',
-          left: '0px',
           top: '73px',
         })
         .to('.meta-search-bar', { padding: '0px', left: '0px' }, 0)
@@ -219,6 +219,7 @@ const MetaData = () => {
   useGSAP(
     () => {
       const geoItems = gsap.utils.toArray('.geo-item')
+     
       const animationDuration = 0.5
       const geoTimeline = gsap
         .timeline({
@@ -232,9 +233,13 @@ const MetaData = () => {
         .to(geoItems, { y: '8px', scale: 0.9, rotate: 90, stagger: 0.05 })
         .to(geoItems, { y: '0px', scale: 1, rotate: 0, stagger: 0.05 })
         .repeat(-1)
+        if(isError && !isLoading){
+          geoTimeline.pause()
+        }else{
+          geoTimeline.play()
+        }
     },
-
-    { scope: '.meta-data-wrapper' },
+    { scope: '.meta-data-wrapper', revertOnUpdate:true , dependencies:[isLoading, isError]},
   )
 
   return (
@@ -411,8 +416,10 @@ const MetaHeaderWrapper = styled.div`
   color: ${colors.white};
   background-color: hsla(224, 3%, 19%, 1);
   border-radius: 1.25vw;
-  -webkit-box-shadow: 5px 5px 5px 0px #000000, inset 4px 4px 15px 0px #000000, inset 5px 5px 15px 5px rgba(255,255,255,0); 
-box-shadow: 5px 5px 5px 0px #fffefe, inset 4px 4px 15px 0px #000000, inset 5px 5px 15px 5px rgba(255,255,255,0);
+  -webkit-box-shadow: 5px 5px 5px 0px #000000, inset 4px 4px 15px 0px #000000,
+    inset 5px 5px 15px 5px rgba(255, 255, 255, 0);
+  box-shadow: 5px 5px 5px 0px #fffefe, inset 4px 4px 15px 0px #000000,
+    inset 5px 5px 15px 5px rgba(255, 255, 255, 0);
   ${media.fullWidth} {
     padding: 25px;
     width: 720px;
@@ -466,20 +473,35 @@ const SubmitUrl = styled.button`
   ${text.bodyMBold}
   cursor: pointer;
   border-radius: 10px;
-  border: 1px outset gray ;
+  border: 1px outset gray;
   padding: 2px 8px;
-  color:black;
-  box-shadow: inset 0px 1px 0px rgba(255,255,255,.5),0px 1px 3px rgba(0,0,0,0.3);
-  
-  background: linear-gradient(top, rgba(38, 38, 38, 0.8), #e6e6e6 25%, #ffffff 38%, #c5c5c5 63%, #f7f7f7 87%, rgba(38, 38, 38, 0.8));
-  background: -webkit-linear-gradient(top, rgba(38, 38, 38, 0.5), #e6e6e6 45%, #ffffff 48%, rgba(0, 0, 0, 0.25)  63%, #e6e6e6 87%, rgba(38, 38, 38, 0.4));
-  transition:transform .3s ease-in-out;
-  &:hover{
-    border:1px inset gray;
-    transform:scale(0.95);
-  }
+  color: black;
+  box-shadow: inset 0px 1px 0px rgba(255, 255, 255, 0.5),
+    0px 1px 3px rgba(0, 0, 0, 0.3);
 
-  
+  background: linear-gradient(
+    top,
+    rgba(38, 38, 38, 0.8),
+    #e6e6e6 25%,
+    #ffffff 38%,
+    #c5c5c5 63%,
+    #f7f7f7 87%,
+    rgba(38, 38, 38, 0.8)
+  );
+  background: -webkit-linear-gradient(
+    top,
+    rgba(38, 38, 38, 0.5),
+    #e6e6e6 45%,
+    #ffffff 48%,
+    rgba(0, 0, 0, 0.25) 63%,
+    #e6e6e6 87%,
+    rgba(38, 38, 38, 0.4)
+  );
+  transition: transform 0.3s ease-in-out;
+  &:hover {
+    border: 1px inset gray;
+    transform: scale(0.95);
+  }
 `
 
 const DomainOption = styled.option`
@@ -508,7 +530,7 @@ const SearchContainer = styled.div`
   ${text.bodyMBold}
   position:fixed;
   display: flex;
-  height: auto;
+  height: fit-content;
   flex-direction: column;
   align-items: center;
   background-color: hsla(224, 10%, 10%, 1);
@@ -518,8 +540,8 @@ const SearchContainer = styled.div`
   border-radius: 12px;
   padding: 2.014vw 5vw;
   z-index: 500;
-  background-size: 75px 320px;
-  
+  background-size: 75px 420px;
+
   background-image: -webkit-repeating-linear-gradient(
       left,
       hsla(0, 0%, 100%, 0) 0%,

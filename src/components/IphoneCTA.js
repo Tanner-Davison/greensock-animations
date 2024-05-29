@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import media from '../styles/media'
 import colors from '../styles/colors'
 import text from '../styles/text'
-import { pageData } from './pageContent/IphonePageContent'
+import { pageData } from './iphonePageContent/IphonePageContent'
 import { gsap } from 'gsap'
+import { useGSAP } from '@gsap/react'
 import { GSDevTools } from 'gsap/GSDevTools'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 gsap.registerPlugin(ScrollTrigger)
@@ -21,9 +22,9 @@ const IphoneCTA = ({ content }) => {
 
   const handleIphoneClick = () => {
     setPhoneFlipped(true)
-    const Iphone = document.querySelectorAll('.iphoneAsset')
-    const MainContent = document.querySelectorAll('.iphoneBackground')
-    const Header = document.querySelectorAll('.iphoneHeader')
+    const Iphone = document.querySelector('.iphoneAsset')
+    const MainContent = gsap.utils.toArray('.iphoneBackground')
+    const Header = gsap.utils.toArray('.iphoneHeader')
     const PhoneBody = document.querySelectorAll('.iphoneBody')
     const LoginBtn = document.querySelectorAll('.loginBtn')
     const iphone = {
@@ -123,38 +124,47 @@ const IphoneCTA = ({ content }) => {
     }
     return
   })
-  useEffect(() => {
-    window.innerWidth <= 480 && setIsMobile(true)
-    const IphoneBody = document.querySelectorAll('.iphoneBody')
-    const IphoneBg = document.querySelectorAll('.iphoneBackground')
-    const Iphone = document.querySelectorAll('.iphoneAsset')
-    const FirstWord = document.getElementsByClassName('firstWord')
-    const SecondWord = document.getElementsByClassName('secondWord')
-    const trigger = document.querySelector('#iphoneTrigger')
-    gsap.set(Iphone, { yPercent: 400, rotate: 180 })
-    gsap.set(IphoneBg, { scale: -1, opacity: 0 })
-    gsap.set(IphoneBody, { yPercent: 300 })
-    gsap.set(FirstWord, { xPercent: -200 })
-    gsap.set(SecondWord, { xPercent: 200 })
-    const onStart = gsap
-      .timeline({
-        paused: true,
-        scrollTrigger: {
-          trigger: trigger,
-          start: 'top 50%',
-          toggleActions: 'play none play reverse',
-        },
-      })
-      .to(Iphone, { yPercent: 0, rotate: 360, duration: 1.5 })
-      .to(
-        IphoneBg,
-        { scale: 1, opacity: 1, duration: 1, ease: 'smooth' },
-        '-=1.3',
-      )
-      .to(FirstWord, { xPercent: 0, duration: 1.3, ease: 'back.out' }, '-=1')
-      .to(SecondWord, { xPercent: 0, duration: 1.3, ease: 'back.out' }, '<')
-      .to(IphoneBody, { yPercent: 0, duration: 1.3 }, '<')
-  }, [])
+  useGSAP(
+    () => {
+      window.innerWidth <= 480 && setIsMobile(true)
+      const IphoneBody = document.querySelectorAll('.iphoneBody')
+      const IphoneBg = document.querySelectorAll('.iphoneBackground')
+      const Iphone = document.querySelectorAll('.iphoneAsset')
+      const FirstWord = document.getElementsByClassName('firstWord')
+      const SecondWord = document.getElementsByClassName('secondWord')
+      const trigger = document.querySelector('#iphoneTrigger')
+      const initialIphoneTl = gsap
+        .timeline({ nullTargetWarn: false, paused: true })
+        .set(Iphone, { yPercent: 400, rotate: 180 })
+        .set(IphoneBg, { scale: -1, opacity: 0 })
+        .set(IphoneBody, { yPercent: 300 })
+        .set([SecondWord, FirstWord], { xPercent: 200 })
+      initialIphoneTl.play()
+      const onStart = gsap
+        .timeline({
+          paused: true,
+          nullTargetWarn: false,
+          scrollTrigger: {
+            trigger: trigger,
+            start: 'top 50%',
+            toggleActions: 'play none play reverse',
+          },
+        })
+        .to(Iphone, { yPercent: 0, rotate: 360, duration: 1.5 })
+        .to(
+          IphoneBg,
+          { scale: 1, opacity: 1, duration: 1, ease: 'smooth' },
+          '-=1.3',
+        )
+        .to(
+          [FirstWord, SecondWord],
+          { xPercent: 0, duration: 1.3, ease: 'back.out' },
+          '-=1',
+        )
+        .to(IphoneBody, { yPercent: 0, duration: 1.3 }, '<')
+    },
+    { scope: '.iphoneTrigger', revertOnUpdate: true },
+  )
   const flippedHeadline = useHeadlineIfFlipped.map((word, index) => (
     <IphoneHeader
       key={index}
