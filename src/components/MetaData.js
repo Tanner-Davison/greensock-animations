@@ -21,7 +21,7 @@ const MetaData = () => {
   const [searchPath, setSearchPath] = useState('')
   const [domain, setDomain] = useState('.com')
   const [isLoading, setIsLoading] = useState(false)
-  const [isError,setIsError]= useState(false)
+  const [isError, setIsError] = useState(false)
   const [metaImages, setMetaImages] = useState([])
   const [isHover, setIsHover] = useState('')
   const [saveIconHover, setSaveIconHover] = useState(false)
@@ -79,7 +79,6 @@ const MetaData = () => {
             { dataSource: delayedUrl, alt: altTag },
           ])
         }
-        
       })
     } catch (error) {
       console.error('Error fetching meta data:', error)
@@ -180,7 +179,7 @@ const MetaData = () => {
     () => {
       const elTarget = document.querySelector('.meta-search-container')
       const endTarget = document.querySelector('.chunk-div')
-      if(metaImages.length<1){
+      if (metaImages.length < 1) {
         return
       }
       const enteredTl = gsap.timeline({ paused: true })
@@ -222,7 +221,7 @@ const MetaData = () => {
   useGSAP(
     () => {
       const geoItems = gsap.utils.toArray('.geo-item')
-     
+
       const animationDuration = 0.5
       const geoTimeline = gsap
         .timeline({
@@ -236,26 +235,27 @@ const MetaData = () => {
         .to(geoItems, { y: '8px', scale: 0.9, rotate: 90, stagger: 0.05 })
         .to(geoItems, { y: '0px', scale: 1, rotate: 0, stagger: 0.05 })
         .repeat(-1)
-        if(isError && !isLoading){
-          geoTimeline.pause()
-        }else{
-          geoTimeline.play()
-        }
-        Draggable.create("#drag-me", {
-          type: "xy",
-          dragClickables:false,
-          dragResistance: 0.40,
-          intertia:true,
-          liveSnap: {
-            points: [
-              { x: 0, y: 0 },
-          
-            ],
-            radius: 50,
-          },
-        });
+      if (isError && !isLoading) {
+        geoTimeline.pause()
+      } else {
+        geoTimeline.play()
+      }
+      Draggable.create('#drag-me', {
+        type: 'xy',
+        dragClickables: false,
+        dragResistance: 0.4,
+        intertia: true,
+        liveSnap: {
+          points: [{ x: 0, y: 0 }],
+          radius: 50,
+        },
+      })
     },
-    { scope: '.meta-data-wrapper', revertOnUpdate:true , dependencies:[isLoading, isError]},
+    {
+      scope: '.meta-data-wrapper',
+      revertOnUpdate: true,
+      dependencies: [isLoading, isError],
+    },
   )
 
   return (
@@ -280,6 +280,8 @@ const MetaData = () => {
             <DomainOption value={'.org'}>.org</DomainOption>
             <DomainOption value={'.edu'}>.edu</DomainOption>
             <DomainOption value={'.tv'}>.tv</DomainOption>
+            <DomainOption value={'.pics'}>.pics</DomainOption>
+            <DomainOption value={'.photos'}>.photos</DomainOption>
           </Select>
           <UrlInput
             id={'metaUrlInputSecond'}
