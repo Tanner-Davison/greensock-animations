@@ -24,13 +24,13 @@ console.log(response.data)
     const headers = {
       'content-type': response.headers['content-type'],
       'cache-control': response.headers['cache-control'],
-
+      'Access-Control-Allow-Origin': '*',
       // Add any other headers you want to forward
     };
-    res.set('Access-Control-Allow-Origin','*')
 
     // Forward the headers along with the HTML content
-    res.set(headers).send(response.data);
+    res.set(headers);
+    res.send(response.data);
   } catch (error) {
     // Handle errors
     console.error('Error proxying request:', error);

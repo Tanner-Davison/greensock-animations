@@ -101,14 +101,19 @@ const MetaData = () => {
     )
     try {
       const response = await fetch(imageUrl)
-      const blob = await response.blob()
-      const link = document.createElement('a')
-      link.href = window.URL.createObjectURL(blob)
-      link.download = removedSpaces.substring(0, 12) + '...'
-      document.body.appendChild(link)
-      link.click()
-      document.body.removeChild(link)
-      window.URL.revokeObjectURL(link.href)
+      if(!response.ok){
+        throw new Error("Network Response was not okay")
+      }else{
+        const blob = await response.blob()
+        const link = document.createElement('a')
+        link.href = window.URL.createObjectURL(blob)
+        link.download = removedSpaces.substring(0, 12) + '...'
+        document.body.appendChild(link)
+        link.click()
+        document.body.removeChild(link)
+        window.URL.revokeObjectURL(link.href)
+      }
+      
     } catch (error) {
       console.log('error downloading image, : ', error)
     }
